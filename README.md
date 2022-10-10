@@ -112,7 +112,7 @@ python -m pip install -r requirements.txt
 
 ### Uruchomienie aplikacji
 
-Eksportujemy dwie zmienne, które informuja aplikację gdzie znajduje się plik wejściowy oraz, że będziemy pracować w trybie developerskim z opcja debugowania. Następnie uruchamiany apliakcję.
+Eksportujemy dwie zmienne, które informuja aplikację gdzie znajduje się plik wejściowy oraz, że będziemy pracować w trybie developerskim z opcją debugowania. Następnie uruchamiamy apliakcję.
 
 ```sh
 export FLASK_APP=flaskr/app.py
@@ -121,3 +121,7 @@ flask run
 ```
 
 ### Uruchomienie testów jednostkowych
+
+```sh
+pytest tests
+```
