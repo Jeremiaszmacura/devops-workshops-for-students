@@ -1,5 +1,27 @@
 # Warsztaty DevOps dla studentów
 
+## Wymagania sprzętowe
+
+* Windows 11 64-bit: Home lub Pro wersja 21H2 lub wyższa albo wersja Enterprise/Education 21H2 i wyższa
+* Windows 10 64-bit: Home lub Pro 21H1 (build 19042) lub wyższa albo Enterprise/Education 20H2 (build 19042) i wyższa
+* 64-bit processor with Second Level Address Translation (https://en.wikipedia.org/wiki/Second_Level_Address_Translation)
+* 4GB system RAM
+* BIOS-level hardware wsparcie dla wirtualizacji włączone (więcej info: https://docs.docker.com/desktop/troubleshoot/topics/#virtualization)
+
+## Wymagane oprogramowanie
+
+* Python3 (https://www.python.org/)
+* Git (https://git-scm.com/)
+* Docker (https://www.docker.com/)
+* Minikube with kubectl (https://minikube.sigs.k8s.io/docs/start/)
+* Pobranie i zainstalowanie Linux kernel update package (https://learn.microsoft.com/en-us/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package)
+
+## Wymaganie konta internetowe
+
+* GitHub (https://github.com/)
+* Docker Hub (https://hub.docker.com/)
+* Snyk (https://snyk.io/)
+
 ## Instalacja Dockera
 
 <hr />
