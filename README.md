@@ -2,27 +2,109 @@
 
 ## Wymagania sprzętowe
 
+### Windows
+
 * Windows 11 64-bit: Home lub Pro wersja 21H2 lub wyższa albo wersja Enterprise/Education 21H2 i wyższa
 * Windows 10 64-bit: Home lub Pro 21H1 (build 19042) lub wyższa albo Enterprise/Education 20H2 (build 19042) i wyższa
 * 64-bit processor with Second Level Address Translation (https://en.wikipedia.org/wiki/Second_Level_Address_Translation)
 * 4GB system RAM
 * BIOS-level hardware wsparcie dla wirtualizacji włączone (więcej info: https://docs.docker.com/desktop/troubleshoot/topics/#virtualization)
 
+### Linux
+
+Aby zainstalować Dockera musimy posiadać 64bitową wersję Ubuntu, jedną z wybranych:
+* Ubuntu Jammy 22.04 (LTS)
+* Ubuntu Impish 21.10
+* Ubuntu Focal 20.04 (LTS)
+* Ubuntu Bionic 18.04 (LTS)
+
+### MacOS
+
+* MacOS w wersji 10.15 lub wyższej. To jest Catalina, Big Sur, Monterey. Zalecane jest zaktualizowanie systemu do najnowszej wersji
+* 4GB system RAM
+* VirtualBox przed wersją 4.3.30 nie może być zainstalowany, ponieważ nie jest kompatybilny z Docker Desktop
+
 ## Wymagane oprogramowanie
 
-* Python3 (https://www.python.org/)
 * Git (https://git-scm.com/)
+* Python3 (https://www.python.org/)
 * Docker (https://www.docker.com/)
 * Minikube with kubectl (https://minikube.sigs.k8s.io/docs/start/)
 * Pobranie i zainstalowanie Linux kernel update package (https://learn.microsoft.com/en-us/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package)
 
-## Wymaganie konta internetowe
+## Wymagane konta internetowe
 
 * GitHub (https://github.com/)
-* Docker Hub (https://hub.docker.com/)
+* DockerHub (https://hub.docker.com/)
 * Snyk (https://snyk.io/)
 
-## Instalacja Dockera
+## Plan warsztatu
+
+1. Instalacja Gita
+2. Instalacja Pythona
+3. Instalacja Dockera
+4. Załorzenie kont na serwisach: Github, Docker Hub, Snyk
+5. Przygotowanie wirtualnego środowiska Python
+6. Uruchomienie aplikacji internetowej (Flask) i testów jednostkowych
+
+<br />
+<hr />
+
+## 1. Instalacja Gita
+
+<hr />
+
+Pełna dokumentacja: https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
+
+### Windows
+
+Przechodzimy na stronę z instalkami Gita dla windowsa: https://git-scm.com/download/win. Następnie pobieramy odpowiednią wersję i instalujemy.
+
+### Linux
+
+Dla dystrubucji opartych na Debianie wykonujemy polecenie:
+
+```sh
+sudo apt install git-all
+```
+
+### MacOS
+
+Wykonujemy polecenie, po którego wykonaniu pokaże nam się poprozycja instalacji:
+
+```sh
+git --version
+```
+
+<br />
+<hr />
+
+## 2. Instalacja Pythona
+
+<hr />
+
+### Windows
+
+Pobieramy plik instalacyjny Pythona w odpowiedniej wersji (najlepiej ostatniej stabilnej) ze strony: https://www.python.org/downloads/ i instalujemy.
+
+### Linux
+
+Wykonujemy poniższe polecenia, które zaktualizują narzędzie apt-get, zainstalują pythona w najnowszej dostępnej wersji na obecnego narzędzi pakietów i zaktualizują wersję menadżera pakietów (pip).
+
+```sh
+sudo apt-get update
+sudo apt-get install python
+python -m ensurepip --upgrade
+```
+
+### MacOS
+
+Pobieramy plik instalacyjny Pythona w odpowiedniej wersji (najlepiej ostatniej stabilnej) ze strony: https://www.python.org/downloads/macos/ i instalujemy.
+
+<br />
+<hr />
+
+## 3. Instalacja Dockera
 
 <hr />
 
@@ -106,7 +188,31 @@ Pełna dokumentacja: https://docs.docker.com/desktop/install/windows-install/
 
 <hr />
 
-## Przygotowanie wirtualnego środowiska Python
+### MacOS
+
+Pełna dokumentacja: https://docs.docker.com/desktop/install/mac-install/
+
+1. Pobieramy instalkę w zależności o rodzaju procesora ze pełnej dokumentacji powyżej.
+
+2. Instalujemy przy pomocy graficznego interfejsu uruchamiając instalkę lub przy pomocy wiersza poleceń (szczegóły w pełnej dokumentacji)
+
+<br />
+<hr />
+
+## 4. Załorzenie kont na serwisach: Github, Docker Hub, Snyk
+
+<hr />
+
+* Konto GitHub będzie nam potrzebne w celu stworzenia pipelinu (CI) wykorzystując narzędzie GitHub Actions. Pipeline służy automatyzacji pewnych procesów. W tym wypadku tymi procesami będą: testy jednostkowe, lintowanie kodu, budowanie kontenera aplikacji i wypychanie go na repozytorium, statyczna analiza kodu. (https://github.com/)
+* Konto na repozytorium Dockerowym (Docker Hub) będzie wykorzystane w celu przechowania na nim naszego zbudowanego kontenera aplikacji. (https://hub.docker.com/)
+* Konto Snyk zostanie wykorzystane w celu wykonania statycznej analizy kodu. (https://snyk.io/)
+
+<br />
+<hr />
+
+## 5. Przygotowanie wirtualnego środowiska Python
+
+<hr />
 
 * Tworzymy wirtualne środowisko przy pomocy biblioteki venv. Następnie aktywujemy to środowisko. Dzięki temu stworzymy odseparowane środowisko do pracy nad aplikacją, a wszystkie zaisntalowane biblioteki pozostaną jedynie w tym środowisku i nie będą miały wpływu na pozostałe projekty Pythonowe znajdujące się w naszym systemie.
 
@@ -122,7 +228,14 @@ W przypadku problemów z aktywowaniem środowiska wirtualnego w systemie Windows
 Set-ExecutionPolicy Unrestricted -Scope Process
 ```
 
-## Instalacja wymaganych bibliotek Python
+<br />
+<hr />
+
+## 6. Uruchomienie aplikacji internetowej (Flask) i testów jednostkowych
+
+<hr />
+
+### Instalacja wymaganych bibliotek Python
 
 Wykonujemy poniższe polecenie będąc w wirtualnym środowisku Python i głównym katalogu projektu. Spowoduje to zainstalowanie w tym środowisku wszystkich bibliotek zawartych w pliku requirements, które będą nam poptrzebne do uruchomienia aplikacji.
 
@@ -130,7 +243,7 @@ Wykonujemy poniższe polecenie będąc w wirtualnym środowisku Python i główn
 python -m pip install -r requirements.txt
 ```
 
-## Praca z aplikacją
+<hr />
 
 ### Uruchomienie aplikacji
 
@@ -141,6 +254,8 @@ export FLASK_APP=flaskr/app.py
 export FLASK_DEBUG=true
 flask run
 ```
+
+<hr />
 
 ### Uruchomienie testów jednostkowych
 
