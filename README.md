@@ -1,10 +1,12 @@
-# DevOps Workshops for students
+# Warsztaty DevOps dla studentów
 
-## Docker installation
+## Instalacja Dockera
 
 <hr />
 
 ### Windows
+
+Pełna dokumentacja: https://docs.docker.com/desktop/install/windows-install/
 
 1. Przed zainstalowaniem WSL należy uruchomić funkcjonalność "Virtual Machine Platform" poprzez wykonanie polecenia w PowerShellu uruchomionym jako administrator (https://learn.microsoft.com/en-us/windows/wsl/install-manual#step-3---enable-virtual-machine-feature):
 
@@ -82,8 +84,40 @@
 
 <hr />
 
+## Przygotowanie wirtualnego środowiska Python
+
+* Tworzymy wirtualne środowisko przy pomocy biblioteki venv. Następnie aktywujemy to środowisko. Dzięki temu stworzymy odseparowane środowisko do pracy nad aplikacją, a wszystkie zaisntalowane biblioteki pozostaną jedynie w tym środowisku i nie będą miały wpływu na pozostałe projekty Pythonowe znajdujące się w naszym systemie.
+
+```sh
+python3 -m venv .venv
+source .venv/bin/activate (Linux)
+.venv\Scripts\activate (Windows)
+```
+
+W przypadku problemów z aktywowaniem środowiska wirtualnego w systemie Windows można skorzystać z komendy:
+
+```sh
+Set-ExecutionPolicy Unrestricted -Scope Process
+```
+
+## Instalacja wymaganych bibliotek Python
+
+Wykonujemy poniższe polecenie będąc w wirtualnym środowisku Python i głównym katalogu projektu. Spowoduje to zainstalowanie w tym środowisku wszystkich bibliotek zawartych w pliku requirements, które będą nam poptrzebne do uruchomienia aplikacji.
+
+```sh
+python -m pip install -r requirements.txt
+```
+
 ## Praca z aplikacją
 
 ### Uruchomienie aplikacji
+
+Eksportujemy dwie zmienne, które informuja aplikację gdzie znajduje się plik wejściowy oraz, że będziemy pracować w trybie developerskim z opcja debugowania. Następnie uruchamiany apliakcję.
+
+```sh
+export FLASK_APP=flaskr/app.py
+export FLASK_DEBUG=true
+flask run
+```
 
 ### Uruchomienie testów jednostkowych
