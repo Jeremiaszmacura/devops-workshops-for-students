@@ -10,8 +10,11 @@ services:
       dockerfile: ./Dockerfile
     ports:
       - 5000:5000
+    volumes:
+      - .:/app
     environment:
-      FLASK_APP: flaskr/app.py
+      FLASK_DEBUG: 'True'
+      FLASK_ENV: development
     networks:
       - flask-app-network
     restart: on-failure
