@@ -2,9 +2,7 @@ FROM python:3.10
 
 WORKDIR /app
 
-RUN export FLASK_APP=flaskr/app.py
-
-RUN export FLASK_DEBUG=true
+ENV FLASK_APP=flaskr/app.py
 
 COPY requirements.txt requirements.txt
 
@@ -12,4 +10,6 @@ RUN pip3 install -r requirements.txt
 
 COPY . .
 
-CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
+EXPOSE 5000
+
+CMD [ "python3", "-m" , "flask", "run"]
