@@ -1,0 +1,27 @@
+version: '3.9'
+
+services:
+
+  flask-app:
+    image: flask-app
+    container_name: flask-app
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 5000:5000
+    volumes:
+      - .:/app
+    environment:
+      FLASK_DEBUG: 'True'
+      FLASK_ENV: development
+    networks:
+      - flask-app-network
+    restart: on-failure
+    deploy:
+      replicas: 1
+
+networks:
+    flask-app-network:
+      driver: bridge
+      name: flask-app-network
