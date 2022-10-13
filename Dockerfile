@@ -6,9 +6,9 @@ ENV FLASK_APP=flaskr/app.py
 
 ENV FLASK_RUN_HOST=0.0.0.0
 
-COPY requirements.txt requirements.txt
+COPY dist/flaskr-0.1.0-py3-none-any.whl .
 
-RUN pip3 install -r requirements.txt
+RUN pip3 install flaskr-0.1.0-py3-none-any.whl
 
 EXPOSE 5000
 
