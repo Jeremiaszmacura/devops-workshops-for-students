@@ -1,16 +1,19 @@
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 
 
-def create_app():
-    app = Flask(__name__)
+app = Flask(__name__)
 
-    @app.route("/")
-    def hello_world():
-        return "<p>Hello, World!</p>"
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://dev_user:dev_user@database:5432/dev_database'
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.secret_key = 'secret string'
 
-    return app
+db = SQLAlchemy(app)
 
+import flaskr.models
+import flaskr.routes
 
-if __name__ == "__main__":
-    app = create_app()
-    app.run()
+with app.app_context():
+    db.create_all()
+
+app.run()
