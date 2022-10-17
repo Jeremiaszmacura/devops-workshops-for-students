@@ -18,8 +18,23 @@ services:
     networks:
       - flask-app-network
     restart: on-failure
+    depends_on:
+      - database
     deploy:
       replicas: 1
+
+  database:
+    image: postgres:14
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data/:rw
+    env_file: .env
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    networks:
+      - flask-app-network
+    restart: always
 
 networks:
     flask-app-network:
