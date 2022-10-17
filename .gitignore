@@ -13,3 +13,5 @@ dist/
 build/
 *.egg-info/
 .eggs/
+
+postgres_data
