@@ -45,7 +45,8 @@ Aby zainstalować Dockera musimy posiadać 64bitową wersję Ubuntu, jedną z wy
 3. [Instalacja Dockera](#3-Instalacja-Dockera)
 4. [Załorzenie kont na serwisach: Github, Docker Hub, Snyk](#4-Załorzenie-kont-na-serwisach-Github-Docker-Hub-Snyk)
 5. [Przygotowanie wirtualnego środowiska Python](#5-Przygotowanie-wirtualnego-środowiska-Python)
-6. [Uruchomienie aplikacji internetowej (Flask) i testów jednostkowych](#6-Uruchomienie-aplikacji-internetowej-Flask-i-testów-jednostkowych)
+6. [Uruchomienie aplikacji internetowej (Flask), bazy danych i testów jednostkowych](#6-Uruchomienie-aplikacji-internetowej-Flask-i-testów-jednostkowych)
+7. [Konteneryzacja aplikacji](#7-Konteneryzacja-aplikacji)
 
 <br />
 <hr />
@@ -231,27 +232,44 @@ Set-ExecutionPolicy Unrestricted -Scope Process
 <br />
 <hr />
 
-## 6. Uruchomienie aplikacji internetowej (Flask) i testów jednostkowych
+## 6. Uruchomienie aplikacji internetowej (Flask), bazy danych i testów jednostkowych
 
 <hr />
 
-### Instalacja wymaganych bibliotek Python
+### Konfiguracja środowiska i instalacja zależności
 
-Wykonujemy poniższe polecenie będąc w wirtualnym środowisku Python i głównym katalogu projektu. Spowoduje to zainstalowanie w tym środowisku wszystkich bibliotek zawartych w pliku requirements, które będą nam poptrzebne do uruchomienia aplikacji.
-
-```sh
-python -m pip install -r requirements.txt
-```
-
-<hr />
-
-### Uruchomienie aplikacji
-
-Eksportujemy dwie zmienne, które informuja aplikację gdzie znajduje się plik wejściowy oraz, że będziemy pracować w trybie developerskim z opcją debugowania. Następnie uruchamiamy apliakcję.
+Eksportujemy dwie zmienne, które informuja aplikację gdzie znajduje się plik wejściowy oraz, że będziemy pracować w trybie developerskim z opcją debugowania.
 
 ```sh
 export FLASK_APP=flaskr/app.py
 export FLASK_DEBUG=true
+```
+
+Instalujemy naszą aplikację jako bibliotekę wykorzystując bibliotekę setuptools. Poniższe polecenie wykonujemy w katalogu głównym projektu:
+
+```sh
+pip install -e .[dev]
+```
+
+Budujemy paczkę (przy zmianach w projekcie każdorazowo przed wybudowaniem obrazu dokerowego).
+
+```sh
+python setup.py bdist_wheel
+```
+
+Przed uruchomieniem aplikacji musimy zadbać o bazę danych, z którą apliakcja będzie się probowała połączyć. Wystarczy, że skoczystamy z Dockera i wykonamy poniższe polecenie. Sprawi ono, że zostanie zaciagnięty obraz bazy danych PostgreSQL w wersji 14 z oficjalnego repozytoriusz dokerowego, a następnie na podstawie tego obrazu zostanie uruchomiony kontener z określonymi zmiennymi środowiskowymi wewnątrz niego.
+
+<hr />
+
+### Uruchomienie kontenera bazy danych i aplikacji
+
+```sh
+docker run --name postgres_workshops -e POSTGRES_DB=dev_database -e POSTGRES_USER=dev_user -e POSTGRES_PASSWORD=dev_user --network="host" -d postgres:14
+```
+
+Uruchomienie aplikacji.
+
+```sh
 flask run
 ```
 
@@ -262,3 +280,9 @@ flask run
 ```sh
 pytest tests
 ```
+
+<hr />
+
+## 7. Konteneryzacja aplikacji
+
+<hr />

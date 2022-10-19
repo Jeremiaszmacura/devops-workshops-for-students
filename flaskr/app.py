@@ -1,10 +1,11 @@
+from os import environ
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://dev_user:dev_user@database:5432/dev_database'
+app.config['SQLALCHEMY_DATABASE_URI'] =  environ.get('DATABASE_URI', 'postgresql://dev_user:dev_user@localhost:5432/dev_database')
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.secret_key = 'secret string'
 
