@@ -1,4 +1,0 @@
-flask
-pytest
-flask_sqlalchemy
-psycopg2

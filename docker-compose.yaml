@@ -1,4 +1,4 @@
-version: '3.9'
+version: '3.8'
 
 services:
 
@@ -10,11 +10,10 @@ services:
       dockerfile: ./Dockerfile
     ports:
       - 5000:5000
-    volumes:
-      - .:/app
     environment:
       FLASK_DEBUG: 'True'
       FLASK_ENV: development
+      DATABASE_URI: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:5432/${POSTGRES_DB}
     networks:
       - flask-app-network
     restart: on-failure
@@ -25,8 +24,6 @@ services:
 
   database:
     image: postgres:14
-    volumes:
-      - ./postgres_data:/var/lib/postgresql/data/:rw
     env_file: .env
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
