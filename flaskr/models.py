@@ -1,6 +1,4 @@
-from flask import json
-
-from flaskr.app import db
+from flaskr import db
 
 
 class Book(db.Model):
@@ -11,7 +9,3 @@ class Book(db.Model):
 
     def as_dict(self):
        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
-
-    # def toJSON(self):
-    #     return json.dumps(self, default=lambda o: o.__dict__, 
-    #         sort_keys=True, indent=4)

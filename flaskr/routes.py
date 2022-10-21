@@ -1,14 +1,18 @@
-from flask import request, jsonify, Response
+from flask import request, jsonify, Response, Blueprint
 
-from flaskr.app import app, db
+from flaskr import db
 from flaskr.models import Book
 
 
-@app.route("/")
+routes_blueprint = Blueprint('routes_blueprint', __name__)
+
+# @app.route("/")
+@routes_blueprint.route('/')
 def hello_world() -> str:
     return "<p>Hello, World!</p>"
 
-@app.route("/books", methods=["GET", "POST"])
+# @app.route("/books", methods=["GET", "POST"])
+@routes_blueprint.route("/books", methods=["GET", "POST"])
 def users() -> Response:
     if request.method == 'GET':
         books = Book.query.all()
