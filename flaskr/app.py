@@ -3,18 +3,24 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 
-app = Flask(__name__)
+db = SQLAlchemy()
 
-app.config['SQLALCHEMY_DATABASE_URI'] =  environ.get('DATABASE_URI', 'postgresql://dev_user:dev_user@localhost:5432/dev_database')
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.secret_key = 'secret string'
+def create_app():
+    app = Flask(__name__)
 
-db = SQLAlchemy(app)
+    app.config['SQLALCHEMY_DATABASE_URI'] =  environ.get('DATABASE_URI', 'postgresql://dev_user:dev_user@localhost:5432/dev_database')
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    app.secret_key = 'secret string'
+
+    with app.app_context():
+        db.init_app(app)
+        db.create_all()
+
+    return app
+
+app = create_app()
 
 import flaskr.models
 import flaskr.routes
-
-with app.app_context():
-    db.create_all()
 
 app.run()
