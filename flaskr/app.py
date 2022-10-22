@@ -1,3 +1,4 @@
+"""Flask app entry file."""
 from os import environ
 from flask import Flask
 
