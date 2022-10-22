@@ -18,7 +18,7 @@ jobs:
       - name: Lint with pylint
         run: |
           pip install pylint
-          pylint --exit_zero flaskr/** tests/**
+          pylint --exit-zero flaskr/** tests/**
 
       - name: Lint with black
         run: |
