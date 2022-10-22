@@ -7,9 +7,11 @@ from flaskr.app import create_app
 def app():
     os.environ["DATABASE_URI"] = "sqlite:///:memory:"
     app = create_app("sqlite:///:memory:")
-    app.config.update({
-        "TESTING": True,
-    })
+    app.config.update(
+        {
+            "TESTING": True,
+        }
+    )
 
     # other setup can go here
 

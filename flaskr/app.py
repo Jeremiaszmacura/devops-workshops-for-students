@@ -5,16 +5,18 @@ from flaskr.routes import routes_blueprint
 from flaskr.config import db
 
 
-def create_app(database_uri='postgresql://dev_user:dev_user@localhost:5432/dev_database'):
+def create_app(
+    database_uri="postgresql://dev_user:dev_user@localhost:5432/dev_database",
+):
     app = Flask(__name__)
-    
-    app.register_blueprint(routes_blueprint, url_prefix='/')
+
+    app.register_blueprint(routes_blueprint, url_prefix="/")
 
     print(database_uri)
-    print(environ.get('DATABASE_URI', database_uri))
-    app.config['SQLALCHEMY_DATABASE_URI'] =  environ.get('DATABASE_URI', database_uri)
+    print(environ.get("DATABASE_URI", database_uri))
+    app.config["SQLALCHEMY_DATABASE_URI"] = environ.get("DATABASE_URI", database_uri)
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-    app.secret_key = 'secret string'
+    app.secret_key = "secret string"
 
     with app.app_context():
         db.init_app(app)
