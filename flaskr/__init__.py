@@ -1,2 +1,1 @@
-from flask_sqlalchemy import SQLAlchemy
-db = SQLAlchemy()
+__version__ = '0.1.0'

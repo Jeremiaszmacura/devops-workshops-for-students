@@ -1,6 +1,6 @@
 from flask import request, jsonify, Response, Blueprint
 
-from flaskr import db
+from flaskr.config import db
 from flaskr.models import Book
 
 

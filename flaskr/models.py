@@ -1,4 +1,4 @@
-from flaskr import db
+from flaskr.config import db
 
 
 class Book(db.Model):

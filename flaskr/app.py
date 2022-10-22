@@ -2,7 +2,7 @@ from os import environ
 from flask import Flask
 
 from flaskr.routes import routes_blueprint
-from flaskr import db
+from flaskr.config import db
 
 
 def create_app(database_uri='postgresql://dev_user:dev_user@localhost:5432/dev_database'):
