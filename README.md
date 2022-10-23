@@ -240,15 +240,31 @@ Set-ExecutionPolicy Unrestricted -Scope Process
 
 Eksportujemy dwie zmienne, które informuja aplikację gdzie znajduje się plik wejściowy oraz, że będziemy pracować w trybie developerskim z opcją debugowania.
 
+#### Linux
+
 ```sh
 export FLASK_APP=flaskr/app.py
 export FLASK_DEBUG=true
 ```
 
+#### Windows (cmd)
+
+```sh
+set FLASK_APP=flaskr/app.py
+set FLASK_DEBUG=true
+```
+
+#### Windows (powershell)
+
+```sh
+$env:FLASK_APP = "flaskr/app.py"
+$env:FLASK_APP = "true"
+```
+
 Instalujemy naszą aplikację jako bibliotekę wykorzystując bibliotekę setuptools. Poniższe polecenie wykonujemy w katalogu głównym projektu:
 
 ```sh
-pip install -e .[dev]
+python -m pip install -e .[dev]
 ```
 
 Budujemy paczkę (przy zmianach w projekcie każdorazowo przed wybudowaniem obrazu dokerowego).

@@ -1,0 +1,26 @@
+name: Lint code
+
+on:
+  push:
+
+jobs:
+  unit-testing:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+
+      - name: Lint with pylint
+        run: |
+          pip install pylint
+          pylint --exit-zero flaskr/** tests/**
+
+      - name: Lint with black
+        run: |
+          pip install black
+          python -m black --check .

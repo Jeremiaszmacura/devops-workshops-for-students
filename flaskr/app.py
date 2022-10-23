@@ -1,20 +1,32 @@
+"""Flask app entry file."""
 from os import environ
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+
+from flaskr.routes import routes_blueprint
+from flaskr.config import db
 
 
-app = Flask(__name__)
+def create_app(
+    database_uri="postgresql://dev_user:dev_user@localhost:5432/dev_database",
+):
+    app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] =  environ.get('DATABASE_URI', 'postgresql://dev_user:dev_user@localhost:5432/dev_database')
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.secret_key = 'secret string'
+    app.register_blueprint(routes_blueprint, url_prefix="/")
 
-db = SQLAlchemy(app)
+    print(database_uri)
+    print(environ.get("DATABASE_URI", database_uri))
+    app.config["SQLALCHEMY_DATABASE_URI"] = environ.get("DATABASE_URI", database_uri)
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    app.secret_key = "secret string"
 
-import flaskr.models
-import flaskr.routes
+    with app.app_context():
+        db.init_app(app)
+        db.create_all()
 
-with app.app_context():
-    db.create_all()
+    return app
 
-app.run()
+
+if __name__ == "__main__":
+    app = create_app()
+
+    app.run()
