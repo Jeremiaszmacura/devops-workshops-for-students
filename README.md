@@ -200,7 +200,7 @@ Pełna dokumentacja: https://docs.docker.com/desktop/install/mac-install/
 <br />
 <hr />
 
-## 4. Załorzenie kont na serwisach: Github, Docker Hub, Snyk
+## 4. Założenie kont na serwisach: Github, Docker Hub, Snyk
 
 <hr />
 
