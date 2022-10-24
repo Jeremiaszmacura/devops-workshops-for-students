@@ -48,6 +48,7 @@ Aby zainstalować Dockera musimy posiadać 64bitową wersję Ubuntu, jedną z wy
 6. [Uruchomienie aplikacji internetowej (Flask), bazy danych i testów jednostkowych](#6-Uruchomienie-aplikacji-internetowej-Flask-i-testów-jednostkowych)
 7. [Konteneryzacja aplikacji](#7-Konteneryzacja-aplikacji)
 8. [Orkiestryzacja aplikacji z użyciem narzędzia docker-compose](#8-Orkiestryzacja-aplikacji-z-użyciem-narzędzia-docker-compose)
+9. [Continouse integration and delivery](#9-Continouse-integration-and-delivery)
 
 <br />
 <hr />
@@ -403,3 +404,15 @@ networks:
 ```sh
 docker-compose up
 ```
+
+W momencie kiedy chcemy zakonczyć działanie wszystkich aplikacji, które zostały uruchomiene przy pomocy polecnie ```docker-compose up``` wystarczy wykonać polecenie:
+
+```sh
+docker-compose down
+```
+
+<hr />
+
+## 9. Continouse integration and delivery
+
+<hr />
