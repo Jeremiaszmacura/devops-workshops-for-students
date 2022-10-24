@@ -5,12 +5,18 @@ on:
     branches:
       - 'master'
       - 'develop'
+      - 'github_workflows'
 
 jobs:
   security:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
+
+      - name: elo
+        run: |
+          ls -lah
+          pwd
 
       - uses: actions/checkout@master
       - name: Run Snyk to check for vulnerabilities
