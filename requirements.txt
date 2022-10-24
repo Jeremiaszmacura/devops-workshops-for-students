@@ -1,0 +1,6 @@
+flask
+pytest
+pylint
+black
+flask_sqlalchemy
+psycopg2-binary
