@@ -1,0 +1,142 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config
+  labels:
+    app: workshop
+data:
+  POSTGRES_DB: postgres
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: postgres
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  labels:
+    app: workshop
+spec:
+  type: NodePort
+  ports:
+    - port: 5432
+      targetPort: 5432    
+      protocol: TCP
+  selector:
+    app: workshop 
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: postgres-pv-volume
+  labels:
+    type: local
+    app: postgres
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/mnt/data"
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: postgres-pv-claim
+  labels:
+    app: postgres
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany 
+  resources:
+    requests:
+      storage: 5Gi
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: postgres
+  labels:
+    app: workshop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: workshop
+  template:
+    metadata:
+      labels:
+        app: workshop
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:14
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - configMapRef:
+                name: postgres-config
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgredb
+      volumes:
+        - name: postgredb
+          persistentVolumeClaim:
+            claimName: postgres-pv-claim
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: flaskr-config
+  labels:
+    app: workshop
+data:
+  FLASK_DEBUG: "True"
+  FLASK_ENV: "development"
+  DATABASE_URI: "postgresql://postgres:postgres@postgres:5432/postgres"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flaskr
+  labels:
+    app: workshop
+spec:
+  type: LoadBalancer
+  selector:
+    app: flaskr  
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
+      nodePort: 30000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flaskr
+  labels:
+    app: workshop
+spec:
+  selector:
+    matchLabels:
+      app: workshop
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: workshop
+    spec:
+      containers:
+      - name: flaskr
+        image: flaskr/app
+        imagePullPolicy: Never
+        envFrom:
+          - configMapRef:
+              name: flaskr-config  
+        ports:
+        - containerPort: 5000
+      restartPolicy: Always
