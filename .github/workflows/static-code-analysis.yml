@@ -24,4 +24,4 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          args: --file=setup.py
+          args: --file=setup.py --package-manager=pip
