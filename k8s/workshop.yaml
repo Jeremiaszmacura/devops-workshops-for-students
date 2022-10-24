@@ -10,6 +10,18 @@ data:
   POSTGRES_PASSWORD: postgres
 ---
 apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: flaskr-config
+  labels:
+    app: workshop
+    tier: backend
+data:
+  FLASK_DEBUG: "True"
+  FLASK_ENV: "development"
+  DATABASE_URI: "postgresql://postgres:postgres@postgres:5432/postgres"
+---
+apiVersion: v1
 kind: Service
 metadata:
   name: postgres
@@ -18,11 +30,28 @@ metadata:
 spec:
   type: NodePort
   ports:
-    - port: 5432
+    - protocol: TCP
+      port: 5432
       targetPort: 5432    
-      protocol: TCP
   selector:
-    app: workshop 
+    app: workshop
+    tier: database
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flaskr
+  labels:
+    app: workshop
+spec:
+  type: LoadBalancer
+  selector:
+    app: workshop
+    tier: backend
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
 ---
 kind: PersistentVolume
 apiVersion: v1
@@ -65,10 +94,12 @@ spec:
   selector:
     matchLabels:
       app: workshop
+      tier: database
   template:
     metadata:
       labels:
         app: workshop
+        tier: database
     spec:
       containers:
         - name: postgres
@@ -81,38 +112,11 @@ spec:
                 name: postgres-config
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
-              name: postgredb
+              name: postgresql
       volumes:
-        - name: postgredb
+        - name: postgresql
           persistentVolumeClaim:
             claimName: postgres-pv-claim
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: flaskr-config
-  labels:
-    app: workshop
-data:
-  FLASK_DEBUG: "True"
-  FLASK_ENV: "development"
-  DATABASE_URI: "postgresql://postgres:postgres@postgres:5432/postgres"
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: flaskr
-  labels:
-    app: workshop
-spec:
-  type: LoadBalancer
-  selector:
-    app: flaskr  
-  ports:
-    - protocol: TCP
-      port: 5000
-      targetPort: 5000
-      nodePort: 30000
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -124,16 +128,31 @@ spec:
   selector:
     matchLabels:
       app: workshop
+      tier: backend
   replicas: 1
   template:
     metadata:
       labels:
         app: workshop
+        tier: backend
     spec:
       containers:
       - name: flaskr
         image: flaskr/app
         imagePullPolicy: Never
+        startupProbe: 
+          httpGet: 
+            path: /
+            port: 5000 
+          periodSeconds: 10
+          failureThreshold: 30
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 5000
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          failureThreshold: 1          
         envFrom:
           - configMapRef:
               name: flaskr-config  
