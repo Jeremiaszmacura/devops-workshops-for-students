@@ -28,8 +28,9 @@ jobs:
           
       - name: Build project with setuptool
         run: |
-          python -m pip install .
+          python -m pip install .[dev]
           python setup.py bdist_wheel
+          ls -lah
 
       - name: Build and push
         id: docker_build
