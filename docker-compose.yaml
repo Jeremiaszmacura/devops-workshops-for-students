@@ -12,7 +12,6 @@ services:
       - 5000:5000
     environment:
       FLASK_DEBUG: 'True'
-      FLASK_ENV: development
       DATABASE_URI: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:5432/${POSTGRES_DB}
     networks:
       - flask-app-network

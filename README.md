@@ -47,6 +47,7 @@ Aby zainstalować Dockera musimy posiadać 64bitową wersję Ubuntu, jedną z wy
 5. [Przygotowanie wirtualnego środowiska Python](#5-Przygotowanie-wirtualnego-środowiska-Python)
 6. [Uruchomienie aplikacji internetowej (Flask), bazy danych i testów jednostkowych](#6-Uruchomienie-aplikacji-internetowej-Flask-i-testów-jednostkowych)
 7. [Konteneryzacja aplikacji](#7-Konteneryzacja-aplikacji)
+8. [Orkiestryzacja aplikacji z użyciem narzędzia docker-compose](#8-Orkiestryzacja-aplikacji-z-użyciem-narzędzia-docker-compose)
 
 <br />
 <hr />
@@ -302,3 +303,103 @@ pytest tests
 ## 7. Konteneryzacja aplikacji
 
 <hr />
+
+### Dockerfile
+
+```text
+FROM python:3.10
+WORKDIR /app
+ENV FLASK_APP=flaskr/app.py
+ENV FLASK_RUN_HOST=0.0.0.0
+COPY ./dist/flaskr-0.1.0-py3-none-any.whl .
+RUN pip3 install flaskr-0.1.0-py3-none-any.whl
+EXPOSE 5000
+COPY . .
+CMD [ "python3", "-m" , "flask", "run"]
+```
+
+Pierwsza linia ```FROM python:3.10``` określa bazowy obraz, który będziemy rozbudowywać dla naszej aplikacji. Jest to obraz z zainstalowanym Pythonem w wersji 3.10. ```WORKDIR /app``` powoduje, że wszystkie polecenia zostaną domyślnie wykonane pod tą ścieżką na obrazie. ```ENV FLASK_APP=flaskr/app.py``` oraz ```ENV FLASK_RUN_HOST=0.0.0.0``` ustawiają zmienne środowiskowe wewnątrz obrazu. ```COPY ./dist/flaskr-0.1.0-py3-none-any.whl .``` powoduje przekopiowanie wybranych plików pomiędzy naszą maszyną hostującą, a obrazem, który zostanie stworzony. Polecenie ```RUN pip3 install flaskr-0.1.0-py3-none-any.whl``` wykonuje pelecnie na obrazie, które w tym konkretnym przykładzie instaluje naszą paczkę. ```EXPOSE 5000``` pozwala na udostępnienie portu 5000 obrazu na jego zewnątrz, dzięki czemu mmożemy wykonywać pod ten port zapytania z naszej maszyny hostującej i współpracować z aplikacją znajdującą się w kontenerze. ```COPY . .``` kopuje resze plików (kolejność poleceń COPY jest związana z dockerowych cache). ```CMD [ "python3", "-m" , "flask", "run"]``` wykonuje dane polecenie za każdym razem kiedy kontener jest wywołany do uruchomienia.
+
+<hr />
+
+### Wybudowanie i uruchomienie aplikacji przy pomocy Dockerfile
+
+Należy o wcześniejszym uruchomieniu kontenera z bazą danych aby nasza skonteneryzowana aplikacja działała poprawnie.
+
+W momencie kiedy Dockerfile jest już gotowy możemy na jego podstawie utworzyć obraz:
+
+```sh
+docker build -t flask_app .
+```
+
+Parameter ```-t``` oznacza nazwę pod jaką zostanie utworzony obraz.
+
+Na podstawie utworzonego obrazu budujemy kontener:
+
+```sh
+docker run -d -e FLASK_DEBUG="True" --network="host" --name flask_app flask_app
+```
+
+Parametr ```-d``` oznacza tryb ```detach``` podczas, którego kontener pracuje w tle, a na konsolę jest jedynie wypisywane ID tego kontenera. ```-e``` powoduje dodanie zmiennej środowiskowej do uruchamianego kontenera. ```--network="host"``` konfiguruje sieć kontenera tak aby nie był on wyizolowany, ale aby był dostępny w naszej sieci lokalnej pod adresem localhost/127.0.0.1. ```--name flask_app``` nadaje nawzę kontenerowi. Na końcu podajemy nazwę obrazu, na podstawie, którego ma zostać stworzony kontener.
+
+<hr />
+
+## 8. Orkiestryzacja aplikacji z użyciem narzędzia docker-compose
+
+<hr />
+
+### Nim skorzystamy z narzędzia jakim jest docker-compose musimy zkończyć działanie i żywot naszych obecnie działających kontenerów przy pomocy poleceń:
+
+```sh
+docker stop flask_app postgres_workshops
+docker rm flask_app postgres_workshops
+```
+
+### docker-compose.yaml
+
+```text
+version: '3.8'
+
+services:
+
+  flask-app:
+    image: flask-app
+    container_name: flask-app
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 5000:5000
+    environment:
+      FLASK_DEBUG: 'True'
+      DATABASE_URI: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:5432/${POSTGRES_DB}
+    networks:
+      - flask-app-network
+    restart: on-failure
+    depends_on:
+      - database
+    deploy:
+      replicas: 1
+
+  database:
+    image: postgres:14
+    env_file: .env
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    networks:
+      - flask-app-network
+    restart: always
+
+networks:
+    flask-app-network:
+      driver: bridge
+      name: flask-app-network
+```
+
+### Uruchomienie skonteneryzowanych i skonfigurowanych aplikacji przy pomocy jednego polecenia
+
+```sh
+docker-compose up
+```
