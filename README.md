@@ -48,8 +48,12 @@ Aby zainstalować Dockera musimy posiadać 64bitową wersję Ubuntu, jedną z wy
 6. [Uruchomienie aplikacji internetowej (Flask), bazy danych i testów jednostkowych](#6-Uruchomienie-aplikacji-internetowej-Flask-i-testów-jednostkowych)
 7. [Konteneryzacja aplikacji](#7-Konteneryzacja-aplikacji)
 8. [Orkiestryzacja aplikacji z użyciem narzędzia docker-compose](#8-Orkiestryzacja-aplikacji-z-użyciem-narzędzia-docker-compose)
+<<<<<<< HEAD
 9. [Continuous integration and deployment](#9-Continuous-integration-and-deployment)
 10. [Orkiestryzacja aplikacji z użyciem narzędzia Kubernetes](#10-Orkiestryzacja-aplikacji-z-użyciem-narzędzia-Kubernetes)
+=======
+9. [Continouse integration and delivery](#9-Continouse-integration-and-delivery)
+>>>>>>> d9ce720bc17f119466c5c5b401e15ef15154f077
 
 <br />
 <hr />
@@ -479,6 +483,7 @@ Powyższy plik docker-compose.yaml definiuje zarówno kontenery z ich specifikac
 docker-compose up
 ```
 
+<<<<<<< HEAD
 <hr />
 
 ### Przydatne komendy:
