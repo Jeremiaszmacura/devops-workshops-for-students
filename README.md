@@ -538,6 +538,16 @@ jobs:
         run: pytest tests
 ```
 
+* ```name:``` określa nazwę dla danego workflow/akcji i pod nią będzie on widnieć na Githubie.
+* ```on:``` określa sytuację, w której workflow zostanie uruchomiony. W tym przypadku będzie to w momencie, kiedy zostanie wypchnięty commit na zdalne repozytorium: ```push:```.
+* ```job``` zawiera zadania, które w ramach tego workflow zostaną uruchomione.
+* ```runs-on:``` określa maszynę budującą, na której dany workflow zostanie uruchomiony.
+* ```env:``` pozwala na określenie zmiennych środowiskowych, które zostaną ustawione na maszynie budującej
+* ```strategy: matrix:``` umożliwia uruchomienie zadania na wielu wersjach wskazanego języka/systemu operacyjnego
+* ```steps:``` określa konkretne kroki, które zostaną wykonane w realizacji danego zadania.
+* ```uses:``` pozwala na skorzystanie z gotowej akcji zdefiniowanej na zewnętrznym repozytorium.
+* ```with:``` umożliwia przekazanie wybranych parametrów do danej akcji.
+
 <hr />
 
 ### Automatyczne testowanie przy pomocy narzędzi typu linter (np. pytlint, black)
