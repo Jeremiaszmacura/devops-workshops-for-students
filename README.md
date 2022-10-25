@@ -48,6 +48,8 @@ Aby zainstalować Dockera musimy posiadać 64bitową wersję Ubuntu, jedną z wy
 6. [Uruchomienie aplikacji internetowej (Flask), bazy danych i testów jednostkowych](#6-Uruchomienie-aplikacji-internetowej-Flask-i-testów-jednostkowych)
 7. [Konteneryzacja aplikacji](#7-Konteneryzacja-aplikacji)
 8. [Orkiestryzacja aplikacji z użyciem narzędzia docker-compose](#8-Orkiestryzacja-aplikacji-z-użyciem-narzędzia-docker-compose)
+9. [Continuous integration and deployment](#9-Continuous-integration-and-deployment)
+10. [Orkiestryzacja aplikacji z użyciem narzędzia Kubernetes](#10-Orkiestryzacja-aplikacji-z-użyciem-narzędzia-Kubernetes)
 
 <br />
 <hr />
@@ -298,6 +300,7 @@ flask run
 pytest tests
 ```
 
+<br />
 <hr />
 
 ## 7. Konteneryzacja aplikacji
@@ -344,6 +347,65 @@ Parametr ```-d``` oznacza tryb ```detach``` podczas, którego kontener pracuje w
 
 <hr />
 
+### Przydatne komendy:
+
+Wypisanie logów z kontenera na standardowe wyjście:
+
+```sh
+docker logs <container>
+```
+
+Zatrzymnie działania uruchomionego kontenera:
+
+```sh
+docker stop <container>
+```
+
+Uruchomienie zbudowanego kontenera:
+
+```sh
+docker start <container>
+```
+
+Usunięcie zatrzymanego kontenera:
+
+```sh
+docker rm <container>
+```
+
+Usunięcie obrazu:
+
+```sh
+docker rmi <image>
+```
+
+Wypisanie dostepnych sieci dockerowych:
+
+```sh
+docker network ls
+```
+
+Usunięcie sieci dockerowej:
+
+```sh
+docker network rm <network>
+```
+
+Usunięcie wszystkich kontenerów i obrazów:\
+
+```sh
+docker system prune
+```
+
+<hr />
+
+### .dockerignore
+
+Ten plik działa podobnie jak plik .gitignore w przypadku git'a. Pozwala określić katalogi i pliki, które nie będą kopiowane w przypadku komendy COPY w Dockerfile (choćby zawierały się w ścieżce do skopiowania w Dockerfile).
+
+<br />
+<hr />
+
 ## 8. Orkiestryzacja aplikacji z użyciem narzędzia docker-compose
 
 <hr />
@@ -354,6 +416,8 @@ Parametr ```-d``` oznacza tryb ```detach``` podczas, którego kontener pracuje w
 docker stop flask_app postgres_workshops
 docker rm flask_app postgres_workshops
 ```
+
+<hr />
 
 ### docker-compose.yaml
 
@@ -378,8 +442,6 @@ services:
     restart: on-failure
     depends_on:
       - database
-    deploy:
-      replicas: 1
 
   database:
     image: postgres:14
@@ -398,8 +460,200 @@ networks:
       name: flask-app-network
 ```
 
+Powyższy plik docker-compose.yaml definiuje zarówno kontenery z ich specifikacją, które mają zostać zbudowane jak i specyfikację sieci, w której mają pracować. Pierwsza z aplikacji określona w tym pliku to nasza aplikacja napisana w frameworku flask. 
+* ```image``` określa nazwę obrazu, który ma zostać użyty do zbudowania kontenera.
+* ```container_name``` określa nazwę kontenera, pod którą kontener ma działać.
+* ```build``` zawiera dodatkowe parametry wykorzystane w procesie budowania kontenera na bazie wybranego obrazu. ```context``` określa kontekst, a ```dockerfile``` zawiera ścieżkę do pliku Dockerfile, na podstawie, którego zostanie zbudowany obraz.
+* ```ports``` mapuje porty pomiędzy maszyną hostującą, a kontenerem ```HOST:CONTAINER```.
+* ```environment``` pozwala na dodanie zmiennych środowiskowych do tworzonego kontenera.
+* ```networks``` odpowiada za konfigurację sieci, w tym wypadku odwołyjemy się do konfiguracji, która znajduje się na końcu pliku docker-compose.yaml. W naszym przypadku jest to domyślny rodzaj sieci: bridge.
+* ```restart``` określa zachowanie kontenera w monemcie, gdyż jego praca zostanie zakończona. W tym wypadku, w momencie, kiedy kontener przestanie działać z powodu błędy, zostanie automatycznie ponownie powołany do życia.
+* ```depends_on``` określa kolejność (zależność), w której kontenery mają zostać uruchomienione. Należy zwrócić uwagę, że nie oznacza to, że kontener, który później został utworzony nie będzie pierwszy gotowy do działania (aplikacja może polegać na kontenerze z bazą danych stąd najpierw uruchomimy kontener z tą bazą, natomiast może stać się tak, że naszą aplikacja szybciej skofiguruje swój kontener niż baza danych i wystąpi problem z połączeniem bazodanowym).
+* ```env_file``` dodaje zmienne środowiskowe do kontenera na podstawie zewnętrznego pliku.
+
+<hr />
+
 ### Uruchomienie skonteneryzowanych i skonfigurowanych aplikacji przy pomocy jednego polecenia
 
 ```sh
 docker-compose up
 ```
+
+<hr />
+
+### Przydatne komendy:
+
+Zatrzymanie kontenerów i usunięcie kontenerów wraz z obrazami:
+
+```sh
+docker-compose down --rmi all
+```
+
+<br />
+<hr />
+
+## 9. Continuous integration and deployment
+
+<hr />
+
+W celu stworzenia pipelinu CI/CD użyjemy narzęcia GitHub Workflows. Jest to proste w uzyciu narzędzie, które pozwala na dużo więcej niż proste pipeliny CI/CD, a do tego pozwala nam trzymać je w postaci kodu na jednym repozytorium wraz z kodem samego projektu. GitHub udostępnia na swoje maszyny budujące, stąd nie musimy się przejmować o infraktrukturę. Kod pipelinu musi znajdować się w plikach z roszerzeniem ```.yml/.yaml``` w katalogu ```.github/workflows/```.
+
+```.github/workflows/<nazwa_pliku>.yml:```
+
+<hr />
+
+### Automatyzacja testów jednostkowych:
+
+```text
+name: Unit Tests
+
+on:
+  push:
+
+jobs:
+  unit-testing:
+    runs-on: ubuntu-20.04
+    
+    env:
+      FLASK_APP: flaskr/app.py
+
+    strategy:
+      matrix:
+        python-version: [3.7, 3.8]
+        
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Setup app
+        run: |
+          pip install -e .
+          python setup.py bdist_wheel
+
+      - name: Run unit tests
+        run: pytest tests
+```
+
+<hr />
+
+### Automatyczne testowanie przy pomocy narzędzi typu linter (np. pytlint, black)
+
+```text
+name: Lint code
+
+on:
+  push:
+
+jobs:
+  unit-testing:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+
+      - name: Lint with pylint
+        run: |
+          pip install pylint
+          pylint --exit-zero flaskr/** tests/**
+
+      - name: Lint with black
+        run: |
+          pip install black
+          python -m black --check .
+```
+
+<hr />
+
+### Automatyzacja statycznej analizy kodu:
+
+```text
+name: Snyk
+
+on:
+  push:
+    branches:
+      - 'master'
+      - 'develop'
+
+jobs:
+  security:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@master
+      
+      # Snyk does not work with setuptool files
+      # Therefore need to convert it into requirements.txt
+      - name: Prepare requirements for Snyk
+        run: |
+          python -m pip install .
+          python -m pip freeze > requirements.txt
+          python -m pip install -r requirements.txt
+
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/python-3.8@master
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+```
+
+<hr />
+
+### Automatyczne budowanie i wdrażanie kontenerów
+
+```text
+name: Docker build and push
+
+on:
+  push:
+    branches:
+      - 'master'
+      - 'develop'
+
+jobs:
+  docker:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build project with setuptool
+        run: |
+          python -m pip install .[dev]
+          python setup.py bdist_wheel
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v2 
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          logout: true
+
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          tags: jerqa/devops-workshops:develop
+```
+
+<br />
+<hr />
+
+## 10. Orkiestryzacja aplikacji z użyciem narzędzia Kubernetes
+
+<hr />
