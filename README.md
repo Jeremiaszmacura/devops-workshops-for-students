@@ -479,7 +479,6 @@ Powyższy plik docker-compose.yaml definiuje zarówno kontenery z ich specifikac
 docker-compose up
 ```
 
-<<<<<<< HEAD
 <hr />
 
 ### Przydatne komendy:
