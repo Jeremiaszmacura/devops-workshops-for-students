@@ -47,6 +47,9 @@ Aby zainstalować Dockera musimy posiadać 64bitową wersję Ubuntu, jedną z wy
 5. [Przygotowanie wirtualnego środowiska Python](#5-Przygotowanie-wirtualnego-środowiska-Python)
 6. [Uruchomienie aplikacji internetowej (Flask), bazy danych i testów jednostkowych](#6-Uruchomienie-aplikacji-internetowej-Flask-i-testów-jednostkowych)
 7. [Konteneryzacja aplikacji](#7-Konteneryzacja-aplikacji)
+8. [Orkiestryzacja aplikacji z użyciem narzędzia docker-compose](#8-Orkiestryzacja-aplikacji-z-użyciem-narzędzia-docker-compose)
+9. [Continuous integration and deployment](#9-Continuous-integration-and-deployment)
+10. [Orkiestryzacja aplikacji z użyciem narzędzia Kubernetes](#10-Orkiestryzacja-aplikacji-z-użyciem-narzędzia-Kubernetes)
 
 <br />
 <hr />
@@ -297,31 +300,381 @@ flask run
 pytest tests
 ```
 
+<br />
 <hr />
 
 ## 7. Konteneryzacja aplikacji
+
+<hr />
+
+### Dockerfile
+
+```text
+FROM python:3.10
+WORKDIR /app
+ENV FLASK_APP=flaskr/app.py
+ENV FLASK_RUN_HOST=0.0.0.0
+COPY ./dist/flaskr-0.1.0-py3-none-any.whl .
+RUN pip3 install flaskr-0.1.0-py3-none-any.whl
+EXPOSE 5000
+COPY . .
+CMD [ "python3", "-m" , "flask", "run"]
+```
+
+Pierwsza linia ```FROM python:3.10``` określa bazowy obraz, który będziemy rozbudowywać dla naszej aplikacji. Jest to obraz z zainstalowanym Pythonem w wersji 3.10. ```WORKDIR /app``` powoduje, że wszystkie polecenia zostaną domyślnie wykonane pod tą ścieżką na obrazie. ```ENV FLASK_APP=flaskr/app.py``` oraz ```ENV FLASK_RUN_HOST=0.0.0.0``` ustawiają zmienne środowiskowe wewnątrz obrazu. ```COPY ./dist/flaskr-0.1.0-py3-none-any.whl .``` powoduje przekopiowanie wybranych plików pomiędzy naszą maszyną hostującą, a obrazem, który zostanie stworzony. Polecenie ```RUN pip3 install flaskr-0.1.0-py3-none-any.whl``` wykonuje pelecnie na obrazie, które w tym konkretnym przykładzie instaluje naszą paczkę. ```EXPOSE 5000``` pozwala na udostępnienie portu 5000 obrazu na jego zewnątrz, dzięki czemu mmożemy wykonywać pod ten port zapytania z naszej maszyny hostującej i współpracować z aplikacją znajdującą się w kontenerze. ```COPY . .``` kopuje resze plików (kolejność poleceń COPY jest związana z dockerowych cache). ```CMD [ "python3", "-m" , "flask", "run"]``` wykonuje dane polecenie za każdym razem kiedy kontener jest wywołany do uruchomienia.
+
+<hr />
+
+### Wybudowanie i uruchomienie aplikacji przy pomocy Dockerfile
+
+Należy o wcześniejszym uruchomieniu kontenera z bazą danych aby nasza skonteneryzowana aplikacja działała poprawnie.
+
+W momencie kiedy Dockerfile jest już gotowy możemy na jego podstawie utworzyć obraz:
+
+```sh
+docker build -t flask_app .
+```
+
+Parameter ```-t``` oznacza nazwę pod jaką zostanie utworzony obraz.
+
+Na podstawie utworzonego obrazu budujemy kontener:
+
+```sh
+docker run -d -e FLASK_DEBUG="True" --network="host" --name flask_app flask_app
+```
+
+Parametr ```-d``` oznacza tryb ```detach``` podczas, którego kontener pracuje w tle, a na konsolę jest jedynie wypisywane ID tego kontenera. ```-e``` powoduje dodanie zmiennej środowiskowej do uruchamianego kontenera. ```--network="host"``` konfiguruje sieć kontenera tak aby nie był on wyizolowany, ale aby był dostępny w naszej sieci lokalnej pod adresem localhost/127.0.0.1. ```--name flask_app``` nadaje nawzę kontenerowi. Na końcu podajemy nazwę obrazu, na podstawie, którego ma zostać stworzony kontener.
+
+<hr />
+
+### Przydatne komendy
+
+Wypisanie logów z kontenera na standardowe wyjście:
+
+```sh
+docker logs <container>
+```
+
+Zatrzymnie działania uruchomionego kontenera:
+
+```sh
+docker stop <container>
+```
+
+Uruchomienie zbudowanego kontenera:
+
+```sh
+docker start <container>
+```
+
+Usunięcie zatrzymanego kontenera:
+
+```sh
+docker rm <container>
+```
+
+Usunięcie obrazu:
+
+```sh
+docker rmi <image>
+```
+
+Wypisanie dostepnych sieci dockerowych:
+
+```sh
+docker network ls
+```
+
+Usunięcie sieci dockerowej:
+
+```sh
+docker network rm <network>
+```
+
+Usunięcie wszystkich kontenerów i obrazów:\
+
+```sh
+docker system prune
+```
+
+<hr />
+
+### .dockerignore
+
+Ten plik działa podobnie jak plik .gitignore w przypadku git'a. Pozwala określić katalogi i pliki, które nie będą kopiowane w przypadku komendy COPY w Dockerfile (choćby zawierały się w ścieżce do skopiowania w Dockerfile).
+
+<br />
+<hr />
+
+## 8. Orkiestryzacja aplikacji z użyciem narzędzia docker-compose
+
+<hr />
 
 Cały stos aplikacji może być uruchomiony za pomocą polecenia docker-compose Dockera. Compose jest narzędziem do definiowania i uruchamiania aplikacji Dockera składających się z wielu kontenerów/aplikacji.
 
 W tym celu przygotowany został plik `docker-compose.yaml`, w którym zdefiniowane jest sama usługi aplikacji, baza danych i odpowiednie dane konfiguracyjne.
 
-### 7.1 Uruchomienie 
-
-Aby uruchomić stos aplikacji wykonujemy polecenie:
-
-    docker-compose up -d
-
-### 7.2 Zatrzymanie
-
-Aby zatrzymać stos aplikacji wykonujemy polecenie:
-
-    docker-compose down
-
 > **Uwaga:** Polecenie powinno być wykonane w folderze, w którym znajduje się odpowiedni plik `docker-compose.yaml`. W przeciwnym razie należy go wskazać za pomocą opcji `-f`.
 
-## 8. Wdrożenie na platformie Kubernetes 
+### Nim skorzystamy z narzędzia jakim jest docker-compose musimy zkończyć działanie i żywot naszych obecnie działających kontenerów przy pomocy poleceń
 
-### 8.1 Instalacja Kubernetesa
+```sh
+docker stop flask_app postgres_workshops
+docker rm flask_app postgres_workshops
+```
+
+<hr />
+
+### docker-compose.yaml
+
+```text
+version: '3.8'
+
+services:
+
+  flask-app:
+    image: flask-app
+    container_name: flask-app
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 5000:5000
+    environment:
+      FLASK_DEBUG: 'True'
+      DATABASE_URI: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:5432/${POSTGRES_DB}
+    networks:
+      - flask-app-network
+    restart: on-failure
+    depends_on:
+      - database
+
+  database:
+    image: postgres:14
+    env_file: .env
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    networks:
+      - flask-app-network
+    restart: always
+
+networks:
+    flask-app-network:
+      driver: bridge
+      name: flask-app-network
+```
+
+Powyższy plik docker-compose.yaml definiuje zarówno kontenery z ich specifikacją, które mają zostać zbudowane jak i specyfikację sieci, w której mają pracować. Pierwsza z aplikacji określona w tym pliku to nasza aplikacja napisana w frameworku flask. 
+* ```image``` określa nazwę obrazu, który ma zostać użyty do zbudowania kontenera.
+* ```container_name``` określa nazwę kontenera, pod którą kontener ma działać.
+* ```build``` zawiera dodatkowe parametry wykorzystane w procesie budowania kontenera na bazie wybranego obrazu. ```context``` określa kontekst, a ```dockerfile``` zawiera ścieżkę do pliku Dockerfile, na podstawie, którego zostanie zbudowany obraz.
+* ```ports``` mapuje porty pomiędzy maszyną hostującą, a kontenerem ```HOST:CONTAINER```.
+* ```environment``` pozwala na dodanie zmiennych środowiskowych do tworzonego kontenera.
+* ```networks``` odpowiada za konfigurację sieci, w tym wypadku odwołyjemy się do konfiguracji, która znajduje się na końcu pliku docker-compose.yaml. W naszym przypadku jest to domyślny rodzaj sieci: bridge.
+* ```restart``` określa zachowanie kontenera w monemcie, gdyż jego praca zostanie zakończona. W tym wypadku, w momencie, kiedy kontener przestanie działać z powodu błędy, zostanie automatycznie ponownie powołany do życia.
+* ```depends_on``` określa kolejność (zależność), w której kontenery mają zostać uruchomienione. Należy zwrócić uwagę, że nie oznacza to, że kontener, który później został utworzony nie będzie pierwszy gotowy do działania (aplikacja może polegać na kontenerze z bazą danych stąd najpierw uruchomimy kontener z tą bazą, natomiast może stać się tak, że naszą aplikacja szybciej skofiguruje swój kontener niż baza danych i wystąpi problem z połączeniem bazodanowym).
+* ```env_file``` dodaje zmienne środowiskowe do kontenera na podstawie zewnętrznego pliku.
+
+<hr />
+
+### Uruchomienie skonteneryzowanych i skonfigurowanych aplikacji przy pomocy jednego polecenia
+
+```sh
+docker-compose up
+```
+
+<hr />
+
+### Przydatne komendy
+
+Zatrzymanie kontenerów i usunięcie kontenerów wraz z obrazami:
+
+```sh
+docker-compose down --rmi all
+```
+
+<br />
+<hr />
+
+## 9. Continuous integration and deployment
+
+<hr />
+
+W celu stworzenia pipelinu CI/CD użyjemy narzęcia GitHub Workflows. Jest to proste w uzyciu narzędzie, które pozwala na dużo więcej niż proste pipeliny CI/CD, a do tego pozwala nam trzymać je w postaci kodu na jednym repozytorium wraz z kodem samego projektu. GitHub udostępnia na swoje maszyny budujące, stąd nie musimy się przejmować o infraktrukturę. Kod pipelinu musi znajdować się w plikach z roszerzeniem ```.yml/.yaml``` w katalogu ```.github/workflows/```.
+
+```.github/workflows/<nazwa_pliku>.yml:```
+
+<hr />
+
+### Automatyzacja testów jednostkowych
+
+```text
+name: Unit Tests
+
+on:
+  push:
+
+jobs:
+  unit-testing:
+    runs-on: ubuntu-20.04
+    
+    env:
+      FLASK_APP: flaskr/app.py
+
+    strategy:
+      matrix:
+        python-version: [3.7, 3.8]
+        
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Setup app
+        run: |
+          pip install -e .
+          python setup.py bdist_wheel
+
+      - name: Run unit tests
+        run: pytest tests
+```
+
+* ```name:``` określa nazwę dla danego workflow/akcji i pod nią będzie on widnieć na Githubie.
+* ```on:``` określa sytuację, w której workflow zostanie uruchomiony. W tym przypadku będzie to w momencie, kiedy zostanie wypchnięty commit na zdalne repozytorium: ```push:```.
+* ```job``` zawiera zadania, które w ramach tego workflow zostaną uruchomione.
+* ```runs-on:``` określa maszynę budującą, na której dany workflow zostanie uruchomiony.
+* ```env:``` pozwala na określenie zmiennych środowiskowych, które zostaną ustawione na maszynie budującej
+* ```strategy: matrix:``` umożliwia uruchomienie zadania na wielu wersjach wskazanego języka/systemu operacyjnego
+* ```steps:``` określa konkretne kroki, które zostaną wykonane w realizacji danego zadania.
+* ```uses:``` pozwala na skorzystanie z gotowej akcji zdefiniowanej na zewnętrznym repozytorium.
+* ```with:``` umożliwia przekazanie wybranych parametrów do danej akcji.
+
+<hr />
+
+### Automatyczne testowanie przy pomocy narzędzi typu linter (np. pytlint, black)
+
+```text
+name: Lint code
+
+on:
+  push:
+
+jobs:
+  unit-testing:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+
+      - name: Lint with pylint
+        run: |
+          pip install pylint
+          pylint --exit-zero flaskr/** tests/**
+
+      - name: Lint with black
+        run: |
+          pip install black
+          python -m black --check .
+```
+
+<hr />
+
+### Automatyzacja statycznej analizy kodu
+
+```text
+name: Snyk
+
+on:
+  push:
+    branches:
+      - 'master'
+      - 'develop'
+
+jobs:
+  security:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@master
+      
+      # Snyk does not work with setuptool files
+      # Therefore need to convert it into requirements.txt
+      - name: Prepare requirements for Snyk
+        run: |
+          python -m pip install .
+          python -m pip freeze > requirements.txt
+          python -m pip install -r requirements.txt
+
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/python-3.8@master
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+```
+
+<hr />
+
+### Automatyczne budowanie i wdrażanie kontenerów
+
+```text
+name: Docker build and push
+
+on:
+  push:
+    branches:
+      - 'master'
+      - 'develop'
+
+jobs:
+  docker:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build project with setuptool
+        run: |
+          python -m pip install .[dev]
+          python setup.py bdist_wheel
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v2 
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          logout: true
+
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          tags: jerqa/devops-workshops:develop
+```
+
+<br />
+<hr />
+
+## 10. Orkiestryzacja aplikacji z użyciem narzędzia Kubernetes
+
+<hr />
+
+### 10.1 Instalacja Kubernetesa
 
 ### Windows
 
@@ -352,7 +705,7 @@ Wykonujemy poniższe polecenia, które zainstalują **minikube**:
 
 > **Więcej informacji:**  https://minikube.sigs.k8s.io/docs/start/
 
-### 8.2 Instalacja polecenia kubectl
+### 10.2 Instalacja polecenia kubectl
 
 ### Windows
 
@@ -412,7 +765,7 @@ Aby wyświetlić stan całego klastra należy wykonać:
 
     kubectl cluster-info
 
-### 8.3 Wdrożenie aplikacji
+### 10.3 Wdrożenie aplikacji
 
 Wdrożenie aplikacji na platformie Kubernetes odbywa się poprzez odpowiednio przygotowane pliki (*deployment files*), w których zdefiniowane są obiekty składowe aplikacji.
 
