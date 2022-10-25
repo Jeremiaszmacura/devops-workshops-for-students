@@ -347,7 +347,7 @@ Parametr ```-d``` oznacza tryb ```detach``` podczas, którego kontener pracuje w
 
 <hr />
 
-### Przydatne komendy:
+### Przydatne komendy
 
 Wypisanie logów z kontenera na standardowe wyjście:
 
@@ -410,7 +410,7 @@ Ten plik działa podobnie jak plik .gitignore w przypadku git'a. Pozwala określ
 
 <hr />
 
-### Nim skorzystamy z narzędzia jakim jest docker-compose musimy zkończyć działanie i żywot naszych obecnie działających kontenerów przy pomocy poleceń:
+### Nim skorzystamy z narzędzia jakim jest docker-compose musimy zkończyć działanie i żywot naszych obecnie działających kontenerów przy pomocy poleceń
 
 ```sh
 docker stop flask_app postgres_workshops
@@ -481,7 +481,7 @@ docker-compose up
 
 <hr />
 
-### Przydatne komendy:
+### Przydatne komendy
 
 Zatrzymanie kontenerów i usunięcie kontenerów wraz z obrazami:
 
@@ -502,7 +502,7 @@ W celu stworzenia pipelinu CI/CD użyjemy narzęcia GitHub Workflows. Jest to pr
 
 <hr />
 
-### Automatyzacja testów jednostkowych:
+### Automatyzacja testów jednostkowych
 
 ```text
 name: Unit Tests
@@ -573,7 +573,7 @@ jobs:
 
 <hr />
 
-### Automatyzacja statycznej analizy kodu:
+### Automatyzacja statycznej analizy kodu
 
 ```text
 name: Snyk
