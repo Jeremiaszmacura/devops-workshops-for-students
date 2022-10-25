@@ -1,0 +1,161 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: postgres-pv-volume
+  labels:
+    type: local
+    app: postgres
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/mnt/postgres_data"
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: postgres-pv-claim
+  labels:
+    app: postgres
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany 
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config
+  labels:
+    app: workshop
+data:
+  POSTGRES_DB: prod_db
+  POSTGRES_USER: prod_user
+  POSTGRES_PASSWORD: prod_password
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: flaskr-config
+  labels:
+    app: workshop
+    tier: backend
+data:
+  FLASK_DEBUG: "True"
+  FLASK_ENV: "development"
+  DATABASE_URI: "postgresql://prod_user:prod_password@postgres:5432/prod_db"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  labels:
+    app: workshop
+spec:
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432    
+  selector:
+    app: workshop
+    tier: database
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flaskr
+  labels:
+    app: workshop
+spec:
+  type: LoadBalancer
+  selector:
+    app: workshop
+    tier: backend
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
+---
+kind: StatefulSet
+apiVersion: apps/v1
+metadata:
+  name: postgres
+  labels:
+    app: workshop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: workshop
+      tier: database
+  template:
+    metadata:
+      labels:
+        app: workshop
+        tier: database
+    spec:
+      volumes:
+        - name: postgresql
+          persistentVolumeClaim:
+            claimName: postgres-pv-claim
+      containers:
+        - name: postgres
+          image: postgres:14
+          imagePullPolicy: IfNotPresent 
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - configMapRef:
+                name: postgres-config
+          volumeMounts:
+            - name: postgresql
+              mountPath: /var/lib/postgresql/data
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flaskr
+  labels:
+    app: workshop
+spec:
+  selector:
+    matchLabels:
+      app: workshop
+      tier: backend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: workshop
+        tier: backend
+    spec:
+      containers:
+      - name: flaskr
+        image: flaskr/app
+        imagePullPolicy: Never
+        startupProbe: 
+          httpGet: 
+            path: /
+            port: 5000 
+          periodSeconds: 10
+          failureThreshold: 30
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 5000
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          failureThreshold: 1          
+        envFrom:
+          - configMapRef:
+              name: flaskr-config  
+        ports:
+        - containerPort: 5000
+      restartPolicy: Always
