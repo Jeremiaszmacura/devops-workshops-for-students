@@ -769,7 +769,7 @@ Aby wyświetlić stan całego klastra należy wykonać:
 
 Wdrożenie aplikacji na platformie Kubernetes odbywa się poprzez odpowiednio przygotowane pliki (*deployment files*), w których zdefiniowane są obiekty składowe aplikacji.
 
-W folderze z projektem znajduje się plik `k8s.yaml`, który zawiera definicje obiektów takich typów jak *PersistentVolume*, *ConfigMap*, *Service*, *Deploymmet* i *StatefulSet*.
+W folderze z projektem znajduje się plik `k8s.yaml`, który zawiera definicje obiektów takich typów jak *PersistentVolume*, *PersistentVolumeClaim*, *ConfigMap*, *Service*, *Deployment* i *StatefulSet*.
 
 Aby wdrożyć aplikację należy wykonać polecenie:
 
