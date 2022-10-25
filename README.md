@@ -51,9 +51,6 @@ Aby zainstalować Dockera musimy posiadać 64bitową wersję Ubuntu, jedną z wy
 <<<<<<< HEAD
 9. [Continuous integration and deployment](#9-Continuous-integration-and-deployment)
 10. [Orkiestryzacja aplikacji z użyciem narzędzia Kubernetes](#10-Orkiestryzacja-aplikacji-z-użyciem-narzędzia-Kubernetes)
-=======
-9. [Continouse integration and delivery](#9-Continouse-integration-and-delivery)
->>>>>>> d9ce720bc17f119466c5c5b401e15ef15154f077
 
 <br />
 <hr />
