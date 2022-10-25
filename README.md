@@ -7,7 +7,7 @@
 * Windows 11 64-bit: Home lub Pro wersja 21H2 lub wyższa albo wersja Enterprise/Education 21H2 i wyższa
 * Windows 10 64-bit: Home lub Pro 21H1 (build 19042) lub wyższa albo Enterprise/Education 20H2 (build 19042) i wyższa
 * 64-bit processor with Second Level Address Translation (https://en.wikipedia.org/wiki/Second_Level_Address_Translation)
-* 4GB system RAM
+* 8GB system RAM lub więcej
 * BIOS-level hardware wsparcie dla wirtualizacji włączone (więcej info: https://docs.docker.com/desktop/troubleshoot/topics/#virtualization)
 
 ### Linux
@@ -21,7 +21,7 @@ Aby zainstalować Dockera musimy posiadać 64bitową wersję Ubuntu, jedną z wy
 ### MacOS
 
 * MacOS w wersji 10.15 lub wyższej. To jest Catalina, Big Sur, Monterey. Zalecane jest zaktualizowanie systemu do najnowszej wersji
-* 4GB system RAM
+* 4GB system RAM lub więcej
 * VirtualBox przed wersją 4.3.30 nie może być zainstalowany, ponieważ nie jest kompatybilny z Docker Desktop
 
 ## Wymagane oprogramowanie
@@ -43,7 +43,7 @@ Aby zainstalować Dockera musimy posiadać 64bitową wersję Ubuntu, jedną z wy
 1. [Instalacja Gita](#1-Instalacja-Gita)
 2. [Instalacja Pythona](#2-Instalacja-Pythona)
 3. [Instalacja Dockera](#3-Instalacja-Dockera)
-4. [Załorzenie kont na serwisach: Github, Docker Hub, Snyk](#4-Załorzenie-kont-na-serwisach-Github-Docker-Hub-Snyk)
+4. [Założenie kont na serwisach: Github, Docker Hub, Snyk](#4-Załorzenie-kont-na-serwisach-Github-Docker-Hub-Snyk)
 5. [Przygotowanie wirtualnego środowiska Python](#5-Przygotowanie-wirtualnego-środowiska-Python)
 6. [Uruchomienie aplikacji internetowej (Flask), bazy danych i testów jednostkowych](#6-Uruchomienie-aplikacji-internetowej-Flask-i-testów-jednostkowych)
 7. [Konteneryzacja aplikacji](#7-Konteneryzacja-aplikacji)
@@ -301,4 +301,141 @@ pytest tests
 
 ## 7. Konteneryzacja aplikacji
 
-<hr />
+Cały stos aplikacji może być uruchomiony za pomocą polecenia docker-compose Dockera. Compose jest narzędziem do definiowania i uruchamiania aplikacji Dockera składających się z wielu kontenerów/aplikacji.
+
+W tym celu przygotowany został plik `docker-compose.yaml`, w którym zdefiniowane jest sama usługi aplikacji, baza danych i odpowiednie dane konfiguracyjne.
+
+### 7.1 Uruchomienie 
+
+Aby uruchomić stos aplikacji wykonujemy polecenie:
+
+    docker-compose up -d
+
+### 7.2 Zatrzymanie
+
+Aby zatrzymać stos aplikacji wykonujemy polecenie:
+
+    docker-compose down
+
+> **Uwaga:** Polecenie powinno być wykonane w folderze, w którym znajduje się odpowiedni plik `docker-compose.yaml`. W przeciwnym razie należy go wskazać za pomocą opcji `-f`.
+
+## 8. Wdrożenie na platformie Kubernetes 
+
+### 8.1 Instalacja Kubernetesa
+
+### Windows
+
+Po zainstalowaniu Docker Desktop wchodzimy w jego ustawienia (prawym klawiszem myszy na jego ikonie w pasku zadań, następnie wybieramy *settings*) i klikamy na **Enable Kubernetes**. 
+
+
+O poprawnym uruchomieniu informuje zielony pasek w lewym-dolnym rogu Docker Desktop (powinny być widoczne dwa zielone paski: *Engine Running* świadczący o działaniu silnika Dockera oraz *Kubernetes Running* świadczący o działaniu Kubernetesa).
+
+### Linux
+
+Wykonujemy poniższe polecenia, które zainstalują **minikube**:
+
+    curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+    sudo install minikube-linux-amd64 /usr/local/bin/minikube
+
+Uruchamiamy klaster poleceniem:
+
+    minikube start
+
+> **Więcej informacji:**  https://minikube.sigs.k8s.io/docs/start/
+
+#### MacOS
+
+Wykonujemy poniższe polecenia, które zainstalują **minikube**:
+
+    curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-darwin-amd64
+    sudo install minikube-darwin-amd64 /usr/local/bin/minikube
+
+> **Więcej informacji:**  https://minikube.sigs.k8s.io/docs/start/
+
+### 8.2 Instalacja polecenia kubectl
+
+### Windows
+
+Polecenie kubectl można zainstalować poprzez manager pakietów **Chocolatey**, który można pobrać z https://chocolatey.org/.
+Po jego zainstalowaniu należy wykonać polecenie:
+
+    choco install kubernetes-cli
+
+### Linux
+
+Wykonujemy polecenia:
+
+    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+    sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+
+> **Więcej informacji:**  https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
+
+
+#### MacOS
+
+
+1. Pobranie pliku w postaci binarnej.
+
+Wykonujemy polecenia:
+
+- dla architektury **Intel**:
+
+       curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/darwin/amd64/kubectl"
+
+- dla architektury **Apple Silicon**:
+
+       curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/darwin/arm64/kubectl"
+
+2. Instalacja
+
+Wykonujemy polecenia:
+    
+    chmod +x ./kubectl
+    sudo mv ./kubectl /usr/local/bin/kubectl
+    sudo chown root: /usr/local/bin/kubectl
+
+> **Więcej informacji:**  https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/
+
+---
+
+### Weryfikacja instalacji
+
+Po instalacji, by zweryfikować poprawność i wersję klienta należy wykonać:
+
+    kubectl version --client
+
+Oraz, by zweryfikować wersję zarówno klienta jak i serwera:
+
+    kubectl version
+
+Aby wyświetlić stan całego klastra należy wykonać:
+
+    kubectl cluster-info
+
+### 8.3 Wdrożenie aplikacji
+
+Wdrożenie aplikacji na platformie Kubernetes odbywa się poprzez odpowiednio przygotowane pliki (*deployment files*), w których zdefiniowane są obiekty składowe aplikacji.
+
+W folderze z projektem znajduje się plik `k8s.yaml`, który zawiera definicje obiektów takich typów jak *PersistentVolume*, *ConfigMap*, *Service*, *Deploymmet* i *StatefulSet*.
+
+Aby wdrożyć aplikację należy wykonać polecenie:
+
+    kubectl apply -f k8s.yaml
+
+> **Uwaga:**  *Polecenie to należy wykonać także po każdej modyfikacji obiektów wdrożenia w pliku `k8s.yaml`*
+
+Aby zweryfikować wdrożenie należy wykonać polecenie:
+
+    kubectl get pods
+
+ Polecenie to powinno wyświetlić tabelę działających podów:
+
+    NAME                      READY   STATUS    RESTARTS   AGE
+    flaskr-6c45555bcf-bh8c2   0/1     Running   0          6s
+    postgres-0                1/1     Running   0          6s
+
+Aby usunąć wdrożenie należy wykonać polecenie:
+
+    kubectl delete -f k8s.yaml
+
+> **Więcej informacji:**  https://kubernetes.io/docs/reference/kubectl/cheatsheet/

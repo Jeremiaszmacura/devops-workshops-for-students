@@ -1,3 +1,33 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: postgres-pv-volume
+  labels:
+    type: local
+    app: postgres
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/mnt/postgres_data"
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: postgres-pv-claim
+  labels:
+    app: postgres
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany 
+  resources:
+    requests:
+      storage: 1Gi
+---
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -5,9 +35,9 @@ metadata:
   labels:
     app: workshop
 data:
-  POSTGRES_DB: postgres
-  POSTGRES_USER: postgres
-  POSTGRES_PASSWORD: postgres
+  POSTGRES_DB: prod_db
+  POSTGRES_USER: prod_user
+  POSTGRES_PASSWORD: prod_password
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -19,7 +49,7 @@ metadata:
 data:
   FLASK_DEBUG: "True"
   FLASK_ENV: "development"
-  DATABASE_URI: "postgresql://postgres:postgres@postgres:5432/postgres"
+  DATABASE_URI: "postgresql://prod_user:prod_password@postgres:5432/prod_db"
 ---
 apiVersion: v1
 kind: Service
@@ -53,37 +83,7 @@ spec:
       port: 5000
       targetPort: 5000
 ---
-kind: PersistentVolume
-apiVersion: v1
-metadata:
-  name: postgres-pv-volume
-  labels:
-    type: local
-    app: postgres
-spec:
-  storageClassName: manual
-  capacity:
-    storage: 5Gi
-  accessModes:
-    - ReadWriteMany
-  hostPath:
-    path: "/mnt/data"
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: postgres-pv-claim
-  labels:
-    app: postgres
-spec:
-  storageClassName: manual
-  accessModes:
-    - ReadWriteMany 
-  resources:
-    requests:
-      storage: 5Gi
----
-kind: Deployment
+kind: StatefulSet
 apiVersion: apps/v1
 metadata:
   name: postgres
@@ -101,22 +101,22 @@ spec:
         app: workshop
         tier: database
     spec:
+      volumes:
+        - name: postgresql
+          persistentVolumeClaim:
+            claimName: postgres-pv-claim
       containers:
         - name: postgres
           image: postgres:14
-          imagePullPolicy: "IfNotPresent"
+          imagePullPolicy: IfNotPresent 
           ports:
             - containerPort: 5432
           envFrom:
             - configMapRef:
                 name: postgres-config
           volumeMounts:
-            - mountPath: /var/lib/postgresql/data
-              name: postgresql
-      volumes:
-        - name: postgresql
-          persistentVolumeClaim:
-            claimName: postgres-pv-claim
+            - name: postgresql
+              mountPath: /var/lib/postgresql/data
 ---
 apiVersion: apps/v1
 kind: Deployment
