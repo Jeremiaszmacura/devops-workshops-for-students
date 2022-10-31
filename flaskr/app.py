@@ -7,7 +7,7 @@ from flaskr.config import db
 
 
 def create_app(
-    database_uri="postgresql://dev_user:dev_user@localhost:5432/dev_database",
+    database_uri="postgresql://dev_user:dev_user@host.docker.internal:5432/dev_database",
 ):
     app = Flask(__name__)
 
