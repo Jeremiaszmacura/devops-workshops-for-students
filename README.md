@@ -261,7 +261,7 @@ set FLASK_DEBUG=true
 
 ```sh
 $env:FLASK_APP = "flaskr/app.py"
-$env:FLASK_APP = "true"
+$env:FLASK_DEBUG = "true"
 ```
 
 Instalujemy naszą aplikację jako bibliotekę wykorzystując bibliotekę setuptools. Poniższe polecenie wykonujemy w katalogu głównym projektu:
@@ -283,7 +283,7 @@ Przed uruchomieniem aplikacji musimy zadbać o bazę danych, z którą apliakcja
 ### Uruchomienie kontenera bazy danych i aplikacji
 
 ```sh
-docker run --name postgres_workshops -e POSTGRES_DB=dev_database -e POSTGRES_USER=dev_user -e POSTGRES_PASSWORD=dev_user --network="host" -d postgres:14
+docker run --name postgres_workshops -e POSTGRES_DB=dev_database -e POSTGRES_USER=dev_user -e POSTGRES_PASSWORD=dev_user -p 5432:5432 -d postgres:14
 ```
 
 Uruchomienie aplikacji.
