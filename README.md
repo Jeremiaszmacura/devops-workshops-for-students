@@ -44,12 +44,13 @@ Aby zainstalować Dockera musimy posiadać 64bitową wersję Ubuntu, jedną z wy
 2. [Instalacja Pythona](#2-Instalacja-Pythona)
 3. [Instalacja Dockera](#3-Instalacja-Dockera)
 4. [Założenie kont na serwisach: Github, Docker Hub, Snyk](#4-Załorzenie-kont-na-serwisach-Github-Docker-Hub-Snyk)
-5. [Przygotowanie wirtualnego środowiska Python](#5-Przygotowanie-wirtualnego-środowiska-Python)
-6. [Uruchomienie aplikacji internetowej (Flask), bazy danych i testów jednostkowych](#6-Uruchomienie-aplikacji-internetowej-Flask-i-testów-jednostkowych)
-7. [Konteneryzacja aplikacji](#7-Konteneryzacja-aplikacji)
-8. [Orkiestryzacja aplikacji z użyciem narzędzia docker-compose](#8-Orkiestryzacja-aplikacji-z-użyciem-narzędzia-docker-compose)
-9. [Continuous integration and deployment](#9-Continuous-integration-and-deployment)
-10. [Orkiestryzacja aplikacji z użyciem narzędzia Kubernetes](#10-Orkiestryzacja-aplikacji-z-użyciem-narzędzia-Kubernetes)
+5. [Stowrzenie katalogu roboczego i sklonowanie repozytorium](#5-Stowrzenie-katalogu-roboczego-i-sklonowanie-repozytorium)
+6. [Przygotowanie wirtualnego środowiska Python](#6-Przygotowanie-wirtualnego-środowiska-Python)
+7. [Uruchomienie aplikacji internetowej (Flask), bazy danych i testów jednostkowych](#7-Uruchomienie-aplikacji-internetowej-Flask-i-testów-jednostkowych)
+8. [Konteneryzacja aplikacji](#8-Konteneryzacja-aplikacji)
+9. [Orkiestryzacja aplikacji z użyciem narzędzia docker-compose](#9-Orkiestryzacja-aplikacji-z-użyciem-narzędzia-docker-compose)
+10. [Continuous integration and deployment](#10-Continuous-integration-and-deployment)
+11. [Orkiestryzacja aplikacji z użyciem narzędzia Kubernetes](#11-Orkiestryzacja-aplikacji-z-użyciem-narzędzia-Kubernetes)
 
 <br />
 <hr />
@@ -97,8 +98,8 @@ Wykonujemy poniższe polecenia, które zaktualizują narzędzie apt-get, zainsta
 
 ```sh
 sudo apt-get update
-sudo apt-get install python
-python -m ensurepip --upgrade
+sudo apt-get install python3
+python3 -m ensurepip --upgrade
 ```
 
 ### MacOS
@@ -203,6 +204,12 @@ Pełna dokumentacja: https://docs.docker.com/desktop/install/mac-install/
 <br />
 <hr />
 
+### Dodanie użytkownika do grupy docker
+
+```sh
+sudo usermod -aG docker $USER && newgrp docker
+```
+
 ## 4. Założenie kont na serwisach: Github, Docker Hub, Snyk
 
 <hr />
@@ -214,7 +221,16 @@ Pełna dokumentacja: https://docs.docker.com/desktop/install/mac-install/
 <br />
 <hr />
 
-## 5. Przygotowanie wirtualnego środowiska Python
+## 5. Stowrzenie katalogu roboczego i fork repozytorium
+
+<hr />
+
+Forkujemy repozytorium porzez otworzenie oficjalnego repozytorium ```https://github.com/Jeremiaszmacura/devops-workshops-for-students``` i kliknięcie ikony z napisem fork (prawy góry róg).
+
+<br />
+<hr />
+
+## 6. Przygotowanie wirtualnego środowiska Python
 
 <hr />
 
@@ -235,7 +251,7 @@ Set-ExecutionPolicy Unrestricted -Scope Process
 <br />
 <hr />
 
-## 6. Uruchomienie aplikacji internetowej (Flask), bazy danych i testów jednostkowych
+## 7. Uruchomienie aplikacji internetowej (Flask), bazy danych i testów jednostkowych
 
 <hr />
 
@@ -289,7 +305,7 @@ docker run --name postgres_workshops -e POSTGRES_DB=dev_database -e POSTGRES_USE
 Uruchomienie aplikacji.
 
 ```sh
-flask run
+DATABASE_URI="postgresql://dev_user:dev_user@localhost:5432/dev_database" flask run
 ```
 
 <hr />
@@ -303,7 +319,7 @@ pytest tests
 <br />
 <hr />
 
-## 7. Konteneryzacja aplikacji
+## 8. Konteneryzacja aplikacji
 
 <hr />
 
@@ -340,7 +356,7 @@ Parameter ```-t``` oznacza nazwę pod jaką zostanie utworzony obraz.
 Na podstawie utworzonego obrazu budujemy kontener:
 
 ```sh
-docker run -d -e FLASK_DEBUG="True" --network="host" --name flask_app flask_app
+docker run -d -e FLASK_DEBUG="True" -e DATABASE_URI="postgresql://dev_user:dev_user@localhost:5432/dev_database" --network="host" --name flask_app flask_app
 ```
 
 Parametr ```-d``` oznacza tryb ```detach``` podczas, którego kontener pracuje w tle, a na konsolę jest jedynie wypisywane ID tego kontenera. ```-e``` powoduje dodanie zmiennej środowiskowej do uruchamianego kontenera. ```--network="host"``` konfiguruje sieć kontenera tak aby nie był on wyizolowany, ale aby był dostępny w naszej sieci lokalnej pod adresem localhost/127.0.0.1. ```--name flask_app``` nadaje nawzę kontenerowi. Na końcu podajemy nazwę obrazu, na podstawie, którego ma zostać stworzony kontener.
@@ -406,7 +422,7 @@ Ten plik działa podobnie jak plik .gitignore w przypadku git'a. Pozwala określ
 <br />
 <hr />
 
-## 8. Orkiestryzacja aplikacji z użyciem narzędzia docker-compose
+## 9. Orkiestryzacja aplikacji z użyciem narzędzia docker-compose
 
 <hr />
 
@@ -485,6 +501,12 @@ Powyższy plik docker-compose.yaml definiuje zarówno kontenery z ich specifikac
 docker-compose up
 ```
 
+W przypadku gdyby docker-compose nie był jeszcze zainstalowany razem z dockerem:
+
+```sh
+sudo apt-get install docker-compose
+```
+
 <hr />
 
 ### Przydatne komendy
@@ -498,13 +520,25 @@ docker-compose down --rmi all
 <br />
 <hr />
 
-## 9. Continuous integration and deployment
+## 10. Continuous integration and deployment
 
 <hr />
 
 W celu stworzenia pipelinu CI/CD użyjemy narzęcia GitHub Workflows. Jest to proste w uzyciu narzędzie, które pozwala na dużo więcej niż proste pipeliny CI/CD, a do tego pozwala nam trzymać je w postaci kodu na jednym repozytorium wraz z kodem samego projektu. GitHub udostępnia na swoje maszyny budujące, stąd nie musimy się przejmować o infraktrukturę. Kod pipelinu musi znajdować się w plikach z roszerzeniem ```.yml/.yaml``` w katalogu ```.github/workflows/```.
 
 ```.github/workflows/<nazwa_pliku>.yml:```
+
+<hr />
+
+### Aktywacja GitHub Action
+
+Aktywujemy tą funkcjonalność poprzez przejście na zakładkę ```Actions``` na naszym sforkowanym repozytorium i kliknięcie przycisku aktywacji.
+
+<hr />
+
+### Dodanie GitHub Secrets do repozytorium
+
+
 
 <hr />
 
@@ -670,11 +704,11 @@ jobs:
 <br />
 <hr />
 
-## 10. Orkiestryzacja aplikacji z użyciem narzędzia Kubernetes
+## 11. Orkiestryzacja aplikacji z użyciem narzędzia Kubernetes
 
 <hr />
 
-### 10.1 Instalacja Kubernetesa
+### 11.1 Instalacja Kubernetesa
 
 ### Windows
 
@@ -705,7 +739,7 @@ Wykonujemy poniższe polecenia, które zainstalują **minikube**:
 
 > **Więcej informacji:**  https://minikube.sigs.k8s.io/docs/start/
 
-### 10.2 Instalacja polecenia kubectl
+### 11.2 Instalacja polecenia kubectl
 
 ### Windows
 
@@ -765,7 +799,7 @@ Aby wyświetlić stan całego klastra należy wykonać:
 
     kubectl cluster-info
 
-### 10.3 Wdrożenie aplikacji
+### 11.3 Wdrożenie aplikacji
 
 Wdrożenie aplikacji na platformie Kubernetes odbywa się poprzez odpowiednio przygotowane pliki (*deployment files*), w których zdefiniowane są obiekty składowe aplikacji.
 
