@@ -775,7 +775,11 @@ Za wdrożenie aplikacji odpowiada obiekt typu *Deployment*, w którym znajduje s
 
 W tym miejscu należy uzupełnić obraz o nazwę własnego użytkownika serwisu **Dockerhub**, np. dla użytkownika `marcin` obraz powinien zostać zmieniony na `image: marcin/devops-workshops:develop`.
 
-Następnie, po zintegrowaniu i pobraniu zmian, by wdrożyć aplikację należy wykonać polecenie:
+Następnie, po zintegrowaniu i pobraniu zmian, weryfikujemy czy obraz może zostać pobrany:
+
+    docker pull <nazwa użytkownika>/devops-workshops:develop
+
+Ostatecznie, by wdrożyć aplikację należy wykonać polecenie:
 
     kubectl apply -f k8s.yaml
 
