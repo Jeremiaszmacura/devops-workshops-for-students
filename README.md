@@ -771,7 +771,11 @@ Wdrożenie aplikacji na platformie Kubernetes odbywa się poprzez odpowiednio pr
 
 W folderze z projektem znajduje się plik `k8s.yaml`, który zawiera definicje obiektów takich typów jak *PersistentVolume*, *PersistentVolumeClaim*, *ConfigMap*, *Service*, *Deployment* i *StatefulSet*.
 
-Aby wdrożyć aplikację należy wykonać polecenie:
+Za wdrożenie aplikacji odpowiada obiekt typu *Deployment*, w którym znajduje się definicja obrazu dokerowego aplikacji: `image: devops-workshops:develop`.
+
+W tym miejscu należy uzupełnić obraz o nazwę własnego użytkownika serwisu **Dockerhub**, np. dla użytkownika `marcin` obraz powinien zostać zmieniony na `image: marcin/devops-workshops:develop`.
+
+Następnie, po zintegrowaniu i pobraniu zmian, by wdrożyć aplikację należy wykonać polecenie:
 
     kubectl apply -f k8s.yaml
 
