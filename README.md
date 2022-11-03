@@ -795,6 +795,12 @@ Aby zweryfikować wdrożenie należy wykonać polecenie:
     flaskr-6c45555bcf-bh8c2   0/1     Running   0          6s
     postgres-0                1/1     Running   0          6s
 
+Aby uzyskać szczegółowe informacje o wybranym pod (w tym przypadku o aplikacji) należy wykonać polecenie:
+
+     kubectl describe pod flaskr
+     
+Polecenie to pokaże także listę zdarzeń (*Events*), jest przydatne przy diagnostyce.
+
 Aby usunąć wdrożenie należy wykonać polecenie:
 
     kubectl delete -f k8s.yaml
