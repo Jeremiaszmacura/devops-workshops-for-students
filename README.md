@@ -49,7 +49,7 @@ Aby zainstalować Dockera musimy posiadać 64bitową wersję Ubuntu, jedną z wy
 7. [Uruchomienie aplikacji internetowej (Flask), bazy danych i testów jednostkowych](#7-Uruchomienie-aplikacji-internetowej-Flask-i-testów-jednostkowych)
 8. [Konteneryzacja aplikacji](#8-Konteneryzacja-aplikacji)
 9. [Orkiestryzacja aplikacji z użyciem narzędzia docker-compose](#9-Orkiestryzacja-aplikacji-z-użyciem-narzędzia-docker-compose)
-10. [Continuous integration and deployment](#10-Ciągła-Integracja-i-wdrażanie)
+10. [Ciągła integracja i wydanie](#10-Ciągła-integracja-i-wydanie)
 11. [Orkiestryzacja aplikacji z użyciem narzędzia Kubernetes](#11-Orkiestryzacja-aplikacji-z-użyciem-narzędzia-Kubernetes)
 12. [Ćwiczenia](#-12-Ćwiczenia)
 
@@ -528,7 +528,7 @@ docker-compose down --rmi all
 <br />
 <hr />
 
-## 10. Ciągła Integracja i wdrażanie
+## 10. Ciągła integracja i wydanie
 
 <hr />
 
