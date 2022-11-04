@@ -44,14 +44,14 @@ Aby zainstalować Dockera musimy posiadać 64bitową wersję Ubuntu, jedną z wy
 2. [Instalacja Pythona](#2-Instalacja-Pythona)
 3. [Instalacja Dockera](#3-Instalacja-Dockera)
 4. [Założenie kont na serwisach: Github, Docker Hub, Snyk](#4-Założenie-kont-na-serwisach-Github-Docker-Hub-Snyk)
-5. [Stowrzenie katalogu roboczego i sklonowanie repozytorium](#5-Stowrzenie-katalogu-roboczego-i-sklonowanie-repozytorium)
+5. [Stoworzenie katalogu roboczego i sklonowanie repozytorium](#5-Stworzenie-katalogu-roboczego-i-sklonowanie-repozytorium)
 6. [Przygotowanie wirtualnego środowiska Python](#6-Przygotowanie-wirtualnego-środowiska-Python)
 7. [Uruchomienie aplikacji internetowej (Flask), bazy danych i testów jednostkowych](#7-Uruchomienie-aplikacji-internetowej-Flask-i-testów-jednostkowych)
 8. [Konteneryzacja aplikacji](#8-Konteneryzacja-aplikacji)
 9. [Orkiestryzacja aplikacji z użyciem narzędzia docker-compose](#9-Orkiestryzacja-aplikacji-z-użyciem-narzędzia-docker-compose)
 10. [Ciągła integracja i wydanie](#10-Ciągła-integracja-i-wydanie)
 11. [Orkiestryzacja aplikacji z użyciem narzędzia Kubernetes](#11-Orkiestryzacja-aplikacji-z-użyciem-narzędzia-Kubernetes)
-12. [Ćwiczenia](#-12-Ćwiczenia)
+12. [Ćwiczenia](#12-Ćwiczenia)
 
 <br />
 <hr />
@@ -222,11 +222,11 @@ sudo usermod -aG docker $USER && newgrp docker
 <br />
 <hr />
 
-## 5. Stowrzenie katalogu roboczego i fork repozytorium
+## 5. Stworzenie katalogu roboczego i sklonowanie repozytorium
 
 <hr />
 
-Forkujemy repozytorium porzez otworzenie oficjalnego repozytorium ```https://github.com/Jeremiaszmacura/devops-workshops-for-students``` i kliknięcie ikony z napisem fork (prawy góry róg).
+Forkujemy repozytorium porzez otworzenie oficjalnego repozytorium ```https://github.com/Jeremiaszmacura/devops-workshops-for-students``` i kliknięcie ikony z napisem **fork** (prawy góry róg).
 
 <br />
 <hr />
