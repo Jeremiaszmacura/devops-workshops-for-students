@@ -872,7 +872,7 @@ Używając przeglądarki zaloguj się do panelu administracyjnego, dziajającego
 ### 12.3 Zabezpiecz URI do bazy danych
 
 Obecnie URI do bazy danych jest podany w pliku `k8s.yaml` w postaci czystego tekstu. 
-Aby zabezpieczyć wrażliwe dane można użyć obiektu typu *Secret*. Przechowaj w obiekcie zarówno sam URI dla bazy danych oraz nazwę użytkownika i hasło.
+Aby zabezpieczyć wrażliwe dane można użyć obiektu typu *Secret*. Przechowaj w obiekcie URI dla bazy danych, który następnie zostanie wstrzyknięty jako zmienna środowiskowa.
 Stwórz taki obiekt używając `kubectl` o nazwie `database-data` i użyj go w deploymencie.
 Dokumentacja: https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables oraz https://kubernetes.io/docs/concepts/configuration/secret/
 
