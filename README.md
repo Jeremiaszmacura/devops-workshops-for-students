@@ -337,7 +337,14 @@ COPY . .
 CMD [ "python3", "-m" , "flask", "run"]
 ```
 
-Pierwsza linia ```FROM python:3.10``` określa bazowy obraz, który będziemy rozbudowywać dla naszej aplikacji. Jest to obraz z zainstalowanym Pythonem w wersji 3.10. ```WORKDIR /app``` powoduje, że wszystkie polecenia zostaną domyślnie wykonane pod tą ścieżką na obrazie. ```ENV FLASK_APP=flaskr/app.py``` oraz ```ENV FLASK_RUN_HOST=0.0.0.0``` ustawiają zmienne środowiskowe wewnątrz obrazu. ```COPY ./dist/flaskr-0.1.0-py3-none-any.whl .``` powoduje przekopiowanie wybranych plików pomiędzy naszą maszyną hostującą, a obrazem, który zostanie stworzony. Polecenie ```RUN pip3 install flaskr-0.1.0-py3-none-any.whl``` wykonuje pelecnie na obrazie, które w tym konkretnym przykładzie instaluje naszą paczkę. ```EXPOSE 5000``` pozwala na udostępnienie portu 5000 obrazu na jego zewnątrz, dzięki czemu mmożemy wykonywać pod ten port zapytania z naszej maszyny hostującej i współpracować z aplikacją znajdującą się w kontenerze. ```COPY . .``` kopuje resze plików (kolejność poleceń COPY jest związana z dockerowych cache). ```CMD [ "python3", "-m" , "flask", "run"]``` wykonuje dane polecenie za każdym razem kiedy kontener jest wywołany do uruchomienia.
+- ```FROM python:3.10``` określa bazowy obraz, który będziemy rozbudowywać. Jest to obraz z zainstalowanym Pythonem w wersji 3.10. 
+- ```WORKDIR /app``` powoduje, że wszystkie polecenia zostaną domyślnie wykonane pod tą ścieżką w obrazie. 
+- ```ENV FLASK_APP=flaskr/app.py``` oraz ```ENV FLASK_RUN_HOST=0.0.0.0``` ustawiają zmienne środowiskowe widoczne w obrazie.
+- ```COPY ./dist/flaskr-0.1.0-py3-none-any.whl .``` powoduje przekopiowanie wybranych plików pomiędzy naszą maszyną hostującą, a obrazem, który zostanie stworzony. 
+- ```RUN pip3 install flaskr-0.1.0-py3-none-any.whl``` wykonuje polecnie instalacji paczki z aplikacją.
+- ```EXPOSE 5000``` pozwala na udostępnienie portu 5000 obrazu na zewnątrz, dzięki czemu możemy wykonywać na ten port zapytania z naszej maszyny hostującej i komunikować się z aplikacją w kontenerze. 
+- ```COPY . .``` kopuje resze plików (kolejność poleceń COPY jest związana z dockerowym cache). 
+- ```CMD [ "python3", "-m" , "flask", "run"]``` wykonuje dane polecenie za każdym razem gdy kontener jest uruchamiany.
 
 <hr />
 
@@ -840,3 +847,42 @@ Aby usunąć wdrożenie należy wykonać polecenie:
     kubectl delete -f k8s.yaml
 
 > **Więcej informacji:**  https://kubernetes.io/docs/reference/kubectl/cheatsheet/
+
+
+## 12. Ćwiczenia
+
+### 12.1 Dodaj akcję "Pylint" 
+
+Akcja służy do statycznej analizy kodu,którą można ją znaleźć w zbiorze akcji Github.
+Zawęź analizę tylko do Pythona 3.10.
+Spróbuj także uruchomić akcję manualnie.
+
+### 12.2 Dodaj kolejny serwis do Docker Compose
+
+Dodaj nowy serwis o nazwie `pgadmin` z obrazem `dpage/pgadmin4`.
+Konieczne będzie zdefiniowanie zmiennych środowiskowych, niezbędnych do zalogowania do panelu administracyjnego:
+- `PGADMIN_DEFAULT_EMAIL`: adres email do logowania.
+- `PGADMIN_DEFAULT_PASSWORD`: wybrane hasło.
+- `PGADMIN_LISTEN_PORT`: port (np. 9000)
+Więcej informacji: https://www.pgadmin.org/docs/pgadmin4/latest/container_deployment.html
+Uruchom zaktualizowany stos aplikacji poleceniem `docker-compose up`. 
+Używając przeglądarki zaloguj się do panelu administracyjnego, dziajającego na wybranym porcie. 
+
+### 12.3 Stwórz obiekt Kubernetesa typu Secret 
+
+Obecnie URI do bazy danych jest podany w pliku `k8s.yaml` w postaci czystego tekstu. 
+Aby zabezpieczyć wrażliwe dane można użyć obiektu typu *Secret*. Przechowaj w obiekcie zarówno sam URI dla bazy danych oraz nazwę użytkownika i hasło.
+Stwórz taki obiekt używając `kubectl` o nazwie `database-data` i użyj go w deploymencie.
+Dokumentacja: https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables oraz https://kubernetes.io/docs/concepts/configuration/secret/
+
+Sprawdź czy został utworzony poleceniem:
+
+    kubectl get secret database-data
+    
+Można także edytować secret poleceniem:
+
+    kubectl edit secrets database-data
+
+Przeprowadź wdrożenie za pomocą polecenia `kubectl apply -f k8s.yaml` i sprawdź działanie aplikacji.
+
+
