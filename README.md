@@ -538,10 +538,10 @@ Aktywujemy tą funkcjonalność poprzez przejście na zakładkę ```Actions``` n
 
 ### Dodanie GitHub Secrets do repozytorium
 
-W celu poprawnego korzystania z narzędzia Snyk i serwisu Docker Hub musimy ustawić zmienne przechowujące dane wymagane do uwierzytelniania w tych serwisach jako sekretu na platformie GitHub. GitHub Actions będą w trakcie komunikacji z tymi serwisami korzystać z tych sekretów i będą one niewidoczne dla osób postronnych. Na platformie GitHub przechodzimy do zakładki ustawień będąc na naszym własnym zforkowanym repozytorium. W ustawieniach przechodzimy do zakładki sekretów dla akcji. Dodajemy trzy poniższe sekrety:
-* Nazwa sekretu: ```SNYK_TOKEN```. Jego zawartością będzie token, który możemy pozystać z naszego konta w serwisie Snyk ```https://snyk.io/account/```. 
+W celu poprawnego korzystania z narzędzia Snyk i serwisu Docker Hub musimy ustawić zmienne przechowujące dane wymagane do uwierzytelniania w tych serwisach jako sekrety na platformie GitHub. GitHub Actions będą w trakcie komunikacji z tymi serwisami korzystać z tych sekretów i będą one niewidoczne dla osób postronnych. Na platformie GitHub przechodzimy do zakładki ustawień będąc na naszym własnym zforkowanym repozytorium. W ustawieniach przechodzimy do zakładki sekretów dla akcji. Dodajemy trzy poniższe sekrety:
+* Nazwa sekretu: ```SNYK_TOKEN```. Jego zawartością będzie token, który możemy pozyskać z naszego konta w serwisie Snyk ```https://snyk.io/account/```. 
 * Nazwa sekretu: ```DOCKERHUB_USERNAME```. Wartość ustawiamy na naszą nazwę użytkownika w serwisie Docker Hub ```https://hub.docker.com/```. Po zalogowaniu do serwisu Docker Hub nasza nazwa użytkownika widnieje w prawym górnym roku.
-* Nazwa sekretu: ```DOCKERHUB_TOKEN```. Wartość tego sekretu ustawiamy na token, którym możemy pozystać z naszego konta w serwisie Docker Hub ```https://hub.docker.com/```. Po zalogowaniu do serwisu Docker Hub przechodzimy do zakładki ```Account Settings```, a następnie ```Security``` i tworzymy nasz nowy token, którego wartość kopiujemy do sekretu GitHub.
+* Nazwa sekretu: ```DOCKERHUB_TOKEN```. Wartość tego sekretu ustawiamy na token, którym możemy pozyskać z naszego konta w serwisie Docker Hub ```https://hub.docker.com/```. Po zalogowaniu do serwisu Docker Hub przechodzimy do zakładki ```Account Settings```, a następnie ```Security``` i tworzymy nasz nowy token, którego wartość kopiujemy do sekretu GitHub.
 
 <hr />
 
