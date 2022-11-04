@@ -43,7 +43,7 @@ Aby zainstalować Dockera musimy posiadać 64bitową wersję Ubuntu, jedną z wy
 1. [Instalacja Gita](#1-Instalacja-Gita)
 2. [Instalacja Pythona](#2-Instalacja-Pythona)
 3. [Instalacja Dockera](#3-Instalacja-Dockera)
-4. [Założenie kont na serwisach: Github, Docker Hub, Snyk](#4-Załorzenie-kont-na-serwisach-Github-Docker-Hub-Snyk)
+4. [Założenie kont na serwisach: Github, Docker Hub, Snyk](#4-Założenie-kont-na-serwisach-Github-Docker-Hub-Snyk)
 5. [Stowrzenie katalogu roboczego i sklonowanie repozytorium](#5-Stowrzenie-katalogu-roboczego-i-sklonowanie-repozytorium)
 6. [Przygotowanie wirtualnego środowiska Python](#6-Przygotowanie-wirtualnego-środowiska-Python)
 7. [Uruchomienie aplikacji internetowej (Flask), bazy danych i testów jednostkowych](#7-Uruchomienie-aplikacji-internetowej-Flask-i-testów-jednostkowych)
@@ -51,6 +51,7 @@ Aby zainstalować Dockera musimy posiadać 64bitową wersję Ubuntu, jedną z wy
 9. [Orkiestryzacja aplikacji z użyciem narzędzia docker-compose](#9-Orkiestryzacja-aplikacji-z-użyciem-narzędzia-docker-compose)
 10. [Continuous integration and deployment](#10-Continuous-integration-and-deployment)
 11. [Orkiestryzacja aplikacji z użyciem narzędzia Kubernetes](#11-Orkiestryzacja-aplikacji-z-użyciem-narzędzia-Kubernetes)
+12. [Ćwiczenia](# 12-Ćwiczenia)
 
 <br />
 <hr />
@@ -868,7 +869,7 @@ Więcej informacji: https://www.pgadmin.org/docs/pgadmin4/latest/container_deplo
 Uruchom zaktualizowany stos aplikacji poleceniem `docker-compose up`. 
 Używając przeglądarki zaloguj się do panelu administracyjnego, dziajającego na wybranym porcie. 
 
-### 12.3 Stwórz obiekt Kubernetesa typu Secret 
+### 12.3 Zabezpiecz URI do bazy danych
 
 Obecnie URI do bazy danych jest podany w pliku `k8s.yaml` w postaci czystego tekstu. 
 Aby zabezpieczyć wrażliwe dane można użyć obiektu typu *Secret*. Przechowaj w obiekcie zarówno sam URI dla bazy danych oraz nazwę użytkownika i hasło.
@@ -884,5 +885,4 @@ Można także edytować secret poleceniem:
     kubectl edit secrets database-data
 
 Przeprowadź wdrożenie za pomocą polecenia `kubectl apply -f k8s.yaml` i sprawdź działanie aplikacji.
-
 
