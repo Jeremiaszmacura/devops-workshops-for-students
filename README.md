@@ -805,7 +805,15 @@ Wdrożenie aplikacji na platformie Kubernetes odbywa się poprzez odpowiednio pr
 
 W folderze z projektem znajduje się plik `k8s.yaml`, który zawiera definicje obiektów takich typów jak *PersistentVolume*, *PersistentVolumeClaim*, *ConfigMap*, *Service*, *Deployment* i *StatefulSet*.
 
-Aby wdrożyć aplikację należy wykonać polecenie:
+Za wdrożenie aplikacji odpowiada obiekt typu *Deployment*, w którym znajduje się definicja obrazu dokerowego aplikacji: `image: devops-workshops:develop`.
+
+W tym miejscu należy uzupełnić obraz o nazwę własnego użytkownika serwisu **Dockerhub**, np. dla użytkownika `marcin` obraz powinien zostać zmieniony na `image: marcin/devops-workshops:develop`.
+
+Następnie, po zintegrowaniu i pobraniu zmian, weryfikujemy czy obraz może zostać pobrany:
+
+    docker pull <nazwa użytkownika>/devops-workshops:develop
+
+Ostatecznie, by wdrożyć aplikację należy wykonać polecenie:
 
     kubectl apply -f k8s.yaml
 
@@ -820,6 +828,12 @@ Aby zweryfikować wdrożenie należy wykonać polecenie:
     NAME                      READY   STATUS    RESTARTS   AGE
     flaskr-6c45555bcf-bh8c2   0/1     Running   0          6s
     postgres-0                1/1     Running   0          6s
+
+Aby uzyskać szczegółowe informacje o wybranym pod (w tym przypadku o aplikacji) należy wykonać polecenie:
+
+     kubectl describe pod flaskr
+     
+Polecenie to pokaże także listę zdarzeń (*Events*), jest przydatne przy diagnostyce.
 
 Aby usunąć wdrożenie należy wykonać polecenie:
 
