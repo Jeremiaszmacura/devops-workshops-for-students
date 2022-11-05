@@ -138,8 +138,8 @@ spec:
     spec:
       containers:
       - name: flaskr
-        image: devops-workshops:develop
-        imagePullPolicy: Never
+        image: flask-app:latest
+        imagePullPolicy: IfNotPresent
         startupProbe: 
           httpGet: 
             path: /
