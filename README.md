@@ -890,7 +890,7 @@ Należy także pamiętać o sekcji `ports`, serwis działa domyślnie na porcie 
 Uruchom zaktualizowany stos aplikacji poleceniem `docker-compose up`. 
 Używając przeglądarki zaloguj się do panelu administracyjnego, dziajającego na wybranym porcie. 
 
-### 12.3 Zabezpiecz URI do bazy danych
+### 12.3 Zabezpiecz URI do bazy danych we wdrożeniu Kubernetesa
 
 Obecnie URI do bazy danych jest podany w pliku `k8s.yaml` w postaci czystego tekstu. 
 
