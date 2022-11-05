@@ -294,7 +294,8 @@ Budujemy paczkę (przy zmianach w projekcie każdorazowo przed wybudowaniem obra
 python setup.py bdist_wheel
 ```
 
-Przed uruchomieniem aplikacji musimy zadbać o bazę danych, z którą apliakcja będzie się probowała połączyć. Wystarczy, że skoczystamy z Dockera i wykonamy poniższe polecenie. Sprawi ono, że zostanie zaciagnięty obraz bazy danych PostgreSQL w wersji 14 z oficjalnego repozytoriusz dokerowego, a następnie na podstawie tego obrazu zostanie uruchomiony kontener z określonymi zmiennymi środowiskowymi wewnątrz niego.
+Przed uruchomieniem aplikacji musimy zadbać o bazę danych, z którą apliakcja będzie się probowała połączyć. 
+Wystarczy, że skoczystamy z Dockera i wykonamy poniższe polecenie, które zaciągnie obraz bazy danych PostgreSQL w wersji 14 z oficjalnego repozytorium, a następnie na podstawie tego obrazu zostanie uruchomiony kontener z określonymi zmiennymi środowiskowymim, widocznymi wewnątrz niego.
 
 <hr />
 
@@ -362,17 +363,33 @@ docker build -t flask-app:latest .
 
 Parameter ```-t``` oznacza nazwę pod jaką zostanie utworzony obraz.
 
-Na podstawie utworzonego obrazu tworzymy kontener:
+Ponieważ chcemy by kontenery komuinikowały się między sobą tworzymy sieć typu bridge:
+
+    docker network create -d bridge my-bridge-network
+    
+Zatrzymujemy i usuwamy poprzedni kontener bazy danych i uruchamiamy go jeszcze raz - tym razem z nowo utworzoną siecią:
 
 ```sh
-docker run -d -e FLASK_DEBUG="True" -e DATABASE_URI="postgresql://dev_user:dev_user@localhost:5432/dev_database" --network="host" --name flask_app flask-app:latest
+docker container stop postgres_workshops
+docker container rm postgres_workshops
+docker run --name postgres_workshops -e POSTGRES_DB=dev_database -e POSTGRES_USER=dev_user -e POSTGRES_PASSWORD=dev_user --network=my-bridge-network -d postgres:14
+```
+
+Teraz, na podstawie utworzonego obrazu tworzymy i uruchmiamy kontener z aplikacją:
+
+```sh
+docker run -d -e FLASK_DEBUG="True" -e DATABASE_URI="postgresql://dev_user:dev_user@postgres_workshops:5432/dev_database" -p 5000:5000 --network=my-bridge-network --name flask_app flask-app:latest
 ```
 
 - ```-d``` oznacza tryb ```detach``` podczas, którego kontener pracuje w tle, a na konsolę jest jedynie wypisywane ID tego kontenera. 
 - ```-e``` powoduje dodanie zmiennej środowiskowej do uruchamianego kontenera. 
-- ```--network="host"``` konfiguruje sieć kontenera tak aby nie był on wyizolowany, ale aby był dostępny w naszej sieci lokalnej pod adresem localhost/127.0.0.1. 
+- ```-p 5000:5000``` mapuje lokalny port kontenera (5000) na port hosta (5000).
+- ```--network="my-bridge-network"``` odpowiednio ustawia utworzoną wcześniej sieć kontenera.
 - ```--name flask_app``` nadaje nawzę kontenerowi. 
-- Na końcu podajemy nazwę obrazu, na podstawie, którego ma zostać stworzony kontener.
+
+Na końcu podajemy nazwę obrazu, na podstawie, którego ma zostać stworzony kontener.
+
+>> *Warto zwrócić uwagę, że w URI do bazy danych podany jest *postgres_workshops.*
 
 <hr />
 
