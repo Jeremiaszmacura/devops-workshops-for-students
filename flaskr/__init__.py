@@ -1,14 +1,11 @@
 "Flaskr application for DevOps workshop"
-__version__ = "0.1.0"
-
-"""Flask app entry file."""
 from os import environ
 import logging
 from flask import Flask
 from flaskr.routes import routes_blueprint
 from flaskr.config import db
 
-
+__version__ = "0.1.0"
 DEFAULT_DB_URI = "postgresql://dev_user:dev_user@localhost:5432/dev_database"
 FLASK_DEBUG = environ.get("FLASK_DEBUG", False)
 
