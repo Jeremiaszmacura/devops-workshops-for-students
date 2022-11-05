@@ -878,8 +878,8 @@ Dodaj nowy serwis (w pliku `docker-compose.yaml`) o nazwie `pgadmin` z obrazem `
 Konieczne będzie zdefiniowanie zmiennych środowiskowych, niezbędnych do zalogowania do panelu administracyjnego:
 - `PGADMIN_DEFAULT_EMAIL`: adres email do logowania.
 - `PGADMIN_DEFAULT_PASSWORD`: wybrane hasło.
-- `PGADMIN_LISTEN_PORT`: port (np. 9000)
 Więcej informacji: https://www.pgadmin.org/docs/pgadmin4/latest/container_deployment.html
+Należy także pamiętać o sekcji `ports`, serwis działa domyślnie na porcie 80.
 Uruchom zaktualizowany stos aplikacji poleceniem `docker-compose up`. 
 Używając przeglądarki zaloguj się do panelu administracyjnego, dziajającego na wybranym porcie. 
 
