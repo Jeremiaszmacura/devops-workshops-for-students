@@ -577,25 +577,19 @@ jobs:
     env:
       FLASK_APP: flaskr/app.py
 
-    strategy:
-      matrix:
-        python-version: [3.7, 3.8]
-        
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Set up Python 3.10
         uses: actions/setup-python@v1
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: '3.10'
 
       - name: Setup app
-        run: |
-          pip install -e .
-          python setup.py bdist_wheel
+        run: pip install -e .[dev]
 
       - name: Run unit tests
-        run: pytest tests
+        run: python setup.py test
 ```
 
 * ```name:``` określa nazwę dla danego workflow/akcji i pod nią będzie on widnieć na Githubie.
@@ -619,7 +613,7 @@ on:
   push:
 
 jobs:
-  unit-testing:
+  lint-code:
     runs-on: ubuntu-20.04
 
     steps:
@@ -628,12 +622,12 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v1
         with:
-          python-version: 3.8
+          python-version: '3.10'
 
       - name: Lint with pylint
         run: |
           pip install pylint
-          pylint --exit-zero flaskr/** tests/**
+          pylint --exit-zero flaskr
 
       - name: Lint with black
         run: |
@@ -646,7 +640,7 @@ jobs:
 ### Automatyzacja statycznej analizy kodu
 
 ```text
-name: Snyk
+name: Static code analysis
 
 on:
   push:
@@ -655,18 +649,14 @@ on:
       - 'develop'
 
 jobs:
-  security:
+  snyk-scan:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@master
-      
-      # Snyk does not work with setuptool files
-      # Therefore need to convert it into requirements.txt
+
       - name: Prepare requirements for Snyk
         run: |
           python -m pip install .
-          python -m pip freeze > requirements.txt
-          python -m pip install -r requirements.txt
 
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/python-3.8@master
@@ -718,7 +708,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: jerqa/devops-workshops:develop
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/devops-workshops:develop
 ```
 
 <br />
