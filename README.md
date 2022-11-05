@@ -858,13 +858,17 @@ Aby usunąć wdrożenie należy wykonać polecenie:
 
 Dodaj akcję do stworzenia wydania.
 Akcja powinna być uruchomiona gdy zostanie stworzony i wypchnięty tag zaczynający się od `v` (np. `v0.1.0`).
+
 Dokumentacja: https://github.com/marvinpinto/action-automatic-releases
+
 Nie zapomnij dodać kroków przygotowania interpreteta Pythona i budowania samej paczki.
+
 Budowanie powinno być wykonane za pomocą polecenia:
 
     python setup.py bdist_wheel
     
 Paczka (plik z rozszerzeniem `.whl`) znajdzie się w folderze `dist`.
+
 Następnie spróbuj dodać i wypchnąć tag komendami Git z linii poleceń:
 
     git tag v0.1.0
