@@ -887,7 +887,11 @@ Używając przeglądarki zaloguj się do panelu administracyjnego, dziajającego
 
 Obecnie URI do bazy danych jest podany w pliku `k8s.yaml` w postaci czystego tekstu. 
 Aby zabezpieczyć wrażliwe dane można użyć obiektu typu *Secret*. Przechowaj w obiekcie URI dla bazy danych, który następnie zostanie wstrzyknięty jako zmienna środowiskowa.
-Stwórz taki obiekt używając `kubectl` o nazwie `database-data` i użyj go w deploymencie.
+Stwórz taki obiekt używając `kubectl` o nazwie `database-data`:
+
+    kubectl create secret generic database-data --from-literal=DATABASE_URI=postgresql://prod_user:prod_password@postgres:5432/prod_db
+
+Następnie użyj go w deploymencie (`k8s.yaml`).
 Dokumentacja: https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables oraz https://kubernetes.io/docs/concepts/configuration/secret/
 
 Sprawdź czy został utworzony poleceniem:
