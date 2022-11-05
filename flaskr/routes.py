@@ -14,7 +14,7 @@ def hello_world() -> str:
 
 # @app.route("/books", methods=["GET", "POST"])
 @routes_blueprint.route("/books", methods=["GET", "POST"])
-def users() -> Response:
+def books() -> Response:
     if request.method == "GET":
         books = Book.query.all()
         data = [book.as_dict() for book in books]
