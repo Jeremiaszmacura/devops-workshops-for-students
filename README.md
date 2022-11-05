@@ -336,7 +336,6 @@ ENV FLASK_RUN_HOST=0.0.0.0
 COPY ./dist/flaskr-0.1.0-py3-none-any.whl .
 RUN pip3 install flaskr-0.1.0-py3-none-any.whl
 EXPOSE 5000
-COPY . .
 CMD [ "python3", "-m" , "flask", "run"]
 ```
 
@@ -346,8 +345,7 @@ CMD [ "python3", "-m" , "flask", "run"]
 - ```COPY ./dist/flaskr-0.1.0-py3-none-any.whl .``` powoduje przekopiowanie wybranych plików pomiędzy naszą maszyną hostującą, a obrazem, który zostanie stworzony. 
 - ```RUN pip3 install flaskr-0.1.0-py3-none-any.whl``` wykonuje polecnie instalacji paczki z aplikacją.
 - ```EXPOSE 5000``` pozwala na udostępnienie portu 5000 obrazu na zewnątrz, dzięki czemu możemy wykonywać na ten port zapytania z naszej maszyny hostującej i komunikować się z aplikacją w kontenerze. 
-- ```COPY . .``` kopuje resze plików (kolejność poleceń COPY jest związana z dockerowym cache). 
-- ```CMD [ "python3", "-m" , "flask", "run"]``` wykonuje dane polecenie za każdym razem gdy kontener jest uruchamiany.
+- ```CMD [ "python3", "-m" , "flask", "run"]``` to polecenie zostanie wykonane za każdym razem gdy kontener jest uruchamiany.
 
 <hr />
 
