@@ -1,6 +1,6 @@
 import os
 import pytest
-from flaskr.app import create_app
+from flaskr import create_app
 
 
 @pytest.fixture()
