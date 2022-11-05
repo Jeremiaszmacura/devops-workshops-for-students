@@ -856,11 +856,21 @@ Aby usunąć wdrożenie należy wykonać polecenie:
 
 ## 12. Ćwiczenia
 
-### 12.1 Dodaj akcję "Pylint" 
+### 12.1 Dodaj nową akcję Github
 
-Akcja służy do statycznej analizy kodu,którą można ją znaleźć w zbiorze akcji Github.
-Zawęź analizę tylko do Pythona 3.10.
-Spróbuj także uruchomić akcję manualnie.
+Dodaj akcję do stworzenia wydania.
+Akcja powinna być uruchomiona gdy zostanie stworzony i wypchnięty tag zaczynający się od `v` (np. `v0.1.0`).
+Dokumentacja: https://github.com/marvinpinto/action-automatic-releases
+Nie zapomnij dodać kroków przygotowania interpreteta Pythona i budowania samej paczki.
+Budowanie powinno być wykonane za pomocą polecenia:
+
+    python setup.py bdist_wheel
+    
+Paczka (plik z rozszerzeniem `.whl`) znajdzie się w folderze `dist`.
+Następnie spróbuj dodać i wypchnąć tag komendami Git z linii poleceń:
+
+    git tag v0.1.0
+    git push origin develop --tags
 
 ### 12.2 Dodaj kolejny serwis do Docker Compose
 
