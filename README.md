@@ -46,7 +46,7 @@ Aby zainstalować Dockera musimy posiadać 64bitową wersję Ubuntu, jedną z wy
 4. [Założenie kont na serwisach: Github, Docker Hub, Snyk](#4-Założenie-kont-na-serwisach-Github-Docker-Hub-Snyk)
 5. [Stoworzenie katalogu roboczego i sklonowanie repozytorium](#5-Stworzenie-katalogu-roboczego-i-sklonowanie-repozytorium)
 6. [Przygotowanie wirtualnego środowiska Python](#6-Przygotowanie-wirtualnego-środowiska-Python)
-7. [Uruchomienie aplikacji, bazy danych i testów jednostkowych](#7-Uruchomienie-aplikacji-,-bazy-danych-i-testów-jednostkowych)
+7. [Uruchomienie aplikacji, bazy danych i testów jednostkowych](#7-Uruchomienie-aplikacji,-bazy-danych-i-testów-jednostkowych)
 8. [Konteneryzacja aplikacji](#8-Konteneryzacja-aplikacji)
 9. [Orkiestryzacja aplikacji z użyciem narzędzia docker-compose](#9-Orkiestryzacja-aplikacji-z-użyciem-narzędzia-docker-compose)
 10. [Ciągła integracja i wydanie](#10-Ciągła-integracja-i-wydanie)
@@ -389,7 +389,7 @@ docker run -d -e FLASK_DEBUG="True" -e DATABASE_URI="postgresql://dev_user:dev_u
 
 Na końcu podajemy nazwę obrazu, na podstawie, którego ma zostać stworzony kontener.
 
->> *Warto zwrócić uwagę, że w URI do bazy danych podany jest *postgres_workshops.*
+> **Warto zwrócić uwagę, że w URI do bazy danych podany jest `postgres_workshops`.**
 
 <hr />
 
