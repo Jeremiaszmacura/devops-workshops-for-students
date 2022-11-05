@@ -356,7 +356,7 @@ CMD ["gunicorn","-b","0.0.0.0:5000","-w","1","flaskr.app:create_app()"]
 W momencie kiedy Dockerfile jest już gotowy możemy na jego podstawie utworzyć obraz:
 
 ```sh
-docker build -t flask-app:latest .
+docker build -t flask-app:develop .
 ```
 
 Parameter ```-t``` oznacza nazwę pod jaką zostanie utworzony obraz.
@@ -376,7 +376,7 @@ docker run --name postgres_workshops -e POSTGRES_DB=dev_database -e POSTGRES_USE
 Teraz, na podstawie utworzonego obrazu tworzymy i uruchmiamy kontener z aplikacją:
 
 ```sh
-docker run -d -e FLASK_DEBUG="True" -e DATABASE_URI="postgresql://dev_user:dev_user@postgres_workshops:5432/dev_database" -p 5000:5000 --network=my-bridge-network --name flask_app flask-app:latest
+docker run -d -e FLASK_DEBUG="True" -e DATABASE_URI="postgresql://dev_user:dev_user@postgres_workshops:5432/dev_database" -p 5000:5000 --network=my-bridge-network --name flask_app flask-app:develop
 ```
 
 - ```-d``` oznacza tryb ```detach``` podczas, którego kontener pracuje w tle, a na konsolę jest jedynie wypisywane ID tego kontenera. 
