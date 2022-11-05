@@ -4,7 +4,6 @@ services:
 
   flask-app:
     image: flask-app
-    container_name: flask-app
     build:
       context: .
       dockerfile: ./Dockerfile
