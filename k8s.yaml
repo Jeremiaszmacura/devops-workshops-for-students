@@ -138,7 +138,7 @@ spec:
     spec:
       containers:
       - name: flaskr
-        image: flask-app:latest
+        image: flask-app:develop
         imagePullPolicy: IfNotPresent
         startupProbe: 
           httpGet: 
