@@ -389,7 +389,7 @@ docker run -d -e FLASK_DEBUG="True" -e DATABASE_URI="postgresql://dev_user:dev_u
 
 Na końcu podajemy nazwę obrazu, na podstawie, którego ma zostać stworzony kontener.
 
-> **Warto zwrócić uwagę, że w URI do bazy danych podany jest `postgres_workshops`.**
+> **Warto zwrócić uwagę, że w URI do bazy danych podany jest tym razem `postgres_workshops`.**
 
 <hr />
 
@@ -437,7 +437,7 @@ Usunięcie sieci dockerowej:
 docker network rm <network>
 ```
 
-Usunięcie wszystkich kontenerów i obrazów:\
+Usunięcie wszystkich kontenerów i obrazów:
 
 ```sh
 docker system prune
