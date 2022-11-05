@@ -43,14 +43,15 @@ Aby zainstalować Dockera musimy posiadać 64bitową wersję Ubuntu, jedną z wy
 1. [Instalacja Gita](#1-Instalacja-Gita)
 2. [Instalacja Pythona](#2-Instalacja-Pythona)
 3. [Instalacja Dockera](#3-Instalacja-Dockera)
-4. [Założenie kont na serwisach: Github, Docker Hub, Snyk](#4-Załorzenie-kont-na-serwisach-Github-Docker-Hub-Snyk)
-5. [Stowrzenie katalogu roboczego i sklonowanie repozytorium](#5-Stowrzenie-katalogu-roboczego-i-sklonowanie-repozytorium)
+4. [Założenie kont na serwisach: Github, Docker Hub, Snyk](#4-Założenie-kont-na-serwisach-Github-Docker-Hub-Snyk)
+5. [Stoworzenie katalogu roboczego i sklonowanie repozytorium](#5-Stworzenie-katalogu-roboczego-i-sklonowanie-repozytorium)
 6. [Przygotowanie wirtualnego środowiska Python](#6-Przygotowanie-wirtualnego-środowiska-Python)
 7. [Uruchomienie aplikacji internetowej (Flask), bazy danych i testów jednostkowych](#7-Uruchomienie-aplikacji-internetowej-Flask-i-testów-jednostkowych)
 8. [Konteneryzacja aplikacji](#8-Konteneryzacja-aplikacji)
 9. [Orkiestryzacja aplikacji z użyciem narzędzia docker-compose](#9-Orkiestryzacja-aplikacji-z-użyciem-narzędzia-docker-compose)
-10. [Continuous integration and deployment](#10-Continuous-integration-and-deployment)
+10. [Ciągła integracja i wydanie](#10-Ciągła-integracja-i-wydanie)
 11. [Orkiestryzacja aplikacji z użyciem narzędzia Kubernetes](#11-Orkiestryzacja-aplikacji-z-użyciem-narzędzia-Kubernetes)
+12. [Ćwiczenia](#12-Ćwiczenia)
 
 <br />
 <hr />
@@ -221,11 +222,12 @@ sudo usermod -aG docker $USER && newgrp docker
 <br />
 <hr />
 
-## 5. Stowrzenie katalogu roboczego i fork repozytorium
+## 5. Stworzenie katalogu roboczego i sklonowanie repozytorium
 
 <hr />
 
-Forkujemy repozytorium porzez otworzenie oficjalnego repozytorium ```https://github.com/Jeremiaszmacura/devops-workshops-for-students``` i kliknięcie ikony z napisem fork (prawy góry róg). Po udanym forku klonujemy nowo utworzone repozytorium do wybranego katalogu roboczego na naszym systemie przy pomocy polecenia ```git clone https://github.com/Jeremiaszmacura/devops-workshops-for-students``` wykonanego z poziomu cmd/powershell/git bash/bash/sh/...
+Forkujemy repozytorium porzez otworzenie oficjalnego repozytorium ```https://github.com/Jeremiaszmacura/devops-workshops-for-students``` i kliknięcie ikony z napisem fork (prawy góry róg). 
+Po udanym forku klonujemy nowo utworzone repozytorium do wybranego katalogu roboczego na naszym systemie przy pomocy polecenia ```git clone https://github.com/Jeremiaszmacura/devops-workshops-for-students``` wykonanego z poziomu cmd/powershell/git bash/bash/sh/...
 
 <br />
 <hr />
@@ -337,7 +339,14 @@ COPY . .
 CMD [ "python3", "-m" , "flask", "run"]
 ```
 
-Pierwsza linia ```FROM python:3.10``` określa bazowy obraz, który będziemy rozbudowywać dla naszej aplikacji. Jest to obraz z zainstalowanym Pythonem w wersji 3.10. ```WORKDIR /app``` powoduje, że wszystkie polecenia zostaną domyślnie wykonane pod tą ścieżką na obrazie. ```ENV FLASK_APP=flaskr/app.py``` oraz ```ENV FLASK_RUN_HOST=0.0.0.0``` ustawiają zmienne środowiskowe wewnątrz obrazu. ```COPY ./dist/flaskr-0.1.0-py3-none-any.whl .``` powoduje przekopiowanie wybranych plików pomiędzy naszą maszyną hostującą, a obrazem, który zostanie stworzony. Polecenie ```RUN pip3 install flaskr-0.1.0-py3-none-any.whl``` wykonuje pelecnie na obrazie, które w tym konkretnym przykładzie instaluje naszą paczkę. ```EXPOSE 5000``` pozwala na udostępnienie portu 5000 obrazu na jego zewnątrz, dzięki czemu mmożemy wykonywać pod ten port zapytania z naszej maszyny hostującej i współpracować z aplikacją znajdującą się w kontenerze. ```COPY . .``` kopuje resze plików (kolejność poleceń COPY jest związana z dockerowych cache). ```CMD [ "python3", "-m" , "flask", "run"]``` wykonuje dane polecenie za każdym razem kiedy kontener jest wywołany do uruchomienia.
+- ```FROM python:3.10``` określa bazowy obraz, który będziemy rozbudowywać. Jest to obraz z zainstalowanym Pythonem w wersji 3.10. 
+- ```WORKDIR /app``` powoduje, że wszystkie polecenia zostaną domyślnie wykonane pod tą ścieżką w obrazie. 
+- ```ENV FLASK_APP=flaskr/app.py``` oraz ```ENV FLASK_RUN_HOST=0.0.0.0``` ustawiają zmienne środowiskowe widoczne w obrazie.
+- ```COPY ./dist/flaskr-0.1.0-py3-none-any.whl .``` powoduje przekopiowanie wybranych plików pomiędzy naszą maszyną hostującą, a obrazem, który zostanie stworzony. 
+- ```RUN pip3 install flaskr-0.1.0-py3-none-any.whl``` wykonuje polecnie instalacji paczki z aplikacją.
+- ```EXPOSE 5000``` pozwala na udostępnienie portu 5000 obrazu na zewnątrz, dzięki czemu możemy wykonywać na ten port zapytania z naszej maszyny hostującej i komunikować się z aplikacją w kontenerze. 
+- ```COPY . .``` kopuje resze plików (kolejność poleceń COPY jest związana z dockerowym cache). 
+- ```CMD [ "python3", "-m" , "flask", "run"]``` wykonuje dane polecenie za każdym razem gdy kontener jest uruchamiany.
 
 <hr />
 
@@ -520,7 +529,7 @@ docker-compose down --rmi all
 <br />
 <hr />
 
-## 10. Continuous integration and deployment
+## 10. Ciągła integracja i wydanie
 
 <hr />
 
@@ -843,3 +852,41 @@ Aby usunąć wdrożenie należy wykonać polecenie:
     kubectl delete -f k8s.yaml
 
 > **Więcej informacji:**  https://kubernetes.io/docs/reference/kubectl/cheatsheet/
+
+
+## 12. Ćwiczenia
+
+### 12.1 Dodaj akcję "Pylint" 
+
+Akcja służy do statycznej analizy kodu,którą można ją znaleźć w zbiorze akcji Github.
+Zawęź analizę tylko do Pythona 3.10.
+Spróbuj także uruchomić akcję manualnie.
+
+### 12.2 Dodaj kolejny serwis do Docker Compose
+
+Dodaj nowy serwis (w pliku `docker-compose.yaml`) o nazwie `pgadmin` z obrazem `dpage/pgadmin4`. Umożliwi on edycję/przeglądanie bazy danych.
+Konieczne będzie zdefiniowanie zmiennych środowiskowych, niezbędnych do zalogowania do panelu administracyjnego:
+- `PGADMIN_DEFAULT_EMAIL`: adres email do logowania.
+- `PGADMIN_DEFAULT_PASSWORD`: wybrane hasło.
+- `PGADMIN_LISTEN_PORT`: port (np. 9000)
+Więcej informacji: https://www.pgadmin.org/docs/pgadmin4/latest/container_deployment.html
+Uruchom zaktualizowany stos aplikacji poleceniem `docker-compose up`. 
+Używając przeglądarki zaloguj się do panelu administracyjnego, dziajającego na wybranym porcie. 
+
+### 12.3 Zabezpiecz URI do bazy danych
+
+Obecnie URI do bazy danych jest podany w pliku `k8s.yaml` w postaci czystego tekstu. 
+Aby zabezpieczyć wrażliwe dane można użyć obiektu typu *Secret*. Przechowaj w obiekcie URI dla bazy danych, który następnie zostanie wstrzyknięty jako zmienna środowiskowa.
+Stwórz taki obiekt używając `kubectl` o nazwie `database-data` i użyj go w deploymencie.
+Dokumentacja: https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables oraz https://kubernetes.io/docs/concepts/configuration/secret/
+
+Sprawdź czy został utworzony poleceniem:
+
+    kubectl get secret database-data
+    
+Można także edytować secret poleceniem:
+
+    kubectl edit secrets database-data
+
+Przeprowadź wdrożenie za pomocą polecenia `kubectl apply -f k8s.yaml` i sprawdź działanie aplikacji.
+
