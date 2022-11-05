@@ -6,7 +6,7 @@ from flaskr.routes import routes_blueprint
 from flaskr.config import db
 
 
-FLASK_DEBUG = environ.get('FLASK_DEBUG', False)
+FLASK_DEBUG = environ.get("FLASK_DEBUG", False)
 DEFAULT_DB_URI = "postgresql://dev_user:dev_user@host.docker.internal:5432/dev_database"
 
 
@@ -15,7 +15,9 @@ def create_app(database_uri=DEFAULT_DB_URI):
     app.register_blueprint(routes_blueprint, url_prefix="/")
 
     logging.debug("Provided database_uri: %s", database_uri)
-    logging.debug("Evaluated database_uri: %s",  environ.get("DATABASE_URI", database_uri))
+    logging.debug(
+        "Evaluated database_uri: %s", environ.get("DATABASE_URI", database_uri)
+    )
 
     app.config["SQLALCHEMY_DATABASE_URI"] = environ.get("DATABASE_URI", database_uri)
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
