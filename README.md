@@ -904,7 +904,7 @@ Stwórz taki obiekt używając `kubectl` o nazwie `database-data`:
 
 Następnie użyj go w deploymencie (`k8s.yaml`).
 
-Dokumentacja: https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables oraz https://kubernetes.io/docs/concepts/configuration/secret/
+Dokumentacja: https://kubernetes.io/docs/concepts/configuration/secret/
 
 Sprawdź czy został utworzony poleceniem:
 
