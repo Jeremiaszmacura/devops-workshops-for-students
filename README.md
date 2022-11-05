@@ -301,22 +301,26 @@ Wystarczy, że skoczystamy z Dockera i wykonamy poniższe polecenie, które zaci
 
 ### Uruchomienie kontenera bazy danych i aplikacji
 
+1. Uruchomienie bazty danych
+
 ```sh
 docker run --name postgres_workshops -e POSTGRES_DB=dev_database -e POSTGRES_USER=dev_user -e POSTGRES_PASSWORD=dev_user -p 5432:5432 -d postgres:14
 ```
 
-Uruchomienie aplikacji.
+2. Uruchomienie aplikacji.
 
 ```sh
-DATABASE_URI="postgresql://dev_user:dev_user@localhost:5432/dev_database" flask run
+flask run
 ```
+
+Aplikacja powinna być dostępna pod adresem http://localhost:5000 
 
 <hr />
 
 ### Uruchomienie testów jednostkowych
 
 ```sh
-pytest tests
+python setup.py test
 ```
 
 <br />
@@ -331,12 +335,10 @@ pytest tests
 ```text
 FROM python:3.10
 WORKDIR /app
-ENV FLASK_APP=flaskr/app.py
-ENV FLASK_RUN_HOST=0.0.0.0
 COPY ./dist/flaskr-0.1.0-py3-none-any.whl .
 RUN pip3 install flaskr-0.1.0-py3-none-any.whl
 EXPOSE 5000
-CMD [ "python3", "-m" , "flask", "run"]
+CMD ["gunicorn","-b","0.0.0.0:5000","-w","1","flaskr.app:create_app()"]
 ```
 
 - ```FROM python:3.10``` określa bazowy obraz, który będziemy rozbudowywać. Jest to obraz z zainstalowanym Pythonem w wersji 3.10. 
@@ -345,13 +347,11 @@ CMD [ "python3", "-m" , "flask", "run"]
 - ```COPY ./dist/flaskr-0.1.0-py3-none-any.whl .``` powoduje przekopiowanie wybranych plików pomiędzy naszą maszyną hostującą, a obrazem, który zostanie stworzony. 
 - ```RUN pip3 install flaskr-0.1.0-py3-none-any.whl``` wykonuje polecnie instalacji paczki z aplikacją.
 - ```EXPOSE 5000``` pozwala na udostępnienie portu 5000 obrazu na zewnątrz, dzięki czemu możemy wykonywać na ten port zapytania z naszej maszyny hostującej i komunikować się z aplikacją w kontenerze. 
-- ```CMD [ "python3", "-m" , "flask", "run"]``` to polecenie zostanie wykonane za każdym razem gdy kontener jest uruchamiany.
+- ```CMD ["gunicorn","-b","0.0.0.0:5000","-w","1","flaskr.app:create_app()"]``` to polecenie zostanie wykonane za każdym razem gdy kontener jest uruchamiany.
 
 <hr />
 
 ### Wybudowanie i uruchomienie aplikacji przy pomocy Dockerfile
-
-Należy o wcześniejszym uruchomieniu kontenera z bazą danych aby nasza skonteneryzowana aplikacja działała poprawnie.
 
 W momencie kiedy Dockerfile jest już gotowy możemy na jego podstawie utworzyć obraz:
 
@@ -361,11 +361,11 @@ docker build -t flask-app:latest .
 
 Parameter ```-t``` oznacza nazwę pod jaką zostanie utworzony obraz.
 
-Ponieważ chcemy by kontenery komuinikowały się między sobą tworzymy sieć typu bridge:
+Ponieważ chcemy by kontener aplikacji i bazy danych komunikowały się między sobą tworzymy sieć typu bridge:
 
     docker network create -d bridge my-bridge-network
     
-Zatrzymujemy i usuwamy poprzedni kontener bazy danych i uruchamiamy go jeszcze raz - tym razem z nowo utworzoną siecią:
+Zatrzymujemy i usuwamy poprzednio utworzony kontener bazy danych i uruchamiamy go jeszcze raz, tym razem z nowo utworzoną siecią:
 
 ```sh
 docker container stop postgres_workshops
@@ -382,7 +382,7 @@ docker run -d -e FLASK_DEBUG="True" -e DATABASE_URI="postgresql://dev_user:dev_u
 - ```-d``` oznacza tryb ```detach``` podczas, którego kontener pracuje w tle, a na konsolę jest jedynie wypisywane ID tego kontenera. 
 - ```-e``` powoduje dodanie zmiennej środowiskowej do uruchamianego kontenera. 
 - ```-p 5000:5000``` mapuje lokalny port kontenera (5000) na port hosta (5000).
-- ```--network="my-bridge-network"``` odpowiednio ustawia utworzoną wcześniej sieć kontenera.
+- ```--network="my-bridge-network"``` odpowiednio ustawia utworzoną wcześniej sieć.
 - ```--name flask_app``` nadaje nawzę kontenerowi. 
 
 Na końcu podajemy nazwę obrazu, na podstawie, którego ma zostać stworzony kontener.
@@ -460,7 +460,7 @@ W tym celu przygotowany został plik `docker-compose.yaml`, w którym zdefiniowa
 
 > **Uwaga:** Polecenie powinno być wykonane w folderze, w którym znajduje się odpowiedni plik `docker-compose.yaml`. W przeciwnym razie należy go wskazać za pomocą opcji `-f`.
 
-### Nim skorzystamy z narzędzia jakim jest docker-compose musimy zkończyć działanie i żywot naszych obecnie działających kontenerów przy pomocy poleceń
+### Nim skorzystamy z narzędzia jakim jest docker-compose musimy zakończyć działanie i żywot naszych obecnie działających kontenerów przy pomocy poleceń
 
 ```sh
 docker stop flask_app postgres_workshops
@@ -478,7 +478,6 @@ services:
 
   flask-app:
     image: flask-app
-    container_name: flask-app
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -487,8 +486,6 @@ services:
     environment:
       FLASK_DEBUG: 'True'
       DATABASE_URI: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:5432/${POSTGRES_DB}
-    networks:
-      - flask-app-network
     restart: on-failure
     depends_on:
       - database
@@ -500,23 +497,15 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
-    networks:
-      - flask-app-network
     restart: always
 
-networks:
-    flask-app-network:
-      driver: bridge
-      name: flask-app-network
 ```
 
 Powyższy plik docker-compose.yaml definiuje zarówno kontenery z ich specifikacją, które mają zostać zbudowane jak i specyfikację sieci, w której mają pracować. Pierwsza z aplikacji określona w tym pliku to nasza aplikacja napisana w frameworku flask. 
 * ```image``` określa nazwę obrazu, który ma zostać użyty do zbudowania kontenera.
-* ```container_name``` określa nazwę kontenera, pod którą kontener ma działać.
 * ```build``` zawiera dodatkowe parametry wykorzystane w procesie budowania kontenera na bazie wybranego obrazu. ```context``` określa kontekst, a ```dockerfile``` zawiera ścieżkę do pliku Dockerfile, na podstawie, którego zostanie zbudowany obraz.
 * ```ports``` mapuje porty pomiędzy maszyną hostującą, a kontenerem ```HOST:CONTAINER```.
 * ```environment``` pozwala na dodanie zmiennych środowiskowych do tworzonego kontenera.
-* ```networks``` odpowiada za konfigurację sieci, w tym wypadku odwołyjemy się do konfiguracji, która znajduje się na końcu pliku docker-compose.yaml. W naszym przypadku jest to domyślny rodzaj sieci: bridge.
 * ```restart``` określa zachowanie kontenera w monemcie, gdyż jego praca zostanie zakończona. W tym wypadku, w momencie, kiedy kontener przestanie działać z powodu błędy, zostanie automatycznie ponownie powołany do życia.
 * ```depends_on``` określa kolejność (zależność), w której kontenery mają zostać uruchomienione. Należy zwrócić uwagę, że nie oznacza to, że kontener, który później został utworzony nie będzie pierwszy gotowy do działania (aplikacja może polegać na kontenerze z bazą danych stąd najpierw uruchomimy kontener z tą bazą, natomiast może stać się tak, że naszą aplikacja szybciej skofiguruje swój kontener niż baza danych i wystąpi problem z połączeniem bazodanowym).
 * ```env_file``` dodaje zmienne środowiskowe do kontenera na podstawie zewnętrznego pliku.
