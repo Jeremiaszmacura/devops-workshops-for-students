@@ -357,18 +357,22 @@ Należy o wcześniejszym uruchomieniu kontenera z bazą danych aby nasza skonten
 W momencie kiedy Dockerfile jest już gotowy możemy na jego podstawie utworzyć obraz:
 
 ```sh
-docker build -t flask_app .
+docker build -t flask-app:latest .
 ```
 
 Parameter ```-t``` oznacza nazwę pod jaką zostanie utworzony obraz.
 
-Na podstawie utworzonego obrazu budujemy kontener:
+Na podstawie utworzonego obrazu tworzymy kontener:
 
 ```sh
-docker run -d -e FLASK_DEBUG="True" -e DATABASE_URI="postgresql://dev_user:dev_user@localhost:5432/dev_database" --network="host" --name flask_app flask_app
+docker run -d -e FLASK_DEBUG="True" -e DATABASE_URI="postgresql://dev_user:dev_user@localhost:5432/dev_database" --network="host" --name flask_app flask-app:latest
 ```
 
-Parametr ```-d``` oznacza tryb ```detach``` podczas, którego kontener pracuje w tle, a na konsolę jest jedynie wypisywane ID tego kontenera. ```-e``` powoduje dodanie zmiennej środowiskowej do uruchamianego kontenera. ```--network="host"``` konfiguruje sieć kontenera tak aby nie był on wyizolowany, ale aby był dostępny w naszej sieci lokalnej pod adresem localhost/127.0.0.1. ```--name flask_app``` nadaje nawzę kontenerowi. Na końcu podajemy nazwę obrazu, na podstawie, którego ma zostać stworzony kontener.
+- ```-d``` oznacza tryb ```detach``` podczas, którego kontener pracuje w tle, a na konsolę jest jedynie wypisywane ID tego kontenera. 
+- ```-e``` powoduje dodanie zmiennej środowiskowej do uruchamianego kontenera. 
+- ```--network="host"``` konfiguruje sieć kontenera tak aby nie był on wyizolowany, ale aby był dostępny w naszej sieci lokalnej pod adresem localhost/127.0.0.1. 
+- ```--name flask_app``` nadaje nawzę kontenerowi. 
+- Na końcu podajemy nazwę obrazu, na podstawie, którego ma zostać stworzony kontener.
 
 <hr />
 
