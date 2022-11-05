@@ -860,7 +860,7 @@ Spróbuj także uruchomić akcję manualnie.
 
 ### 12.2 Dodaj kolejny serwis do Docker Compose
 
-Dodaj nowy serwis o nazwie `pgadmin` z obrazem `dpage/pgadmin4`.
+Dodaj nowy serwis (w pliku `docker-compose.yaml`) o nazwie `pgadmin` z obrazem `dpage/pgadmin4`. Umożliwi on edycję/przeglądanie bazy danych.
 Konieczne będzie zdefiniowanie zmiennych środowiskowych, niezbędnych do zalogowania do panelu administracyjnego:
 - `PGADMIN_DEFAULT_EMAIL`: adres email do logowania.
 - `PGADMIN_DEFAULT_PASSWORD`: wybrane hasło.
