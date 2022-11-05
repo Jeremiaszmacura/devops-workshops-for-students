@@ -874,24 +874,34 @@ Następnie spróbuj dodać i wypchnąć tag komendami Git z linii poleceń:
 
 ### 12.2 Dodaj kolejny serwis do Docker Compose
 
-Dodaj nowy serwis (w pliku `docker-compose.yaml`) o nazwie `pgadmin` z obrazem `dpage/pgadmin4`. Umożliwi on edycję/przeglądanie bazy danych.
+Dodaj nowy serwis (w pliku `docker-compose.yaml`) o nazwie `pgadmin` z obrazem `dpage/pgadmin4`. 
+Umożliwi on edycję/przeglądanie bazy danych.
+
 Konieczne będzie zdefiniowanie zmiennych środowiskowych, niezbędnych do zalogowania do panelu administracyjnego:
 - `PGADMIN_DEFAULT_EMAIL`: adres email do logowania.
 - `PGADMIN_DEFAULT_PASSWORD`: wybrane hasło.
+
 Więcej informacji: https://www.pgadmin.org/docs/pgadmin4/latest/container_deployment.html
+
 Należy także pamiętać o sekcji `ports`, serwis działa domyślnie na porcie 80.
+
 Uruchom zaktualizowany stos aplikacji poleceniem `docker-compose up`. 
 Używając przeglądarki zaloguj się do panelu administracyjnego, dziajającego na wybranym porcie. 
 
 ### 12.3 Zabezpiecz URI do bazy danych
 
 Obecnie URI do bazy danych jest podany w pliku `k8s.yaml` w postaci czystego tekstu. 
-Aby zabezpieczyć wrażliwe dane można użyć obiektu typu *Secret*. Przechowaj w obiekcie URI dla bazy danych, który następnie zostanie wstrzyknięty jako zmienna środowiskowa.
+
+Aby zabezpieczyć wrażliwe dane można użyć obiektu typu *Secret*. 
+
+Przechowaj w obiekcie URI dla bazy danych, który następnie zostanie wstrzyknięty jako zmienna środowiskowa.
+
 Stwórz taki obiekt używając `kubectl` o nazwie `database-data`:
 
     kubectl create secret generic database-data --from-literal=DATABASE_URI=postgresql://prod_user:prod_password@postgres:5432/prod_db
 
 Następnie użyj go w deploymencie (`k8s.yaml`).
+
 Dokumentacja: https://kubernetes.io/docs/concepts/configuration/secret/#using-secrets-as-environment-variables oraz https://kubernetes.io/docs/concepts/configuration/secret/
 
 Sprawdź czy został utworzony poleceniem:
