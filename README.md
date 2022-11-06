@@ -815,13 +815,11 @@ Wdrożenie aplikacji na platformie Kubernetes odbywa się poprzez odpowiednio pr
 
 W folderze z projektem znajduje się plik `k8s.yaml`, który zawiera definicje obiektów takich typów jak *PersistentVolume*, *PersistentVolumeClaim*, *ConfigMap*, *Service*, *Deployment* i *StatefulSet*.
 
+Za wdrożenie bazy danych odpowiada obiekt typu *StatefulSet*.
+
 Za wdrożenie aplikacji odpowiada obiekt typu *Deployment*, w którym znajduje się definicja obrazu dokerowego aplikacji: `image: devops-workshops:develop`.
 
-W tym miejscu należy uzupełnić obraz o nazwę własnego użytkownika serwisu **Dockerhub**, np. dla użytkownika `marcin` obraz powinien zostać zmieniony na `image: marcin/devops-workshops:develop`.
-
-Następnie, po zintegrowaniu i pobraniu zmian, weryfikujemy czy obraz może zostać pobrany:
-
-    docker pull <nazwa użytkownika>/devops-workshops:develop
+Można także uzupełnić nazwę obrazu (`devops-workshops:develop`) o nazwę własnego użytkownika serwisu **Dockerhub**, np. dla użytkownika `marcin` obraz powinien mieć nazwę `image: marcin/devops-workshops:develop`. W ten sposób nie użyty zostanie obraz wybudowany lokalnie, lecz ten wybudowany za pomocą Github actions.
 
 Ostatecznie, by wdrożyć aplikację należy wykonać polecenie:
 
