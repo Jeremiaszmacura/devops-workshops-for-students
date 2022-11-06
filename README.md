@@ -8,7 +8,7 @@
 * Windows 10 64-bit: Home lub Pro 21H1 (build 19042) lub wyższa albo Enterprise/Education 20H2 (build 19042) i wyższa
 * 64-bit processor with Second Level Address Translation (https://en.wikipedia.org/wiki/Second_Level_Address_Translation)
 * 8GB system RAM lub więcej
-* BIOS-level hardware wsparcie dla wirtualizacji włączone (więcej info: https://docs.docker.com/desktop/troubleshoot/topics/#virtualization)
+* BIOS-level hardware wsparcie dla wirtualizacji włączone (więcej info: https://docs.docker.com/desktop/troubleshoot/tdevops-workshops-for-studentsopics/#virtualization)
 
 ### Linux
 
@@ -50,7 +50,7 @@ Aby zainstalować Dockera musimy posiadać 64bitową wersję Ubuntu, jedną z wy
 8. [Konteneryzacja aplikacji](#8-Konteneryzacja-aplikacji)
 9. [Orkiestryzacja aplikacji z użyciem narzędzia docker-compose](#9-Orkiestryzacja-aplikacji-z-użyciem-narzędzia-docker-compose)
 10. [Ciągła integracja i wydanie](#10-Ciągła-integracja-i-wydanie)
-11. [Orkiestryzacja aplikacji z użyciem narzędzia Kubernetes](#11-Orkiestryzacja-aplikacji-z-użyciem-narzędzia-Kubernetes)
+11. [Wdrożenie aplikacji na platformie Kubernetes](#11-Wdrożenie-aplikacji-na-platformie-Kubernetes)
 12. [Ćwiczenia](#12-Ćwiczenia)
 
 <br />
@@ -714,7 +714,7 @@ jobs:
 <br />
 <hr />
 
-## 11. Orkiestryzacja aplikacji z użyciem narzędzia Kubernetes
+## 11. Wdrożenie aplikacji na platformie Kubernetes
 
 <hr />
 
