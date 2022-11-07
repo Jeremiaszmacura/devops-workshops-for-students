@@ -5,6 +5,9 @@ from flask import Flask
 from flaskr.routes import routes_blueprint
 from flaskr.config import db
 
+..lola
+
+
 
 __version__ = "0.1.0"
 DEFAULT_DB_URI = "postgresql://dev_user:dev_user@localhost:5432/dev_database"
