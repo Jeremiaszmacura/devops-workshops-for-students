@@ -10,7 +10,7 @@
 * 8GB system RAM lub więcej
 * BIOS-level hardware wsparcie dla wirtualizacji włączone (więcej info: https://docs.docker.com/desktop/troubleshoot/tdevops-workshops-for-studentsopics/#virtualization)
 
-### Linuxx
+### Linuxx aaaaaa
 
 Aby zainstalować Dockera musimy posiadać 64bitową wersję Ubuntu, jedną z wybranych:
 * Ubuntu Jammy 22.04 (LTS)
