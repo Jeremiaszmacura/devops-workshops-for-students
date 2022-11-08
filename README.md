@@ -58,7 +58,7 @@ Aby zainstalować Dockera musimy posiadać 64bitową wersję Ubuntu, jedną z wy
 
 ## 1. Instalacja Gita
 
-<hr />
+---
 
 Pełna dokumentacja: https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
 
@@ -82,12 +82,11 @@ Wykonujemy polecenie, po którego wykonaniu pokaże nam się poprozycja instalac
 git --version
 ```
 
-<br />
-<hr />
+---
 
 ## 2. Instalacja Pythona
 
-<hr />
+---
 
 ### Windows
 
@@ -131,9 +130,9 @@ Pełna dokumentacja: https://docs.docker.com/desktop/install/windows-install/
 
     Ta komenda zainstaluje potrzebne rzeczy do uruchomienia WSL i zainstaluje Linuxa w domyślnej dystrybucji Ubuntu.
 
-3. Restartujemy windowsa
+3. Restartujemy Windows
 
-4. Tworzymy Linuowego użytkownika. Można to zrobić poprzez otworzenie dystrybucji Linuxa posługując się np. Start menu. Zostaniemy poproszeni o podanie username i password do nowo utworzonego użytkownika. Dany użytkownik zostanie powiązany z konkretną dystrybucją.
+4. Tworzymy Linuowego użytkownika. Można to zrobić poprzez otworzenie dystrybucji Linuxa posługując się np. Start menu. Zostaniemy poproszeni o podanie nazwy  użytkownika i hasła do nowo tworzonego użytkownika. Użytkownik ten zostanie powiązany z konkretną dystrybucją.
 
 5. Podnosimy wersję WSL z wersji 1 do 2. Najpierw możemy sprawdzić, która obecnie wersja WSL jest używana wykonując polecenie:
 
@@ -153,7 +152,7 @@ Pełna dokumentacja: https://docs.docker.com/desktop/install/windows-install/
 
     * Po pojawieniu się okienka instalacji należy się upewnić, że wybrana jest opcja użycia WSL 2 zamiast Hyper-V
 
-<hr />
+---
 
 ### Linux
 
