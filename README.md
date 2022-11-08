@@ -830,7 +830,7 @@ Za wdrożenie bazy danych odpowiada obiekt typu *StatefulSet*.
 
 Za wdrożenie aplikacji odpowiada obiekt typu *Deployment*, w którym znajduje się definicja obrazu dokerowego aplikacji: `image: devops-workshops:develop`.
 
-Można także uzupełnić nazwę obrazu (`devops-workshops:develop`) o nazwę własnego użytkownika serwisu **Dockerhub**, np. dla użytkownika `marcin` obraz powinien mieć nazwę `image: marcin/devops-workshops:develop`. W ten sposób nie użyty zostanie obraz wybudowany lokalnie, lecz ten wybudowany za pomocą Github actions.
+> *Można także uzupełnić nazwę obrazu (`devops-workshops:develop`) o nazwę własnego użytkownika serwisu **Dockerhub**, np. dla użytkownika `marcin` obraz powinien mieć nazwę `image: marcin/devops-workshops:develop`. W ten sposób nie użyty zostanie obraz wybudowany lokalnie, lecz ten wybudowany za pomocą Github actions.*
 
 Ostatecznie, by wdrożyć aplikację należy wykonać polecenie:
 
