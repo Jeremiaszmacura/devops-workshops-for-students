@@ -202,14 +202,15 @@ Pełna dokumentacja: https://docs.docker.com/desktop/install/mac-install/
 
 ---
 
-### Dodanie użytkownika do grupy docker
+### Dodanie użytkownika do grupy docker i włączenie integracji z WSL
 
 ```sh
-sudo usermod -aG docker $USER && newgrp docker
+sudo groupadd docker && \
+sudo usermod -aG docker $USER
 ```
 
-W przypadku używania Docker Desktop można także sprawdzić czy włączona jest intergracja z wsl oraz z używaną dystrybucją Linuxa.
-W tym celu należy wejść w ustawienia Docker Desktop, otworzyć zakładkę *Resources* i włączyć wybrane integracje.
+> W przypadku używania Docker Desktop można także sprawdzić czy włączona jest intergracja z wsl oraz z używaną dystrybucją Linuxa. 
+> W tym celu należy wejść w ustawienia Docker Desktop, otworzyć zakładkę *Resources* i włączyć wybrane integracje.
 
 ---
 
