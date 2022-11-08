@@ -848,7 +848,7 @@ kubectl apply -f k8s.yaml
 Aby zweryfikować wdrożenie należy wykonać polecenie:
 
 ```sh
-    kubectl get pods
+kubectl get pods
 ```
 
  Polecenie to powinno wyświetlić tabelę działających podów:
