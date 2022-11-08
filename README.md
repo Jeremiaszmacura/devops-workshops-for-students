@@ -210,6 +210,8 @@ Pełna dokumentacja: https://docs.docker.com/desktop/install/mac-install/
 sudo usermod -aG docker $USER && newgrp docker
 ```
 
+---
+
 ## 4. Założenie kont na serwisach: Github, Docker Hub, Snyk
 
 <hr />
@@ -218,22 +220,20 @@ sudo usermod -aG docker $USER && newgrp docker
 * Konto na repozytorium Dockerowym (Docker Hub) będzie wykorzystane w celu przechowania na nim naszego zbudowanego kontenera aplikacji. (https://hub.docker.com/)
 * Konto Snyk zostanie wykorzystane w celu wykonania statycznej analizy kodu. (https://snyk.io/)
 
-<br />
-<hr />
+---
 
 ## 5. Stworzenie katalogu roboczego i sklonowanie repozytorium
 
-<hr />
+---
 
 Forkujemy repozytorium porzez otworzenie oficjalnego repozytorium ```https://github.com/Jeremiaszmacura/devops-workshops-for-students``` i kliknięcie ikony z napisem fork (prawy góry róg). 
 Po udanym forku klonujemy nowo utworzone repozytorium do wybranego katalogu roboczego na naszym systemie przy pomocy polecenia ```git clone https://github.com/Jeremiaszmacura/devops-workshops-for-students``` wykonanego z poziomu cmd/powershell/git bash/bash/sh/...
 
-<br />
-<hr />
+---
 
 ## 6. Przygotowanie wirtualnego środowiska Python
 
-<hr />
+---
 
 * Tworzymy wirtualne środowisko przy pomocy modułu `venv` i następnie aktywujemy je. 
 Dzięki temu stworzymy odseparowane środowisko do pracy nad aplikacją, a wszystkie zainstalowane biblioteki pozostaną jedynie w tym środowisku i nie będą miały wpływu na pozostałe projekty Pythonowe znajdujące się w naszym systemie.
