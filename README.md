@@ -537,11 +537,13 @@ docker-compose down --rmi all
 
 ## 10. Ciągła integracja i wydanie
 
+---
+
 W celu stworzenia pipelinu CI/CD użyjemy narzęcia GitHub Workflows. Jest to proste w uzyciu narzędzie, które pozwala na dużo więcej niż proste pipeliny CI/CD, a do tego pozwala nam trzymać je w postaci kodu na jednym repozytorium wraz z kodem samego projektu. GitHub udostępnia na swoje maszyny budujące, stąd nie musimy się przejmować o infraktrukturę. Kod pipelinu musi znajdować się w plikach z roszerzeniem ```.yml/.yaml``` w katalogu ```.github/workflows/```.
 
 ```.github/workflows/<nazwa_pliku>.yml:```
 
-<hr />
+---
 
 ### Aktywacja GitHub Action
 
