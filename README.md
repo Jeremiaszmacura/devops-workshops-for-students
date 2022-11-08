@@ -207,12 +207,16 @@ Pełna dokumentacja: https://docs.docker.com/desktop/install/mac-install/
 
 ---
 
-### Dodanie użytkownika do grupy docker.
+### Kroki post-instalacyjne
+
+#### Dodanie użytkownika do grupy docker.
 
 ```sh
 sudo groupadd docker && \
 sudo usermod -aG docker $USER
 ```
+
+#### Zobacz także: https://docs.docker.com/engine/install/linux-postinstall/
 
 ---
 
