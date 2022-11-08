@@ -252,6 +252,8 @@ Set-ExecutionPolicy Unrestricted -Scope Process
 
 ## 7. Uruchomienie aplikacji, bazy danych i testów jednostkowych
 
+---
+
 ### Konfiguracja środowiska i instalacja zależności
 
 Eksportujemy dwie zmienne, które informuja aplikację gdzie znajduje się plik wejściowy oraz, że będziemy pracować w trybie developerskim z opcją debugowania.
@@ -323,6 +325,8 @@ python setup.py test
 ---
 
 ## 8. Konteneryzacja aplikacji
+
+---
 
 ### Dockerfile
 
