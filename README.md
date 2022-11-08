@@ -768,26 +768,25 @@ Wykonujemy polecenia:
 > **Więcej informacji:**  https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
 
 
-#### MacOS
+### MacOS
 
-
-1. Pobranie pliku w postaci binarnej.
+#### 1. Pobranie pliku w postaci binarnej.
 
 Wykonujemy polecenia:
 
 - dla architektury **Intel**:
 
-```sh
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/darwin/amd64/kubectl"
-```
+    ```sh
+    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/darwin/amd64/kubectl"
+    ```
 
 - dla architektury **Apple Silicon**:
 
-```sh
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/darwin/arm64/kubectl"
-```
+    ```sh
+    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/darwin/arm64/kubectl"
+    ```
 
-2. Instalacja
+#### 2. Instalacja
 
 Wykonujemy polecenia:
 
