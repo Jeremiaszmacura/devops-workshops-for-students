@@ -107,12 +107,11 @@ python3 -m ensurepip --upgrade
 
 Pobieramy plik instalacyjny Pythona w odpowiedniej wersji (najlepiej ostatniej stabilnej) ze strony: https://www.python.org/downloads/macos/ i instalujemy.
 
-<br />
-<hr />
+---
 
 ## 3. Instalacja Dockera
 
-<hr />
+---
 
 ### Windows
 
@@ -169,7 +168,7 @@ Pełna dokumentacja: https://docs.docker.com/desktop/install/windows-install/
 * Aktualizujemy pakiet apt i instalujemy wybrane pakiety:
 
     ```sh
-    sudo apt-get update
+    sudo apt-get update && \
     sudo apt-get install \
         ca-certificates \
         curl \
@@ -192,7 +191,7 @@ Pełna dokumentacja: https://docs.docker.com/desktop/install/windows-install/
         $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
     ```
 
-<hr />
+---
 
 ### MacOS
 
@@ -214,7 +213,7 @@ sudo usermod -aG docker $USER && newgrp docker
 
 ## 4. Założenie kont na serwisach: Github, Docker Hub, Snyk
 
-<hr />
+--- 
 
 * Konto GitHub będzie nam potrzebne w celu stworzenia pipelinu (CI) wykorzystując narzędzie GitHub Actions. Pipeline służy do automatyzacji pewnych procesów. W tym wypadku tymi procesami będą: testy jednostkowe, lintowanie kodu, budowanie kontenera aplikacji i wysyłanie go na repozytorium, statyczna analiza kodu. (https://github.com/)
 * Konto na repozytorium Dockerowym (Docker Hub) będzie wykorzystane w celu przechowania na nim naszego zbudowanego kontenera aplikacji. (https://hub.docker.com/)
@@ -844,7 +843,9 @@ kubectl apply -f k8s.yaml
 
 Aby zweryfikować wdrożenie należy wykonać polecenie:
 
+```sh
     kubectl get pods
+```
 
  Polecenie to powinno wyświetlić tabelę działających podów:
 
@@ -854,13 +855,17 @@ Aby zweryfikować wdrożenie należy wykonać polecenie:
 
 Aby uzyskać szczegółowe informacje o wybranym pod (w tym przypadku o aplikacji) należy wykonać polecenie:
 
-     kubectl describe pod flaskr
-     
+```sh
+kubectl describe pod flaskr
+```
+
 Polecenie to pokaże także listę zdarzeń (*Events*), jest przydatne przy diagnostyce.
 
 Aby usunąć wdrożenie należy wykonać polecenie:
 
-    kubectl delete -f k8s.yaml
+```sh
+kubectl delete -f k8s.yaml
+```
 
 > **Więcej informacji:**  https://kubernetes.io/docs/reference/kubectl/cheatsheet/
 
@@ -902,7 +907,7 @@ Konieczne będzie zdefiniowanie zmiennych środowiskowych, niezbędnych do zalog
 
 Więcej informacji: https://www.pgadmin.org/docs/pgadmin4/latest/container_deployment.html
 
-Należy także pamiętać o sekcji `ports`, serwis działa domyślnie na porcie 80.
+Należy także pamiętać o sekcji `ports`: serwis działa domyślnie na porcie 80, zmapuj go do portu 5050 hosta lub innego wolnego.
 
 Uruchom zaktualizowany stos aplikacji poleceniem `docker-compose up`. 
 Używając przeglądarki zaloguj się do panelu administracyjnego, dziajającego na wybranym porcie. 
