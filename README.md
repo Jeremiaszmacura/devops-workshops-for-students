@@ -145,12 +145,17 @@ Pełna dokumentacja: https://docs.docker.com/desktop/install/windows-install/
     ```sh
     wsl --set-default-version 2
     ```
+    
+    > Więcej informacji: https://docs.microsoft.com/en-us/windows/wsl/install-win10
 
 6. Pobieramy aplikację Docker Desktop: https://docs.docker.com/desktop/install/windows-install/
 
 7. Instalujemy Docker Desktop.
 
-    * Po pojawieniu się okienka instalacji należy się upewnić, że wybrana jest opcja użycia WSL 2 zamiast Hyper-V
+    * Zainstaluj *Linux Kernel update package*: https://docs.microsoft.com/windows/wsl/wsl2-kernel
+    * Po pojawieniu się okienka instalacji należy się upewnić, że wybrana jest opcja użycia WSL 2 zamiast Hyper-V\
+    * Należy także sprawdzić czy włączona jest intergracja z wsl oraz z używaną dystrybucją Linuxa. W tym celu należy wejść w ustawienia Docker Desktop, otworzyć zakładkę *Resources* i włączyć wybrane integracje.
+
 
 ---
 
@@ -202,15 +207,12 @@ Pełna dokumentacja: https://docs.docker.com/desktop/install/mac-install/
 
 ---
 
-### Dodanie użytkownika do grupy docker i włączenie integracji z WSL
+### Dodanie użytkownika do grupy docker.
 
 ```sh
 sudo groupadd docker && \
 sudo usermod -aG docker $USER
 ```
-
-> W przypadku używania Docker Desktop można także sprawdzić czy włączona jest intergracja z wsl oraz z używaną dystrybucją Linuxa. 
-> W tym celu należy wejść w ustawienia Docker Desktop, otworzyć zakładkę *Resources* i włączyć wybrane integracje.
 
 ---
 
