@@ -208,6 +208,9 @@ Pełna dokumentacja: https://docs.docker.com/desktop/install/mac-install/
 sudo usermod -aG docker $USER && newgrp docker
 ```
 
+W przypadku używania Docker Desktop można także sprawdzić czy włączona jest intergracja z wsl oraz z używaną dystrybucją Linuxa.
+W tym celu należy wejść w ustawienia Docker Desktop, otworzyć zakładkę *Resources* i włączyć wybrane integracje.
+
 ---
 
 ## 4. Założenie kont na serwisach: Github, Docker Hub, Snyk
