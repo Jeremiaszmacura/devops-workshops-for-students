@@ -153,7 +153,7 @@ Pełna dokumentacja: https://docs.docker.com/desktop/install/windows-install/
 7. Instalujemy Docker Desktop.
 
     * Zainstaluj *Linux Kernel update package*: https://docs.microsoft.com/windows/wsl/wsl2-kernel
-    * Po pojawieniu się okienka instalacji należy się upewnić, że wybrana jest opcja użycia WSL 2 zamiast Hyper-V\
+    * Po pojawieniu się okienka instalacji należy się upewnić, że wybrana jest opcja użycia WSL 2 zamiast Hyper-V.
     * Należy także sprawdzić czy włączona jest intergracja z wsl oraz z używaną dystrybucją Linuxa. W tym celu należy wejść w ustawienia Docker Desktop, otworzyć zakładkę *Resources* i włączyć wybrane integracje.
 
 
