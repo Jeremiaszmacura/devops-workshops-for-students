@@ -63,7 +63,7 @@ Pełna dokumentacja: https://git-scm.com/book/en/v2/Getting-Started-Installing-G
 
 ### Windows
 
-Przechodzimy na stronę z instalkami Gita dla windowsa: https://git-scm.com/download/win. Następnie pobieramy odpowiednią wersję i instalujemy.
+Przechodzimy na stronę z instalkami Gita dla Windowsa: https://git-scm.com/download/win. Następnie pobieramy odpowiednią wersję i instalujemy.
 
 ### Linux
 
@@ -75,7 +75,7 @@ sudo apt install git-all
 
 ### MacOS
 
-Wykonujemy polecenie, po którego wykonaniu pokaże nam się poprozycja instalacji:
+Wykonujemy polecenie, po którego wykonaniu pokaże nam się propozycja instalacji:
 
 ```sh
 git --version
@@ -93,7 +93,7 @@ Pobieramy plik instalacyjny Pythona w odpowiedniej wersji (najlepiej ostatniej s
 
 ### Linux
 
-Wykonujemy poniższe polecenia, które zaktualizują narzędzie apt-get, zainstalują pythona w najnowszej dostępnej wersji na obecnego narzędzi pakietów i zaktualizują wersję menadżera pakietów (pip).
+Wykonujemy poniższe polecenia, które zaktualizują narzędzie apt-get, zainstalują Pythona w najnowszej dostępnej wersji na obecnego narzędzi pakietów i zaktualizują wersję menadżera pakietów (pip).
 
 ```sh
 sudo apt-get update && \
@@ -130,7 +130,7 @@ Pełna dokumentacja: https://docs.docker.com/desktop/install/windows-install/
 
 3. Restartujemy Windows
 
-4. Tworzymy Linuowego użytkownika. Można to zrobić poprzez otworzenie dystrybucji Linuxa posługując się np. Start menu. Zostaniemy poproszeni o podanie nazwy  użytkownika i hasła do nowo tworzonego użytkownika. Użytkownik ten zostanie powiązany z konkretną dystrybucją.
+4. Tworzymy Linuxowego użytkownika. Można to zrobić poprzez otworzenie dystrybucji Linuxa posługując się np. Start menu. Zostaniemy poproszeni o podanie nazwy  użytkownika i hasła do nowo tworzonego użytkownika. Użytkownik ten zostanie powiązany z konkretną dystrybucją.
 
 5. Podnosimy wersję WSL z wersji 1 do 2. Najpierw możemy sprawdzić, która obecnie wersja WSL jest używana wykonując polecenie:
 
@@ -152,7 +152,7 @@ Pełna dokumentacja: https://docs.docker.com/desktop/install/windows-install/
 
     * Zainstaluj *Linux Kernel update package*: https://docs.microsoft.com/windows/wsl/wsl2-kernel
     * Po pojawieniu się okienka instalacji należy się upewnić, że wybrana jest opcja użycia WSL 2 zamiast Hyper-V.
-    * Należy także sprawdzić czy włączona jest intergracja z wsl oraz z używaną dystrybucją Linuxa. W tym celu należy wejść w ustawienia Docker Desktop, otworzyć zakładkę *Resources* i włączyć wybrane integracje.
+    * Należy także sprawdzić czy włączona jest integracja z wsl oraz z używaną dystrybucją Linuxa. W tym celu należy wejść w ustawienia Docker Desktop, otworzyć zakładkę *Resources* i włączyć wybrane integracje.
 
 ---
 
@@ -258,7 +258,7 @@ CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 
 ---
 
-Forkujemy repozytorium porzez otworzenie oficjalnego repozytorium ```https://github.com/Jeremiaszmacura/devops-workshops-for-students``` i kliknięcie ikony z napisem fork (prawy góry róg). 
+Forkujemy repozytorium poprzez otworzenie oficjalnego repozytorium ```https://github.com/Jeremiaszmacura/devops-workshops-for-students``` i kliknięcie ikony z napisem fork (prawy góry róg). 
 Po udanym forku klonujemy nowo utworzone repozytorium do wybranego katalogu roboczego na naszym systemie przy pomocy polecenia ```git clone https://github.com/Jeremiaszmacura/devops-workshops-for-students``` wykonanego z poziomu cmd/powershell/git bash/bash/sh/...
 
 ---
@@ -290,7 +290,7 @@ source .venv/bin/activate (Linux)
 
 ### Konfiguracja środowiska i instalacja zależności
 
-Eksportujemy dwie zmienne, które informuja aplikację gdzie znajduje się plik wejściowy oraz, że będziemy pracować w trybie developerskim z opcją debugowania.
+Eksportujemy dwie zmienne, które informują aplikację gdzie znajduje się plik wejściowy oraz, że będziemy pracować w trybie developerskim z opcją debugowania.
 
 #### Linux
 
@@ -327,8 +327,8 @@ Budujemy paczkę (przy zmianach w projekcie każdorazowo przed wybudowaniem obra
 python setup.py bdist_wheel
 ```
 
-Przed uruchomieniem aplikacji musimy zadbać o bazę danych, z którą apliakcja będzie się probowała połączyć. 
-Wystarczy, że skoczystamy z Dockera i wykonamy poniższe polecenie, które zaciągnie obraz bazy danych PostgreSQL w wersji 14 z oficjalnego repozytorium, a następnie na podstawie tego obrazu zostanie uruchomiony kontener z określonymi zmiennymi środowiskowymim, widocznymi wewnątrz niego.
+Przed uruchomieniem aplikacji musimy zadbać o bazę danych, z którą aplikacja będzie się próbowała połączyć. 
+Wystarczy, że skorzystamy z Dockera i wykonamy poniższe polecenie, które zaciągnie obraz bazy danych PostgreSQL w wersji 14 z oficjalnego repozytorium, a następnie na podstawie tego obrazu zostanie uruchomiony kontener z określonymi zmiennymi środowiskowymi, widocznymi wewnątrz niego.
 
 ---
 
@@ -377,7 +377,7 @@ CMD ["gunicorn","-b","0.0.0.0:5000","-w","1","flaskr.app:create_app()"]
 - ```WORKDIR /app``` powoduje, że wszystkie polecenia zostaną domyślnie wykonane pod tą ścieżką w obrazie. 
 - ```ENV FLASK_APP=flaskr/app.py``` oraz ```ENV FLASK_RUN_HOST=0.0.0.0``` ustawiają zmienne środowiskowe widoczne w obrazie.
 - ```COPY ./dist/flaskr-0.1.0-py3-none-any.whl .``` powoduje przekopiowanie wybranych plików pomiędzy naszą maszyną hostującą, a obrazem, który zostanie stworzony. 
-- ```RUN pip3 install flaskr-0.1.0-py3-none-any.whl``` wykonuje polecnie instalacji paczki z aplikacją.
+- ```RUN pip3 install flaskr-0.1.0-py3-none-any.whl``` wykonuje polecenie instalacji paczki z aplikacją.
 - ```EXPOSE 5000``` pozwala na udostępnienie portu 5000 obrazu na zewnątrz, dzięki czemu możemy wykonywać na ten port zapytania z naszej maszyny hostującej i komunikować się z aplikacją w kontenerze. 
 - ```CMD ["gunicorn","-b","0.0.0.0:5000","-w","1","flaskr.app:create_app()"]``` to polecenie zostanie wykonane za każdym razem gdy kontener jest uruchamiany.
 
@@ -407,7 +407,7 @@ docker container rm postgres_workshops
 docker run --name postgres_workshops -e POSTGRES_DB=dev_database -e POSTGRES_USER=dev_user -e POSTGRES_PASSWORD=dev_user --network=my-bridge-network -d postgres:14
 ```
 
-Teraz, na podstawie utworzonego obrazu tworzymy i uruchmiamy kontener z aplikacją:
+Teraz, na podstawie utworzonego obrazu tworzymy i uruchamiamy kontener z aplikacją:
 
 ```sh
 docker run -d -e FLASK_DEBUG="True" -e DATABASE_URI="postgresql://dev_user:dev_user@postgres_workshops:5432/dev_database" -p 5000:5000 --network=my-bridge-network --name flask_app flask-app:develop
@@ -534,13 +534,13 @@ services:
     restart: always
 ```
 
-Powyższy plik docker-compose.yaml definiuje zarówno kontenery z ich specifikacją, które mają zostać zbudowane jak i specyfikację sieci, w której mają pracować. Pierwsza z aplikacji określona w tym pliku to nasza aplikacja napisana w frameworku flask. 
+Powyższy plik docker-compose.yaml definiuje zarówno kontenery z ich specyfikacją, które mają zostać zbudowane jak i specyfikację sieci, w której mają pracować. Pierwsza z aplikacji określona w tym pliku to nasza aplikacja napisana w frameworku flask. 
 * ```image``` określa nazwę obrazu, który ma zostać użyty do zbudowania kontenera.
 * ```build``` zawiera dodatkowe parametry wykorzystane w procesie budowania kontenera na bazie wybranego obrazu. ```context``` określa kontekst, a ```dockerfile``` zawiera ścieżkę do pliku Dockerfile, na podstawie, którego zostanie zbudowany obraz.
 * ```ports``` mapuje porty pomiędzy maszyną hostującą, a kontenerem ```HOST:CONTAINER```.
 * ```environment``` pozwala na dodanie zmiennych środowiskowych do tworzonego kontenera.
 * ```restart``` określa zachowanie kontenera w monemcie, gdyż jego praca zostanie zakończona. W tym wypadku, w momencie, kiedy kontener przestanie działać z powodu błędy, zostanie automatycznie ponownie powołany do życia.
-* ```depends_on``` określa kolejność (zależność), w której kontenery mają zostać uruchomienione. Należy zwrócić uwagę, że nie oznacza to, że kontener, który później został utworzony nie będzie pierwszy gotowy do działania (aplikacja może polegać na kontenerze z bazą danych stąd najpierw uruchomimy kontener z tą bazą, natomiast może stać się tak, że naszą aplikacja szybciej skofiguruje swój kontener niż baza danych i wystąpi problem z połączeniem bazodanowym).
+* ```depends_on``` określa kolejność (zależność), w której kontenery mają zostać uruchomione. Należy zwrócić uwagę, że nie oznacza to, że kontener, który później został utworzony nie będzie pierwszy gotowy do działania (aplikacja może polegać na kontenerze z bazą danych stąd najpierw uruchomimy kontener z tą bazą, natomiast może stać się tak, że naszą aplikacja szybciej skonfiguruje swój kontener niż baza danych i wystąpi problem z połączeniem bazodanowym).
 * ```env_file``` dodaje zmienne środowiskowe do kontenera na podstawie zewnętrznego pliku.
 
 ---
@@ -573,7 +573,7 @@ docker-compose down --rmi all
 
 ---
 
-W celu stworzenia pipelinu CI/CD użyjemy narzęcia GitHub Workflows. Jest to proste w uzyciu narzędzie, które pozwala na dużo więcej niż proste pipeliny CI/CD, a do tego pozwala nam trzymać je w postaci kodu na jednym repozytorium wraz z kodem samego projektu. GitHub udostępnia na swoje maszyny budujące, stąd nie musimy się przejmować o infraktrukturę. Kod pipelinu musi znajdować się w plikach z roszerzeniem ```.yml/.yaml``` w katalogu ```.github/workflows/```.
+W celu stworzenia pipelinu CI/CD użyjemy narzędzia GitHub Workflows. Jest to proste w użyciu narzędzie, które pozwala na dużo więcej niż proste pipeliny CI/CD, a do tego pozwala nam trzymać je w postaci kodu na jednym repozytorium wraz z kodem samego projektu. GitHub udostępnia na swoje maszyny budujące, stąd nie musimy się przejmować o infrastrukturę. Kod pipelinu musi znajdować się w plikach z roszerzeniem ```.yml/.yaml``` w katalogu ```.github/workflows/```.
 
 ```.github/workflows/<nazwa_pliku>.yml:```
 
