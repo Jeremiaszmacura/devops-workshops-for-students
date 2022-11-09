@@ -177,7 +177,7 @@ Pełna dokumentacja: https://docs.docker.com/desktop/install/windows-install/
 
    2. Instalujemy Dockera przy pomocy repozytorium:
 
-      2.1 Aktualizujemy pakiet apt i instalujemy wybrane pakiety:
+      1. Aktualizujemy pakiet apt i instalujemy wybrane pakiety:
 
         ```sh
         sudo apt-get update && \
@@ -188,14 +188,14 @@ Pełna dokumentacja: https://docs.docker.com/desktop/install/windows-install/
         lsb-release
         ```
 
-      2.2 Dodajemy oficjalny klucz dockerowy GPG:
+      2. Dodajemy oficjalny klucz dockerowy GPG:
 
         ```sh
         sudo mkdir -p /etc/apt/keyrings
         curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
         ```
 
-      2.3 Konfigurujemy repozytorium:
+      3. Konfigurujemy repozytorium:
 
         ```sh
         echo \
