@@ -53,8 +53,7 @@ Aby zainstalować Dockera musimy posiadać 64bitową wersję Ubuntu, jedną z wy
 11. [Wdrożenie aplikacji na platformie Kubernetes](#11-Wdrożenie-aplikacji-na-platformie-Kubernetes)
 12. [Ćwiczenia](#12-Ćwiczenia)
 
-<br />
-<hr />
+---
 
 ## 1. Instalacja Gita
 
@@ -156,44 +155,53 @@ Pełna dokumentacja: https://docs.docker.com/desktop/install/windows-install/
     * Po pojawieniu się okienka instalacji należy się upewnić, że wybrana jest opcja użycia WSL 2 zamiast Hyper-V.
     * Należy także sprawdzić czy włączona jest intergracja z wsl oraz z używaną dystrybucją Linuxa. W tym celu należy wejść w ustawienia Docker Desktop, otworzyć zakładkę *Resources* i włączyć wybrane integracje.
 
-
 ---
 
 ### Linux
 
-1. Odinstalowujemy stare wersje dockera:
-
-    ```sh
-    sudo apt-get remove docker docker-engine docker.io containerd runc
-    ```
-
-2. Instalujemy Dockera przy pomocy repozytorium.
-
-* Aktualizujemy pakiet apt i instalujemy wybrane pakiety:
+* W większości przypadków wystarczy wykonać komendy:
 
     ```sh
     sudo apt-get update && \
-    sudo apt-get install \
+    sudo apt-get upgrade && \
+    sudo apt-get install docker.io docker-compose
+    ```
+
+* Można także posłużyć się oficjalną dokumentacją (za https://docs.docker.com/engine/install/ubuntu):
+
+  1. Odinstalowujemy stare wersje Dockera:
+
+     ```sh
+     sudo apt-get remove docker docker-engine docker.io containerd runc
+     ```
+
+   2. Instalujemy Dockera przy pomocy repozytorium:
+
+      1. Aktualizujemy pakiet apt i instalujemy wybrane pakiety:
+
+        ```sh
+        sudo apt-get update && \
+        sudo apt-get install \
         ca-certificates \
         curl \
         gnupg \
         lsb-release
-    ```
+        ```
 
-* Dodajemy oficjalny klucz dockerowy GPG:
+      2. Dodajemy oficjalny klucz dockerowy GPG:
 
-    ```sh
-    sudo mkdir -p /etc/apt/keyrings
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-    ```
+        ```sh
+        sudo mkdir -p /etc/apt/keyrings
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+        ```
 
-* Konfigurujemy repozytorium:
+      3. Konfigurujemy repozytorium:
 
-    ```sh
-    echo \
+        ```sh
+        echo \
         "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
         $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-    ```
+        ```
 
 ---
 
@@ -252,11 +260,11 @@ source .venv/bin/activate (Linux)
 .venv\Scripts\activate (Windows)
 ```
 
-W przypadku problemów z aktywowaniem środowiska wirtualnego w systemie Windows można skorzystać z komendy:
-
-```sh
-Set-ExecutionPolicy Unrestricted -Scope Process
-```
+> W przypadku problemów z aktywowaniem środowiska wirtualnego w systemie Windows można skorzystać z komendy Powershell:
+> 
+> ```sh
+> Set-ExecutionPolicy Unrestricted -Scope Process
+> ```
 
 ---
 
@@ -310,7 +318,7 @@ Wystarczy, że skoczystamy z Dockera i wykonamy poniższe polecenie, które zaci
 
 ### Uruchomienie kontenera bazy danych i aplikacji
 
-1. Uruchomienie bazty danych
+1. Uruchomienie bazy danych
 
 ```sh
 docker run --name postgres_workshops -e POSTGRES_DB=dev_database -e POSTGRES_USER=dev_user -e POSTGRES_PASSWORD=dev_user -p 5432:5432 -d postgres:14
