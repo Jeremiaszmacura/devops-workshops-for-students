@@ -44,7 +44,7 @@ Aby zainstalować Dockera musimy posiadać 64bitową wersję Ubuntu, jedną z wy
 2. [Instalacja Pythona](#2-Instalacja-Pythona)
 3. [Instalacja Dockera](#3-Instalacja-Dockera)
 4. [Założenie kont na serwisach: Github, Docker Hub, Snyk](#4-Założenie-kont-na-serwisach-Github-Docker-Hub-Snyk)
-5. [Stoworzenie katalogu roboczego i sklonowanie repozytorium](#5-Stworzenie-katalogu-roboczego-i-sklonowanie-repozytorium)
+5. [Stworzenie katalogu roboczego i sklonowanie repozytorium](#5-Stworzenie-katalogu-roboczego-i-sklonowanie-repozytorium)
 6. [Przygotowanie wirtualnego środowiska Python](#6-Przygotowanie-wirtualnego-środowiska-Python)
 7. [Uruchomienie aplikacji, bazy danych i testów jednostkowych](#7-Uruchomienie-aplikacji-bazy-danych-i-testów-jednostkowych)
 8. [Konteneryzacja aplikacji](#8-Konteneryzacja-aplikacji)
