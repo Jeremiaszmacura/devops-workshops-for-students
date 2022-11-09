@@ -217,7 +217,15 @@ Pełna dokumentacja: https://docs.docker.com/desktop/install/mac-install/
 
 #### 1. Dodajemy użytkownika do grupy docker.
 
-Jeśli wcześniej instalator tego nie zrobił dodajemy użytkownika do grupy `docker`:
+Jako użytkownik należy wykonać polecenie:
+
+```sh
+groups
+```
+
+By sprawdzić czy nasz użytkownik jest w grupie `docker`.
+
+Jeśli wcześniej instalator tego nie zrobił tworzymy grupę `docker` i dodajemy do niej swojego użytkownika:
 
 ```sh
 sudo groupadd docker && \
