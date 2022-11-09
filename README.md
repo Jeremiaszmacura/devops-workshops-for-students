@@ -260,11 +260,11 @@ source .venv/bin/activate (Linux)
 .venv\Scripts\activate (Windows)
 ```
 
-W przypadku problemów z aktywowaniem środowiska wirtualnego w systemie Windows można skorzystać z komendy:
-
-```sh
-Set-ExecutionPolicy Unrestricted -Scope Process
-```
+> W przypadku problemów z aktywowaniem środowiska wirtualnego w systemie Windows można skorzystać z komendy Powershell:
+> 
+> ```sh
+> Set-ExecutionPolicy Unrestricted -Scope Process
+> ```
 
 ---
 
