@@ -318,7 +318,7 @@ Wystarczy, że skoczystamy z Dockera i wykonamy poniższe polecenie, które zaci
 
 ### Uruchomienie kontenera bazy danych i aplikacji
 
-1. Uruchomienie bazty danych
+1. Uruchomienie bazy danych
 
 ```sh
 docker run --name postgres_workshops -e POSTGRES_DB=dev_database -e POSTGRES_USER=dev_user -e POSTGRES_PASSWORD=dev_user -p 5432:5432 -d postgres:14
