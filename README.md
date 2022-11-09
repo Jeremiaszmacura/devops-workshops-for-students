@@ -162,7 +162,6 @@ Pełna dokumentacja: https://docs.docker.com/desktop/install/windows-install/
 
     ```sh
     sudo apt-get update && \
-    sudo apt-get upgrade && \
     sudo apt-get install docker.io docker-compose
     ```
 
@@ -216,11 +215,29 @@ Pełna dokumentacja: https://docs.docker.com/desktop/install/mac-install/
 
 ### Kroki post-instalacyjne
 
-#### Dodanie użytkownika do grupy docker.
+#### 1. Dodajemy użytkownika do grupy docker.
+
+Jeśli wcześniej instalator tego nie zrobił dodajemy użytkownika do grupy `docker`:
 
 ```sh
 sudo groupadd docker && \
 sudo usermod -aG docker $USER
+```
+
+Wylogowujemy się i logujemy ponownie.
+
+#### 2. Weryfikacja poprawności instalacji.
+
+Wykonujemy polecenie:
+
+```sh
+docker ps
+```
+
+Powinna się nam wyświetlić lista uruchomionych kontenerów (pusta):
+
+```text
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 ```
 
 #### Zobacz także: https://docs.docker.com/engine/install/linux-postinstall/
