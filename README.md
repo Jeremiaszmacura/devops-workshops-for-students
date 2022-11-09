@@ -226,7 +226,7 @@ sudo usermod -aG docker $USER
 
 Wylogowujemy się i logujemy ponownie.
 
-#### 2. Weryfikacja poprawności instalacji
+#### 2. Weryfikacja poprawności instalacji.
 
 Wykonujemy polecenie:
 
