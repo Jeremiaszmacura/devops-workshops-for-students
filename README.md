@@ -524,7 +524,7 @@ Powyższy plik docker-compose.yaml definiuje zarówno kontenery z ich specyfikac
 * ```ports``` mapuje porty pomiędzy maszyną hostującą, a kontenerem ```HOST:CONTAINER```.
 * ```environment``` pozwala na dodanie zmiennych środowiskowych do tworzonego kontenera.
 * ```restart``` określa zachowanie kontenera w monemcie, gdyż jego praca zostanie zakończona. W tym wypadku, w momencie, kiedy kontener przestanie działać z powodu błędy, zostanie automatycznie ponownie powołany do życia.
-* ```depends_on``` określa kolejność (zależność), w której kontenery mają zostać uruchamienione. Należy zwrócić uwagę, że nie oznacza to, że kontener, który później został utworzony nie będzie pierwszy gotowy do działania (aplikacja może polegać na kontenerze z bazą danych stąd najpierw uruchomimy kontener z tą bazą, natomiast może stać się tak, że naszą aplikacja szybciej skonfiguruje swój kontener niż baza danych i wystąpi problem z połączeniem bazodanowym).
+* ```depends_on``` określa kolejność (zależność), w której kontenery mają zostać uruchomione. Należy zwrócić uwagę, że nie oznacza to, że kontener, który później został utworzony nie będzie pierwszy gotowy do działania (aplikacja może polegać na kontenerze z bazą danych stąd najpierw uruchomimy kontener z tą bazą, natomiast może stać się tak, że naszą aplikacja szybciej skonfiguruje swój kontener niż baza danych i wystąpi problem z połączeniem bazodanowym).
 * ```env_file``` dodaje zmienne środowiskowe do kontenera na podstawie zewnętrznego pliku.
 
 ---
