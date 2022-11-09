@@ -96,9 +96,8 @@ Pobieramy plik instalacyjny Pythona w odpowiedniej wersji (najlepiej ostatniej s
 Wykonujemy poniższe polecenia, które zaktualizują narzędzie apt-get, zainstalują pythona w najnowszej dostępnej wersji na obecnego narzędzi pakietów i zaktualizują wersję menadżera pakietów (pip).
 
 ```sh
-sudo apt-get update
-sudo apt-get install python3
-python3 -m ensurepip --upgrade
+sudo apt-get update && \
+sudo apt-get install python3 python3-venv python3-pip
 ```
 
 ### MacOS
