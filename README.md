@@ -148,8 +148,6 @@ Pełna dokumentacja: https://docs.docker.com/desktop/install/windows-install/
     * Uruchom instalator Docker Desktop. Po pojawieniu się okienka instalacji należy się upewnić, że wybrana jest opcja użycia *WSL 2* zamiast *Hyper-V*.
     * Należy także sprawdzić czy włączona jest integracja z wsl oraz z używaną dystrybucją Linuxa. W tym celu należy wejść w ustawienia Docker Desktop, otworzyć zakładkę *Resources* i włączyć wybrane integracje.
 
----
-
 #### Linux
 
 - W większości przypadków wystarczy wykonać komendy:
@@ -195,8 +193,6 @@ Pełna dokumentacja: https://docs.docker.com/desktop/install/windows-install/
         $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
         ```
 
----
-
 #### MacOS
 
 Pełna dokumentacja: https://docs.docker.com/desktop/install/mac-install/
@@ -211,9 +207,11 @@ Pełna dokumentacja: https://docs.docker.com/desktop/install/mac-install/
 
 **Kroki należy wykonać dla wszystkich systemów.**
 
+Zmiana pozwoli uruchamiać polecenia dockera z poziomu użytkownika (a nie przez polecenie `sudo`).
+
 #### 1. Dodajemy użytkownika do grupy docker.
 
-Jeśli wcześniej instalator tego nie zrobił tworzymy grupę `docker`:
+Jeśli wcześniej instalator tego nie zrobił, tworzymy grupę `docker`:
 
 ```sh
 sudo groupadd docker
@@ -228,8 +226,6 @@ sudo usermod -aG docker $USER
 > By sprawdzić czy nasz użytkownik jest w grupie `docker` jako użytkownik należy wykonać polecenie `groups`.
 
 Wylogowujemy się i logujemy ponownie.
-
-Zmiana pozwoli uruchamiać polecenia dockera z poziomu użytkownika (a nie przez polecenie `sudo`).
 
 #### 2. Weryfikacja poprawności instalacji.
 
