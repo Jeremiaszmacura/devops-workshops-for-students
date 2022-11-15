@@ -274,8 +274,9 @@ Po udanym forku klonujemy nowo utworzone repozytorium do wybranego katalogu robo
 
 ---
 
-* Tworzymy wirtualne środowisko przy pomocy modułu `venv` i następnie aktywujemy je. 
-Dzięki temu stworzymy odseparowane środowisko do pracy nad aplikacją, a wszystkie zainstalowane biblioteki pozostaną jedynie w tym środowisku i nie będą miały wpływu na pozostałe projekty Pythonowe znajdujące się w naszym systemie.
+Tworzymy wirtualne środowisko przy pomocy modułu `venv` i następnie aktywujemy je. 
+
+Dzięki temu stworzymy odseparowane środowisko do pracy nad aplikacją, a wszystkie zainstalowane biblioteki/zależności pozostaną jedynie w tym środowisku i nie będą miały wpływu na pozostałe projekty Pythonowe znajdujące się w naszym systemie.
 
 ```sh
 python3 -m venv .venv
