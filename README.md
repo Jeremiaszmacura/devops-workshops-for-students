@@ -209,24 +209,27 @@ Pełna dokumentacja: https://docs.docker.com/desktop/install/mac-install/
 
 ### Kroki post-instalacyjne
 
+**Kroki należy wykonać dla wszystkich systemów.**
+
 #### 1. Dodajemy użytkownika do grupy docker.
 
-Jako użytkownik należy wykonać polecenie:
+Jeśli wcześniej instalator tego nie zrobił tworzymy grupę `docker`:
 
 ```sh
-groups
+sudo groupadd docker
 ```
 
-by sprawdzić czy nasz użytkownik jest w grupie `docker`.
-
-Jeśli wcześniej instalator tego nie zrobił tworzymy grupę `docker` i dodajemy do niej swojego użytkownika:
+i dodajemy do niej swojego użytkownika:
 
 ```sh
-sudo groupadd docker && \
 sudo usermod -aG docker $USER
 ```
 
+> By sprawdzić czy nasz użytkownik jest w grupie `docker` jako użytkownik należy wykonać polecenie `groups`.
+
 Wylogowujemy się i logujemy ponownie.
+
+Zmiana pozwoli uruchamiać polecenia dockera z poziomu użytkownika (a nie przez polecenie `sudo`).
 
 #### 2. Weryfikacja poprawności instalacji.
 
