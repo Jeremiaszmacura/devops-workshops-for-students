@@ -241,6 +241,12 @@ Powinna się nam wyświetlić lista uruchomionych kontenerów (pusta):
 CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 ```
 
+Można także uruchomić testową aplikację:
+
+```sh
+docker run hello-world
+```
+
 #### Zobacz także: https://docs.docker.com/engine/install/linux-postinstall/
 
 ---
