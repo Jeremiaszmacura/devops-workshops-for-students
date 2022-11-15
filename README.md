@@ -40,32 +40,30 @@ Aby zainstalować Dockera musimy posiadać 64bitową wersję Ubuntu, jedną z wy
 
 ## Plan warsztatu
 
-1. [Instalacja Gita](#1-Instalacja-Gita)
-2. [Instalacja Pythona](#2-Instalacja-Pythona)
-3. [Instalacja Dockera](#3-Instalacja-Dockera)
-4. [Założenie kont na serwisach: Github, Docker Hub, Snyk](#4-Założenie-kont-na-serwisach-Github-Docker-Hub-Snyk)
-5. [Stworzenie katalogu roboczego i sklonowanie repozytorium](#5-Stworzenie-katalogu-roboczego-i-sklonowanie-repozytorium)
-6. [Przygotowanie wirtualnego środowiska Python](#6-Przygotowanie-wirtualnego-środowiska-Python)
-7. [Uruchomienie aplikacji, bazy danych i testów jednostkowych](#7-Uruchomienie-aplikacji-bazy-danych-i-testów-jednostkowych)
-8. [Konteneryzacja aplikacji](#8-Konteneryzacja-aplikacji)
-9. [Orkiestryzacja aplikacji z użyciem narzędzia docker-compose](#9-Orkiestryzacja-aplikacji-z-użyciem-narzędzia-docker-compose)
-10. [Ciągła integracja i wydanie](#10-Ciągła-integracja-i-wydanie)
-11. [Wdrożenie aplikacji na platformie Kubernetes](#11-Wdrożenie-aplikacji-na-platformie-Kubernetes)
-12. [Ćwiczenia](#12-Ćwiczenia)
+1. [Instalacja narzędzi Gita](#1-Instalacja-narzędzi)
+2. [Założenie kont na serwisach: Github, Docker Hub, Snyk](#2-Założenie-kont-na-serwisach-Github-Docker-Hub-Snyk)
+3. [Stworzenie katalogu roboczego i sklonowanie repozytorium](#3-Stworzenie-katalogu-roboczego-i-sklonowanie-repozytorium)
+4. [Przygotowanie wirtualnego środowiska Python](#4-Przygotowanie-wirtualnego-środowiska-Python)
+5. [Uruchomienie aplikacji, bazy danych i testów jednostkowych](#5-Uruchomienie-aplikacji-bazy-danych-i-testów-jednostkowych)
+6. [Konteneryzacja aplikacji](#6-Konteneryzacja-aplikacji)
+7. [Orkiestryzacja aplikacji z użyciem narzędzia docker-compose](#7-Orkiestryzacja-aplikacji-z-użyciem-narzędzia-docker-compose)
+8. [Ciągła integracja i wydanie](#8-Ciągła-integracja-i-wydanie)
+9. [Wdrożenie aplikacji na platformie Kubernetes](#9-Wdrożenie-aplikacji-na-platformie-Kubernetes)
+10. [Ćwiczenia](#10-Ćwiczenia)
 
 ---
 
-## 1. Instalacja Gita
+## 1. Instalacja narzędzi
 
----
+### 1.1. Git
 
 Pełna dokumentacja: https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
 
-### Windows
+#### Windows
 
 Przechodzimy na stronę z instalkami Gita dla Windowsa: https://git-scm.com/download/win. Następnie pobieramy odpowiednią wersję i instalujemy.
 
-### Linux
+#### Linux
 
 Dla dystrubucji opartych na Debianie wykonujemy polecenie:
 
@@ -73,7 +71,7 @@ Dla dystrubucji opartych na Debianie wykonujemy polecenie:
 sudo apt install git-all
 ```
 
-### MacOS
+#### MacOS
 
 Wykonujemy polecenie, po którego wykonaniu pokaże nam się propozycja instalacji:
 
@@ -83,15 +81,13 @@ git --version
 
 ---
 
-## 2. Instalacja Pythona
+### 1.2. Python
 
----
-
-### Windows
+#### Windows
 
 Pobieramy plik instalacyjny Pythona w odpowiedniej wersji (najlepiej ostatniej stabilnej) ze strony: https://www.python.org/downloads/ i instalujemy.
 
-### Linux
+#### Linux
 
 Wykonujemy poniższe polecenia, które zaktualizują narzędzie apt-get, zainstalują Pythona w najnowszej dostępnej wersji na obecnego narzędzi pakietów i zaktualizują wersję menadżera pakietów (pip).
 
@@ -100,17 +96,15 @@ sudo apt-get update && \
 sudo apt-get install python3 python3-venv python3-pip
 ```
 
-### MacOS
+#### MacOS
 
 Pobieramy plik instalacyjny Pythona w odpowiedniej wersji (najlepiej ostatniej stabilnej) ze strony: https://www.python.org/downloads/macos/ i instalujemy.
 
 ---
 
-## 3. Instalacja Dockera
+### 1.3. Docker
 
----
-
-### Windows
+#### Windows
 
 Pełna dokumentacja: https://docs.docker.com/desktop/install/windows-install/
 
@@ -156,7 +150,7 @@ Pełna dokumentacja: https://docs.docker.com/desktop/install/windows-install/
 
 ---
 
-### Linux
+#### Linux
 
 * W większości przypadków wystarczy wykonać komendy:
 
@@ -203,7 +197,7 @@ Pełna dokumentacja: https://docs.docker.com/desktop/install/windows-install/
 
 ---
 
-### MacOS
+#### MacOS
 
 Pełna dokumentacja: https://docs.docker.com/desktop/install/mac-install/
 
@@ -252,7 +246,7 @@ CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 
 ---
 
-## 4. Założenie kont na serwisach: Github, Docker Hub, Snyk
+## 2. Założenie kont na serwisach: Github, Docker Hub, Snyk
 
 --- 
 
@@ -262,7 +256,7 @@ CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 
 ---
 
-## 5. Stworzenie katalogu roboczego i sklonowanie repozytorium
+## 3. Stworzenie katalogu roboczego i sklonowanie repozytorium
 
 ---
 
@@ -271,7 +265,7 @@ Po udanym forku klonujemy nowo utworzone repozytorium do wybranego katalogu robo
 
 ---
 
-## 6. Przygotowanie wirtualnego środowiska Python
+## 4. Przygotowanie wirtualnego środowiska Python
 
 ---
 
@@ -292,7 +286,7 @@ source .venv/bin/activate (Linux)
 
 ---
 
-## 7. Uruchomienie aplikacji, bazy danych i testów jednostkowych
+## 5. Uruchomienie aplikacji, bazy danych i testów jednostkowych
 
 ---
 
@@ -366,7 +360,7 @@ python setup.py test
 
 ---
 
-## 8. Konteneryzacja aplikacji
+## 6. Konteneryzacja aplikacji
 
 ---
 
@@ -491,7 +485,7 @@ Ten plik działa podobnie jak plik .gitignore w przypadku git'a. Pozwala określ
 
 ---
 
-## 9. Orkiestryzacja aplikacji z użyciem narzędzia docker-compose
+## 7. Orkiestryzacja aplikacji z użyciem narzędzia docker-compose
 
 ---
 
@@ -577,7 +571,7 @@ docker-compose down --rmi all
 
 ---
 
-## 10. Ciągła integracja i wydanie
+## 8. Ciągła integracja i wydanie
 
 ---
 
@@ -705,7 +699,7 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 ```
 
-<hr />
+---
 
 ### Automatyczne budowanie i wdrażanie kontenerów
 
@@ -753,20 +747,20 @@ jobs:
 
 ---
 
-## 11. Wdrożenie aplikacji na platformie Kubernetes
+## 9. Wdrożenie aplikacji na platformie Kubernetes
 
-<hr />
+---
 
-### 11.1 Instalacja Kubernetesa
+### 9.1. Instalacja Kubernetesa
 
-### Windows
+#### Windows
 
 Po zainstalowaniu Docker Desktop wchodzimy w jego ustawienia (prawym klawiszem myszy na jego ikonie w pasku zadań, następnie wybieramy *settings*) i klikamy na **Enable Kubernetes**. 
 
 
 O poprawnym uruchomieniu informuje zielony pasek w lewym-dolnym rogu Docker Desktop (powinny być widoczne dwa zielone paski: *Engine Running* świadczący o działaniu silnika Dockera oraz *Kubernetes Running* świadczący o działaniu Kubernetesa).
 
-### Linux
+#### Linux
 
 Wykonujemy poniższe polecenia, które zainstalują **minikube**:
 
@@ -794,9 +788,9 @@ sudo install minikube-darwin-amd64 /usr/local/bin/minikube
 
 > **Więcej informacji:**  https://minikube.sigs.k8s.io/docs/start/
 
-### 11.2 Instalacja polecenia kubectl
+### 9.2. Instalacja polecenia kubectl
 
-### Windows
+#### Windows
 
 Polecenie kubectl można zainstalować poprzez manager pakietów **Chocolatey**, który można pobrać z https://chocolatey.org/.
 Po jego zainstalowaniu należy wykonać polecenie:
@@ -805,7 +799,7 @@ Po jego zainstalowaniu należy wykonać polecenie:
 choco install kubernetes-cli
 ```
 
-### Linux
+#### Linux
 
 Wykonujemy polecenia:
 
@@ -815,9 +809,9 @@ Wykonujemy polecenia:
 > **Więcej informacji:**  https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
 
 
-### MacOS
+#### MacOS
 
-#### 1. Pobranie pliku w postaci binarnej.
+1. Pobranie pliku w postaci binarnej.
 
 Wykonujemy polecenia:
 
@@ -833,7 +827,7 @@ Wykonujemy polecenia:
     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/darwin/arm64/kubectl"
     ```
 
-#### 2. Instalacja
+2. Instalacja
 
 Wykonujemy polecenia:
 
@@ -847,7 +841,7 @@ sudo chown root: /usr/local/bin/kubectl
 
 ---
 
-### Weryfikacja instalacji
+### 9.3. Weryfikacja instalacji
 
 Po instalacji, by zweryfikować poprawność i wersję klienta należy wykonać:
 
@@ -867,7 +861,7 @@ Aby wyświetlić stan całego klastra należy wykonać:
 kubectl cluster-info
 ```
 
-### 11.3 Wdrożenie aplikacji
+### 9.4. Wdrożenie aplikacji
 
 Wdrożenie aplikacji na platformie Kubernetes odbywa się poprzez odpowiednio przygotowane pliki (*deployment files*), w których zdefiniowane są obiekty składowe aplikacji.
 
@@ -916,9 +910,9 @@ kubectl delete -f k8s.yaml
 > **Więcej informacji:**  https://kubernetes.io/docs/reference/kubectl/cheatsheet/
 
 
-## 12. Ćwiczenia
+## 10. Ćwiczenia
 
-### 12.1 Dodaj nową akcję Github
+### 10.1. Dodaj nową akcję Github
 
 Dodaj akcję do stworzenia wydania.
 Akcja powinna być uruchomiona gdy zostanie stworzony i wypchnięty tag zaczynający się od `v` (np. `v0.1.0`).
@@ -942,7 +936,7 @@ git tag v0.1.0
 git push origin develop --tags
 ```
 
-### 12.2 Dodaj kolejny serwis do Docker Compose
+### 10.2. Dodaj kolejny serwis do Docker Compose
 
 Dodaj nowy serwis (w pliku `docker-compose.yaml`) o nazwie `pgadmin` z obrazem `dpage/pgadmin4`. 
 Umożliwi on edycję/przeglądanie bazy danych.
@@ -958,7 +952,7 @@ Należy także pamiętać o sekcji `ports`: serwis działa domyślnie na porcie 
 Uruchom zaktualizowany stos aplikacji poleceniem `docker-compose up`. 
 Używając przeglądarki zaloguj się do panelu administracyjnego, dziajającego na wybranym porcie. 
 
-### 12.3 Zabezpiecz URI do bazy danych we wdrożeniu Kubernetesa
+### 10.3. Zabezpiecz URI do bazy danych we wdrożeniu Kubernetesa
 
 Obecnie URI do bazy danych jest podany w pliku `k8s.yaml` w postaci czystego tekstu. 
 
