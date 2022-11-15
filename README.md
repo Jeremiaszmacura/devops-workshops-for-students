@@ -296,37 +296,13 @@ source .venv/bin/activate (Linux)
 
 ---
 
-### Konfiguracja środowiska i instalacja zależności
+### 5.1. Konfiguracja środowiska i instalacja zależności
 
-Eksportujemy dwie zmienne, które informują aplikację gdzie znajduje się plik wejściowy oraz, że będziemy pracować w trybie developerskim z opcją debugowania.
-
-#### Linux
-
-```sh
-export FLASK_APP=flaskr/app.py
-export FLASK_DEBUG=true
-```
-
-#### Windows (cmd)
+Instalujemy naszą aplikację jako wykorzystując setuptools. 
+Poniższe polecenie wykonujemy w katalogu głównym projektu:
 
 ```sh
-set FLASK_APP=flaskr/app.py
-set FLASK_DEBUG=true
-```
-
-#### Windows (powershell)
-
-```sh
-$env:FLASK_APP = "flaskr/app.py"
-$env:FLASK_DEBUG = "true"
-```
-
----
-
-Teraz instalujemy naszą aplikację jako bibliotekę wykorzystując bibliotekę setuptools. Poniższe polecenie wykonujemy w katalogu głównym projektu:
-
-```sh
-python -m pip install -e .[dev]
+python -m pip install -e ".[dev]"
 ```
 
 Budujemy paczkę (przy zmianach w projekcie każdorazowo przed wybudowaniem obrazu dokerowego).
@@ -340,7 +316,7 @@ Wystarczy, że skorzystamy z Dockera i wykonamy poniższe polecenie, które zaci
 
 ---
 
-### Uruchomienie kontenera bazy danych i aplikacji
+### 5.2. Uruchomienie kontenera bazy danych i aplikacji
 
 1. Uruchomienie bazy danych
 
@@ -348,17 +324,19 @@ Wystarczy, że skorzystamy z Dockera i wykonamy poniższe polecenie, które zaci
 docker run --name postgres_workshops -e POSTGRES_DB=dev_database -e POSTGRES_USER=dev_user -e POSTGRES_PASSWORD=dev_user -p 5432:5432 -d postgres:14
 ```
 
-2. Uruchomienie aplikacji.
+2. Uruchomienie aplikacji w trybie developerskim:
 
 ```sh
-flask run
+flask --app flaskr.app run
 ```
 
 Aplikacja powinna być dostępna pod adresem http://localhost:5000 
 
 ---
 
-### Uruchomienie testów jednostkowych
+### 5.3. Uruchomienie testów jednostkowych
+
+Sprawdzamy czy testy jednostkowe przechodzą:
 
 ```sh
 python setup.py test
