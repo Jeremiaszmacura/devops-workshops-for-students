@@ -152,14 +152,14 @@ Pełna dokumentacja: https://docs.docker.com/desktop/install/windows-install/
 
 #### Linux
 
-* W większości przypadków wystarczy wykonać komendy:
+- W większości przypadków wystarczy wykonać komendy:
 
     ```sh
     sudo apt-get update && \
     sudo apt-get install docker.io docker-compose
     ```
 
-* Można także posłużyć się oficjalną dokumentacją (za https://docs.docker.com/engine/install/ubuntu):
+- Można także posłużyć się oficjalną dokumentacją (za https://docs.docker.com/engine/install/ubuntu):
 
   1. Odinstalowujemy stare wersje Dockera:
 
@@ -169,7 +169,7 @@ Pełna dokumentacja: https://docs.docker.com/desktop/install/windows-install/
 
    2. Instalujemy Dockera przy pomocy repozytorium:
 
-      1. Aktualizujemy pakiet apt i instalujemy wybrane pakiety:
+      2.1. Aktualizujemy pakiet apt i instalujemy wybrane pakiety:
 
         ```sh
         sudo apt-get update && \
@@ -180,14 +180,14 @@ Pełna dokumentacja: https://docs.docker.com/desktop/install/windows-install/
         lsb-release
         ```
 
-      2. Dodajemy oficjalny klucz dockerowy GPG:
+      2.2. Dodajemy oficjalny klucz dockerowy GPG:
 
         ```sh
         sudo mkdir -p /etc/apt/keyrings
         curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
         ```
 
-      3. Konfigurujemy repozytorium:
+      2.3. Konfigurujemy repozytorium:
 
         ```sh
         echo \
@@ -201,9 +201,9 @@ Pełna dokumentacja: https://docs.docker.com/desktop/install/windows-install/
 
 Pełna dokumentacja: https://docs.docker.com/desktop/install/mac-install/
 
-1. Pobieramy instalkę w zależności o rodzaju procesora ze pełnej dokumentacji powyżej.
+1. Pobieramy instalator w zależności od rodzaju procesora (z pełnej dokumentacji powyżej).
 
-2. Instalujemy przy pomocy graficznego interfejsu uruchamiając instalkę lub przy pomocy wiersza poleceń (szczegóły w pełnej dokumentacji)
+2. Instalujemy przy pomocy graficznego interfejsu uruchamiając instalator, lub przy pomocy wiersza poleceń (szczegóły w pełnej dokumentacji).
 
 ---
 
