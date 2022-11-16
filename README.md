@@ -494,6 +494,9 @@ docker rm flask_app postgres_workshops
 
 ### docker-compose.yaml
 
+Poniższy plik docker-compose.yaml definiuje zarówno kontenery z ich specyfikacją, które mają zostać zbudowane jak i specyfikację sieci, w której mają pracować. Pierwsza z aplikacji określona w tym pliku to nasza aplikacja, napisana w frameworku *Flask*:
+
+
 ```yaml
 version: '3.8'
 
@@ -523,7 +526,6 @@ services:
     restart: always
 ```
 
-Powyższy plik docker-compose.yaml definiuje zarówno kontenery z ich specyfikacją, które mają zostać zbudowane jak i specyfikację sieci, w której mają pracować. Pierwsza z aplikacji określona w tym pliku to nasza aplikacja napisana w frameworku flask. 
 * ```image``` określa nazwę obrazu, który ma zostać użyty do zbudowania kontenera.
 * ```build``` zawiera dodatkowe parametry wykorzystane w procesie budowania kontenera na bazie wybranego obrazu. ```context``` określa kontekst, a ```dockerfile``` zawiera ścieżkę do pliku Dockerfile, na podstawie, którego zostanie zbudowany obraz.
 * ```ports``` mapuje porty pomiędzy maszyną hostującą, a kontenerem ```HOST:CONTAINER```.
@@ -531,6 +533,8 @@ Powyższy plik docker-compose.yaml definiuje zarówno kontenery z ich specyfikac
 * ```restart``` określa zachowanie kontenera w monemcie, gdyż jego praca zostanie zakończona. W tym wypadku, w momencie, kiedy kontener przestanie działać z powodu błędy, zostanie automatycznie ponownie powołany do życia.
 * ```depends_on``` określa kolejność (zależność), w której kontenery mają zostać uruchomione. Należy zwrócić uwagę, że nie oznacza to, że kontener, który później został utworzony nie będzie pierwszy gotowy do działania (aplikacja może polegać na kontenerze z bazą danych stąd najpierw uruchomimy kontener z tą bazą, natomiast może stać się tak, że naszą aplikacja szybciej skonfiguruje swój kontener niż baza danych i wystąpi problem z połączeniem bazodanowym).
 * ```env_file``` dodaje zmienne środowiskowe do kontenera na podstawie zewnętrznego pliku.
+
+Zmienne środowiskowe znajdują się w pliku `.env`, można je także podawać jako parametry do polecenia `docker-compose`.
 
 ---
 
@@ -572,7 +576,7 @@ W celu stworzenia pipelinu CI/CD użyjemy narzędzia GitHub Workflows. Jest to p
 
 Aktywujemy tą funkcjonalność poprzez przejście na zakładkę ```Actions``` na naszym sforkowanym repozytorium i kliknięcie przycisku aktywacji.
 
-<hr />
+---
 
 ### Dodanie GitHub Secrets do repozytorium
 
@@ -581,7 +585,7 @@ W celu poprawnego korzystania z narzędzia Snyk i serwisu Docker Hub musimy usta
 * Nazwa sekretu: ```DOCKERHUB_USERNAME```. Wartość ustawiamy na naszą nazwę użytkownika w serwisie Docker Hub ```https://hub.docker.com/```. Po zalogowaniu do serwisu Docker Hub nasza nazwa użytkownika widnieje w prawym górnym roku.
 * Nazwa sekretu: ```DOCKERHUB_TOKEN```. Wartość tego sekretu ustawiamy na token, którym możemy pozyskać z naszego konta w serwisie Docker Hub ```https://hub.docker.com/```. Po zalogowaniu do serwisu Docker Hub przechodzimy do zakładki ```Account Settings```, a następnie ```Security``` i tworzymy nasz nowy token, którego wartość kopiujemy do sekretu GitHub.
 
-<hr />
+---
 
 ### Automatyzacja testów jednostkowych
 
@@ -623,7 +627,7 @@ jobs:
 * ```uses:``` pozwala na skorzystanie z gotowej akcji zdefiniowanej na zewnętrznym repozytorium.
 * ```with:``` umożliwia przekazanie wybranych parametrów do danej akcji.
 
-<hr />
+---
 
 ### Automatyczne testowanie przy pomocy narzędzi typu linter (np. pytlint, black)
 
@@ -656,7 +660,7 @@ jobs:
           python -m black --check .
 ```
 
-<hr />
+---
 
 ### Automatyzacja statycznej analizy kodu
 
