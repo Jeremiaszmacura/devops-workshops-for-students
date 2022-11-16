@@ -923,8 +923,9 @@ git push origin develop --tags
 ### 10.2. Dodaj healthcheck do usługi w Docker Compose
 
 W tej chwili usługa bazy danych zostanie uruchomiona po usłudze aplikacji. 
-Nie gwarantuje to jednak, że baza danych będzie dostępna gdy aplikacja będzie chciała otworzyć do niej połączenie.
+Nie gwarantuje to jednak, że baza danych będzie dostępna, gdy aplikacja będzie chciała otworzyć do niej połączenie, inicjalizacja może trwać pewien czas.
 Można to rozwiązać przez tzw. *healthcheck*.
+
 Dodaj następujący wpis do `docker-compose.yaml` w serwisie `database`:
 
 ```text
