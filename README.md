@@ -874,11 +874,13 @@ Aby zweryfikować wdrożenie należy wykonać polecenie:
 kubectl get pods
 ```
 
- Polecenie to powinno wyświetlić tabelę działających podów:
+Polecenie to powinno wyświetlić tabelę działających podów (poprawny status to *Running*):
 
-    NAME                      READY   STATUS    RESTARTS   AGE
-    flaskr-6c45555bcf-bh8c2   0/1     Running   0          6s
-    postgres-0                1/1     Running   0          6s
+```text
+NAME                      READY   STATUS    RESTARTS   AGE
+flaskr-6c45555bcf-bh8c2   0/1     Running   0          6s
+postgres-0                1/1     Running   0          6s
+```
 
 Aby uzyskać szczegółowe informacje o wybranym pod (w tym przypadku o aplikacji) należy wykonać polecenie:
 
@@ -931,7 +933,7 @@ Można to rozwiązać przez tzw. *healthcheck*.
 
 Dodaj następujący wpis do `docker-compose.yaml` w serwisie `database`:
 
-```text
+```yaml
 healthcheck:
   test: ["CMD-SHELL", "pg_isready"]
   interval: 5s
@@ -941,7 +943,7 @@ healthcheck:
 
 oraz zmień wpis `depends_on` przy serwisie `flask-app`:
 
-```text
+```yaml
 depends_on:
   database:
     condition: service_healthy
