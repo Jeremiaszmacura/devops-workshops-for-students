@@ -350,7 +350,10 @@ python setup.py test
 
 ### Dockerfile
 
-```text
+Przygotowany plik `Dockerfile` pozwoli nam na zbudowanie obrazu Dockera, zawierającego naszą aplikację i wszystkie niezbędne do jej uruchomienia zależności.
+Na podstawie wybudowanego obrazu będzie możliwe uruchomienie kontenera.
+
+```dockerfile
 FROM python:3.10
 WORKDIR /app
 COPY ./dist/flaskr-0.1.0-py3-none-any.whl .
