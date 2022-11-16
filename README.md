@@ -483,7 +483,7 @@ W tym celu przygotowany został plik `docker-compose.yaml`, w którym zdefiniowa
 
 > **Uwaga:** Polecenie powinno być wykonane w folderze, w którym znajduje się odpowiedni plik `docker-compose.yaml`. W przeciwnym razie należy go wskazać za pomocą opcji `-f`.
 
-### Nim skorzystamy z narzędzia jakim jest docker-compose musimy zakończyć działanie i żywot naszych obecnie działających kontenerów przy pomocy poleceń
+**Zanim skorzystamy z narzędzia jakim jest docker-compose musimy zakończyć działanie i żywot naszych obecnie działających kontenerów przy pomocy poleceń:**
 
 ```sh
 docker stop flask_app postgres_workshops
@@ -494,7 +494,7 @@ docker rm flask_app postgres_workshops
 
 ### docker-compose.yaml
 
-```text
+```yaml
 version: '3.8'
 
 services:
@@ -585,7 +585,7 @@ W celu poprawnego korzystania z narzędzia Snyk i serwisu Docker Hub musimy usta
 
 ### Automatyzacja testów jednostkowych
 
-```text
+```yaml
 name: Unit Tests
 
 on:
@@ -627,7 +627,7 @@ jobs:
 
 ### Automatyczne testowanie przy pomocy narzędzi typu linter (np. pytlint, black)
 
-```text
+```yaml
 name: Lint code
 
 on:
@@ -660,7 +660,7 @@ jobs:
 
 ### Automatyzacja statycznej analizy kodu
 
-```text
+```yaml
 name: Static code analysis
 
 on:
@@ -690,7 +690,7 @@ jobs:
 
 ### Automatyczne budowanie i wdrażanie kontenerów
 
-```text
+```yaml
 name: Docker build and push
 
 on:
