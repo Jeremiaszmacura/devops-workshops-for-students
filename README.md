@@ -920,7 +920,32 @@ git tag v0.1.0
 git push origin develop --tags
 ```
 
-### 10.2. Dodaj kolejny serwis do Docker Compose
+### 10.2. Dodaj healthcheck do usługi w Docker Compose
+
+W tej chwili usługa bazy danych zostanie uruchomiona po usłudze aplikacji. 
+Nie gwarantuje to jednak, że baza danych będzie dostępna gdy aplikacja będzie chciała otworzyć do niej połączenie.
+Można to rozwiązać przez tzw. *healthcheck*.
+Dodaj następujący wpis do `docker-compose.yaml` w serwisie `database`:
+
+```text
+healthcheck:
+  test: ["CMD-SHELL", "pg_isready"]
+  interval: 5s
+  timeout: 10s
+  retries: 3
+```
+
+oraz zmień wpis `depends_on` przy serwisie `flask-app`:
+
+```text
+depends_on:
+  database:
+    condition: service_healthy
+```
+
+Następne uruchom całość poleceniem `docker-compose up`.
+
+### 10.3. Dodaj kolejny serwis do Docker Compose
 
 Dodaj nowy serwis (w pliku `docker-compose.yaml`) o nazwie `pgadmin` z obrazem `dpage/pgadmin4`. 
 Umożliwi on edycję/przeglądanie bazy danych.
@@ -936,7 +961,7 @@ Należy także pamiętać o sekcji `ports`: serwis działa domyślnie na porcie 
 Uruchom zaktualizowany stos aplikacji poleceniem `docker-compose up`. 
 Używając przeglądarki zaloguj się do panelu administracyjnego, dziajającego na wybranym porcie. 
 
-### 10.3. Zabezpiecz URI do bazy danych we wdrożeniu Kubernetesa
+### 10.4. Zabezpiecz URI do bazy danych we wdrożeniu Kubernetesa
 
 Obecnie URI do bazy danych jest podany w pliku `k8s.yaml` w postaci czystego tekstu. 
 
