@@ -1,6 +1,7 @@
 version: '3.8'
 
 services:
+
   flask-app:
     image: flask-app
     build:
@@ -14,6 +15,7 @@ services:
     restart: on-failure
     depends_on:
       - database
+
   database:
     image: postgres:14
     env_file: .env
