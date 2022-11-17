@@ -264,15 +264,17 @@ docker run hello-world
 Forkujemy repozytorium poprzez otworzenie oficjalnego repozytorium ```https://github.com/Jeremiaszmacura/devops-workshops-for-students``` i kliknięcie ikony z napisem fork (prawy góry róg). 
 Po udanym forku klonujemy nowo utworzone repozytorium do wybranego katalogu roboczego na naszym systemie przy pomocy polecenia ```git clone https://github.com/Jeremiaszmacura/devops-workshops-for-students``` wykonanego z poziomu `cmd/powershell/git` lub `bash/bash/sh`.
 
-## 4. Przygotowanie wirtualnego środowiska Python
-
 ---
 
-Tworzymy wirtualne środowisko przy pomocy modułu `venv`, a następnie aktywujemy je. 
+## 4. Przygotowanie wirtualnego środowiska Python
+
+Tworzymy wirtualne środowisko przy pomocy modułu `venv`: 
 
 ```sh
 python3 -m venv .venv
 ```
+
+A następnie aktywujemy je:
 
 ### Linux/MacOS
 
