@@ -915,6 +915,8 @@ kubectl delete -f k8s.yaml
 
 ## 10. Ćwiczenia
 
+---
+
 ### 10.1. Dodaj nową akcję Github
 
 Dodaj akcję do stworzenia wydania.
@@ -938,6 +940,8 @@ Następnie spróbuj dodać i wypchnąć tag komendami Git z linii poleceń:
 git tag v0.1.0 &&\
 git push origin develop --tags
 ```
+
+---
 
 ### 10.2. Dodaj healthcheck do usługi w Docker Compose
 
@@ -965,6 +969,8 @@ depends_on:
 
 Następne uruchom całość poleceniem `docker-compose up`.
 
+---
+
 ### 10.3. Dodaj kolejny serwis do Docker Compose
 
 Dodaj nowy serwis (w pliku `docker-compose.yaml`) o nazwie `pgadmin` z obrazem `dpage/pgadmin4`. 
@@ -980,6 +986,8 @@ Należy także pamiętać o sekcji `ports`: serwis działa domyślnie na porcie 
 
 Uruchom zaktualizowany stos aplikacji poleceniem `docker-compose up`. 
 Używając przeglądarki zaloguj się do panelu administracyjnego, dziajającego na wybranym porcie. 
+
+---
 
 ### 10.4. Zabezpiecz URI do bazy danych we wdrożeniu Kubernetesa
 
