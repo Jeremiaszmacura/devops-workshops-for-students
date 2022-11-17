@@ -742,12 +742,15 @@ jobs:
 
 ## 9. Wdrożenie aplikacji na platformie Kubernetes
 
+W tej części przygotowany obraz z aplikacją zostanie wdrożony na platformie Kubernetes (k8s).
+
+---
+
 ### 9.1. Instalacja Kubernetesa
 
 #### Windows
 
 Po zainstalowaniu Docker Desktop wchodzimy w jego ustawienia (prawym klawiszem myszy na jego ikonie w pasku zadań, następnie wybieramy *settings*) i klikamy na **Enable Kubernetes**. 
-
 
 O poprawnym uruchomieniu informuje zielony pasek w lewym-dolnym rogu Docker Desktop (powinny być widoczne dwa zielone paski: *Engine Running* świadczący o działaniu silnika Dockera oraz *Kubernetes Running* świadczący o działaniu Kubernetesa).
 
@@ -778,6 +781,8 @@ sudo install minikube-darwin-amd64 /usr/local/bin/minikube
 ```
 
 > **Więcej informacji:**  https://minikube.sigs.k8s.io/docs/start/
+
+---
 
 ### 9.2. Instalacja polecenia kubectl
 
@@ -853,6 +858,8 @@ Aby wyświetlić stan całego klastra należy wykonać:
 ```sh
 kubectl cluster-info
 ```
+
+---
 
 ### 9.4. Wdrożenie aplikacji
 
