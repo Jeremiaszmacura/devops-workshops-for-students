@@ -253,8 +253,6 @@ docker run hello-world
 
 ## 2. Założenie kont na serwisach: Github, Docker Hub, Snyk
 
---- 
-
 * Konto GitHub będzie nam potrzebne w celu stworzenia pipelinu (CI) wykorzystując narzędzie GitHub Actions. Pipeline służy do automatyzacji pewnych procesów. W tym wypadku tymi procesami będą: testy jednostkowe, lintowanie kodu, budowanie kontenera aplikacji i wysyłanie go na repozytorium, statyczna analiza kodu. (https://github.com/)
 * Konto na repozytorium Dockerowym (Docker Hub) będzie wykorzystane w celu przechowania na nim naszego zbudowanego kontenera aplikacji. (https://hub.docker.com/)
 * Konto Snyk zostanie wykorzystane w celu wykonania statycznej analizy kodu. (https://snyk.io/)
@@ -263,12 +261,8 @@ docker run hello-world
 
 ## 3. Stworzenie katalogu roboczego i sklonowanie repozytorium
 
----
-
 Forkujemy repozytorium poprzez otworzenie oficjalnego repozytorium ```https://github.com/Jeremiaszmacura/devops-workshops-for-students``` i kliknięcie ikony z napisem fork (prawy góry róg). 
 Po udanym forku klonujemy nowo utworzone repozytorium do wybranego katalogu roboczego na naszym systemie przy pomocy polecenia ```git clone https://github.com/Jeremiaszmacura/devops-workshops-for-students``` wykonanego z poziomu `cmd/powershell/git` lub `bash/bash/sh`.
-
----
 
 ## 4. Przygotowanie wirtualnego środowiska Python
 
@@ -305,8 +299,6 @@ Dzięki temu stworzymy odseparowane środowisko do pracy nad aplikacją, a wszys
 ---
 
 ## 5. Uruchomienie aplikacji, bazy danych i testów jednostkowych
-
----
 
 ### 5.1. Konfiguracja środowiska i instalacja zależności
 
@@ -357,8 +349,6 @@ python setup.py test
 ---
 
 ## 6. Konteneryzacja aplikacji
-
----
 
 ### Dockerfile
 
@@ -486,8 +476,6 @@ Ten plik działa podobnie jak plik .gitignore w przypadku git'a. Pozwala określ
 
 ## 7. Orkiestryzacja aplikacji z użyciem narzędzia docker-compose
 
----
-
 Cały stos aplikacji może być uruchomiony za pomocą polecenia *docker-compose* Dockera. 
 Compose jest narzędziem do definiowania i uruchamiania aplikacji Dockera składających się z wielu kontenerów/aplikacji.
 
@@ -575,8 +563,6 @@ docker-compose down --rmi all
 ---
 
 ## 8. Ciągła integracja i wydanie
-
----
 
 W celu stworzenia pipelinu CI/CD użyjemy narzędzia GitHub Workflows. Jest to proste w użyciu narzędzie, które pozwala na dużo więcej niż proste pipeliny CI/CD, a do tego pozwala nam trzymać je w postaci kodu na jednym repozytorium wraz z kodem samego projektu. GitHub udostępnia na swoje maszyny budujące, stąd nie musimy się przejmować o infrastrukturę. Kod pipelinu musi znajdować się w plikach z roszerzeniem ```.yml/.yaml``` w katalogu ```.github/workflows/```.
 
@@ -754,8 +740,6 @@ jobs:
 
 ## 9. Wdrożenie aplikacji na platformie Kubernetes
 
----
-
 ### 9.1. Instalacja Kubernetesa
 
 #### Windows
@@ -918,6 +902,7 @@ kubectl delete -f k8s.yaml
 
 > **Więcej informacji:**  https://kubernetes.io/docs/reference/kubectl/cheatsheet/
 
+---
 
 ## 10. Ćwiczenia
 
