@@ -153,7 +153,7 @@ Pełna dokumentacja: https://docs.docker.com/desktop/install/windows-install/
 - W większości przypadków wystarczy wykonać komendy:
 
     ```sh
-    sudo apt-get update && \
+    sudo apt-get update &&\
     sudo apt-get install docker.io docker-compose
     ```
 
@@ -266,7 +266,7 @@ docker run hello-world
 ---
 
 Forkujemy repozytorium poprzez otworzenie oficjalnego repozytorium ```https://github.com/Jeremiaszmacura/devops-workshops-for-students``` i kliknięcie ikony z napisem fork (prawy góry róg). 
-Po udanym forku klonujemy nowo utworzone repozytorium do wybranego katalogu roboczego na naszym systemie przy pomocy polecenia ```git clone https://github.com/Jeremiaszmacura/devops-workshops-for-students``` wykonanego z poziomu cmd/powershell/git bash/bash/sh/...
+Po udanym forku klonujemy nowo utworzone repozytorium do wybranego katalogu roboczego na naszym systemie przy pomocy polecenia ```git clone https://github.com/Jeremiaszmacura/devops-workshops-for-students``` wykonanego z poziomu `cmd/powershell/git` lub `bash/bash/sh`.
 
 ---
 
@@ -274,15 +274,27 @@ Po udanym forku klonujemy nowo utworzone repozytorium do wybranego katalogu robo
 
 ---
 
-Tworzymy wirtualne środowisko przy pomocy modułu `venv` i następnie aktywujemy je. 
-
-Dzięki temu stworzymy odseparowane środowisko do pracy nad aplikacją, a wszystkie zainstalowane biblioteki/zależności pozostaną jedynie w tym środowisku i nie będą miały wpływu na pozostałe projekty Pythonowe znajdujące się w naszym systemie.
+Tworzymy wirtualne środowisko przy pomocy modułu `venv`, a następnie aktywujemy je. 
 
 ```sh
 python3 -m venv .venv
-source .venv/bin/activate (Linux)
-.venv\Scripts\activate (Windows)
 ```
+
+### Linux/MacOS
+
+```sh
+source .venv/bin/activate
+```
+
+### Windows
+
+```sh
+.venv\Scripts\activate
+```
+
+---
+
+Dzięki temu stworzymy odseparowane środowisko do pracy nad aplikacją, a wszystkie zainstalowane biblioteki/zależności pozostaną jedynie w tym środowisku i nie będą miały wpływu na pozostałe projekty Pythonowe znajdujące się w naszym systemie.
 
 > W przypadku problemów z aktywowaniem środowiska wirtualnego w systemie Windows można skorzystać z komendy Powershell:
 > 
@@ -580,10 +592,12 @@ Aktywujemy tą funkcjonalność poprzez przejście na zakładkę ```Actions``` n
 
 ### Dodanie GitHub Secrets do repozytorium
 
-W celu poprawnego korzystania z narzędzia Snyk i serwisu Docker Hub musimy ustawić zmienne przechowujące dane wymagane do uwierzytelniania w tych serwisach jako sekrety na platformie GitHub. GitHub Actions będą w trakcie komunikacji z tymi serwisami korzystać z tych sekretów i będą one niewidoczne dla osób postronnych. Na platformie GitHub przechodzimy do zakładki ustawień będąc na naszym własnym zforkowanym repozytorium. W ustawieniach przechodzimy do zakładki sekretów dla akcji. Dodajemy trzy poniższe sekrety:
-* Nazwa sekretu: ```SNYK_TOKEN```. Jego zawartością będzie token, który możemy pozyskać z naszego konta w serwisie Snyk ```https://snyk.io/account/```. 
-* Nazwa sekretu: ```DOCKERHUB_USERNAME```. Wartość ustawiamy na naszą nazwę użytkownika w serwisie Docker Hub ```https://hub.docker.com/```. Po zalogowaniu do serwisu Docker Hub nasza nazwa użytkownika widnieje w prawym górnym roku.
-* Nazwa sekretu: ```DOCKERHUB_TOKEN```. Wartość tego sekretu ustawiamy na token, którym możemy pozyskać z naszego konta w serwisie Docker Hub ```https://hub.docker.com/```. Po zalogowaniu do serwisu Docker Hub przechodzimy do zakładki ```Account Settings```, a następnie ```Security``` i tworzymy nasz nowy token, którego wartość kopiujemy do sekretu GitHub.
+W celu poprawnego korzystania z narzędzia Snyk i serwisu Docker Hub musimy ustawić zmienne przechowujące dane wymagane do uwierzytelniania w tych serwisach jako secrety na platformie GitHub. GitHub Actions będą w trakcie komunikacji z tymi serwisami korzystać z tych secretów i będą one niewidoczne dla osób postronnych. Na platformie GitHub przechodzimy do zakładki ustawień będąc na naszym własnym zforkowanym repozytorium. W ustawieniach przechodzimy do zakładki secretów dla akcji. 
+
+Dodajemy trzy poniższe secrety:
+* Nazwa secretu: ```SNYK_TOKEN```. Jego zawartością będzie token, który możemy pozyskać z naszego konta w serwisie Snyk ```https://snyk.io/account/```. 
+* Nazwa secretu: ```DOCKERHUB_USERNAME```. Wartość ustawiamy na naszą nazwę użytkownika w serwisie Docker Hub ```https://hub.docker.com/```. Po zalogowaniu do serwisu Docker Hub nasza nazwa użytkownika widnieje w prawym górnym roku.
+* Nazwa secretu: ```DOCKERHUB_TOKEN```. Wartość tego sekretu ustawiamy na token, którym możemy pozyskać z naszego konta w serwisie Docker Hub ```https://hub.docker.com/```. Po zalogowaniu do serwisu Docker Hub przechodzimy do zakładki ```Account Settings```, a następnie ```Security``` i tworzymy nasz nowy token, którego wartość kopiujemy do sekretu GitHub.
 
 ---
 
@@ -756,7 +770,7 @@ O poprawnym uruchomieniu informuje zielony pasek w lewym-dolnym rogu Docker Desk
 Wykonujemy poniższe polecenia, które zainstalują **minikube**:
 
 ```sh
-curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 &&\
 sudo install minikube-linux-amd64 /usr/local/bin/minikube
 ```
 
@@ -794,9 +808,11 @@ choco install kubernetes-cli
 
 Wykonujemy polecenia:
 
-    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-    sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-
+```sh
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" &&\
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+```
+    
 > **Więcej informacji:**  https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
 
 
@@ -824,7 +840,7 @@ Wykonujemy polecenia:
 
 ```sh
 chmod +x ./kubectl &&\
-sudo mv ./kubectl /usr/local/bin/kubectl && \
+sudo mv ./kubectl /usr/local/bin/kubectl &&\
 sudo chown root: /usr/local/bin/kubectl
 ```
 
@@ -925,7 +941,7 @@ Paczka (plik z rozszerzeniem `.whl`) znajdzie się w folderze `dist`.
 Następnie spróbuj dodać i wypchnąć tag komendami Git z linii poleceń:
 
 ```sh
-git tag v0.1.0
+git tag v0.1.0 &&\
 git push origin develop --tags
 ```
 
