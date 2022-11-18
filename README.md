@@ -40,32 +40,30 @@ Aby zainstalować Dockera musimy posiadać 64bitową wersję Ubuntu, jedną z wy
 
 ## Plan warsztatu
 
-1. [Instalacja Gita](#1-Instalacja-Gita)
-2. [Instalacja Pythona](#2-Instalacja-Pythona)
-3. [Instalacja Dockera](#3-Instalacja-Dockera)
-4. [Założenie kont na serwisach: Github, Docker Hub, Snyk](#4-Założenie-kont-na-serwisach-Github-Docker-Hub-Snyk)
-5. [Stworzenie katalogu roboczego i sklonowanie repozytorium](#5-Stworzenie-katalogu-roboczego-i-sklonowanie-repozytorium)
-6. [Przygotowanie wirtualnego środowiska Python](#6-Przygotowanie-wirtualnego-środowiska-Python)
-7. [Uruchomienie aplikacji, bazy danych i testów jednostkowych](#7-Uruchomienie-aplikacji-bazy-danych-i-testów-jednostkowych)
-8. [Konteneryzacja aplikacji](#8-Konteneryzacja-aplikacji)
-9. [Orkiestryzacja aplikacji z użyciem narzędzia docker-compose](#9-Orkiestryzacja-aplikacji-z-użyciem-narzędzia-docker-compose)
-10. [Ciągła integracja i wydanie](#10-Ciągła-integracja-i-wydanie)
-11. [Wdrożenie aplikacji na platformie Kubernetes](#11-Wdrożenie-aplikacji-na-platformie-Kubernetes)
-12. [Ćwiczenia](#12-Ćwiczenia)
+1. [Instalacja narzędzi](#1-Instalacja-narzędzi)
+2. [Założenie kont na serwisach: Github, Docker Hub, Snyk](#2-Założenie-kont-na-serwisach-Github-Docker-Hub-Snyk)
+3. [Stworzenie katalogu roboczego i sklonowanie repozytorium](#3-Stworzenie-katalogu-roboczego-i-sklonowanie-repozytorium)
+4. [Przygotowanie wirtualnego środowiska Python](#4-Przygotowanie-wirtualnego-środowiska-Python)
+5. [Uruchomienie aplikacji, bazy danych i testów jednostkowych](#5-Uruchomienie-aplikacji-bazy-danych-i-testów-jednostkowych)
+6. [Konteneryzacja aplikacji](#6-Konteneryzacja-aplikacji)
+7. [Orkiestryzacja aplikacji z użyciem narzędzia docker-compose](#7-Orkiestryzacja-aplikacji-z-użyciem-narzędzia-docker-compose)
+8. [Ciągła integracja i wydanie](#8-Ciągła-integracja-i-wydanie)
+9. [Wdrożenie aplikacji na platformie Kubernetes](#9-Wdrożenie-aplikacji-na-platformie-Kubernetes)
+10. [Ćwiczenia](#10-Ćwiczenia)
 
 ---
 
-## 1. Instalacja Gita
+## 1. Instalacja narzędzi
 
----
+### 1.1. Git
 
 Pełna dokumentacja: https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
 
-### Windows
+#### Windows
 
 Przechodzimy na stronę z instalkami Gita dla Windowsa: https://git-scm.com/download/win. Następnie pobieramy odpowiednią wersję i instalujemy.
 
-### Linux
+#### Linux
 
 Dla dystrubucji opartych na Debianie wykonujemy polecenie:
 
@@ -73,7 +71,7 @@ Dla dystrubucji opartych na Debianie wykonujemy polecenie:
 sudo apt install git-all
 ```
 
-### MacOS
+#### MacOS
 
 Wykonujemy polecenie, po którego wykonaniu pokaże nam się propozycja instalacji:
 
@@ -83,15 +81,13 @@ git --version
 
 ---
 
-## 2. Instalacja Pythona
+### 1.2. Python
 
----
-
-### Windows
+#### Windows
 
 Pobieramy plik instalacyjny Pythona w odpowiedniej wersji (najlepiej ostatniej stabilnej) ze strony: https://www.python.org/downloads/ i instalujemy.
 
-### Linux
+#### Linux
 
 Wykonujemy poniższe polecenia, które zaktualizują narzędzie apt-get, zainstalują Pythona w najnowszej dostępnej wersji na obecnego narzędzi pakietów i zaktualizują wersję menadżera pakietów (pip).
 
@@ -100,17 +96,15 @@ sudo apt-get update && \
 sudo apt-get install python3 python3-venv python3-pip
 ```
 
-### MacOS
+#### MacOS
 
 Pobieramy plik instalacyjny Pythona w odpowiedniej wersji (najlepiej ostatniej stabilnej) ze strony: https://www.python.org/downloads/macos/ i instalujemy.
 
 ---
 
-## 3. Instalacja Dockera
+### 1.3. Docker
 
----
-
-### Windows
+#### Windows
 
 Pełna dokumentacja: https://docs.docker.com/desktop/install/windows-install/
 
@@ -154,28 +148,26 @@ Pełna dokumentacja: https://docs.docker.com/desktop/install/windows-install/
     * Uruchom instalator Docker Desktop. Po pojawieniu się okienka instalacji należy się upewnić, że wybrana jest opcja użycia *WSL 2* zamiast *Hyper-V*.
     * Należy także sprawdzić czy włączona jest integracja z wsl oraz z używaną dystrybucją Linuxa. W tym celu należy wejść w ustawienia Docker Desktop, otworzyć zakładkę *Resources* i włączyć wybrane integracje.
 
----
+#### Linux
 
-### Linux
-
-* W większości przypadków wystarczy wykonać komendy:
+- W większości przypadków wystarczy wykonać komendy:
 
     ```sh
-    sudo apt-get update && \
+    sudo apt-get update &&\
     sudo apt-get install docker.io docker-compose
     ```
 
-* Można także posłużyć się oficjalną dokumentacją (za https://docs.docker.com/engine/install/ubuntu):
+- Można także posłużyć się oficjalną dokumentacją (za https://docs.docker.com/engine/install/ubuntu):
 
-  1. Odinstalowujemy stare wersje Dockera:
+  - Odinstalowujemy stare wersje Dockera:
 
      ```sh
      sudo apt-get remove docker docker-engine docker.io containerd runc
      ```
 
-   2. Instalujemy Dockera przy pomocy repozytorium:
+   - Instalujemy Dockera przy pomocy repozytorium:
 
-      1. Aktualizujemy pakiet apt i instalujemy wybrane pakiety:
+      - Aktualizujemy pakiet apt i instalujemy wybrane pakiety:
 
         ```sh
         sudo apt-get update && \
@@ -186,14 +178,14 @@ Pełna dokumentacja: https://docs.docker.com/desktop/install/windows-install/
         lsb-release
         ```
 
-      2. Dodajemy oficjalny klucz dockerowy GPG:
+      - Dodajemy oficjalny klucz dockerowy GPG:
 
         ```sh
         sudo mkdir -p /etc/apt/keyrings
         curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
         ```
 
-      3. Konfigurujemy repozytorium:
+      - Konfigurujemy repozytorium:
 
         ```sh
         echo \
@@ -201,36 +193,37 @@ Pełna dokumentacja: https://docs.docker.com/desktop/install/windows-install/
         $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
         ```
 
----
-
-### MacOS
+#### MacOS
 
 Pełna dokumentacja: https://docs.docker.com/desktop/install/mac-install/
 
-1. Pobieramy instalkę w zależności o rodzaju procesora ze pełnej dokumentacji powyżej.
+1. Pobieramy instalator w zależności od rodzaju procesora (z pełnej dokumentacji powyżej).
 
-2. Instalujemy przy pomocy graficznego interfejsu uruchamiając instalkę lub przy pomocy wiersza poleceń (szczegóły w pełnej dokumentacji)
+2. Instalujemy przy pomocy graficznego interfejsu uruchamiając instalator, lub przy pomocy wiersza poleceń (szczegóły w pełnej dokumentacji).
 
 ---
 
 ### Kroki post-instalacyjne
 
+**Kroki należy wykonać dla wszystkich systemów.**
+
+Zmiana pozwoli uruchamiać polecenia dockera z poziomu użytkownika (a nie przez polecenie `sudo`).
+
 #### 1. Dodajemy użytkownika do grupy docker.
 
-Jako użytkownik należy wykonać polecenie:
+Jeśli wcześniej instalator tego nie zrobił, tworzymy grupę `docker`:
 
 ```sh
-groups
+sudo groupadd docker
 ```
 
-by sprawdzić czy nasz użytkownik jest w grupie `docker`.
-
-Jeśli wcześniej instalator tego nie zrobił tworzymy grupę `docker` i dodajemy do niej swojego użytkownika:
+i dodajemy do niej swojego użytkownika:
 
 ```sh
-sudo groupadd docker && \
 sudo usermod -aG docker $USER
 ```
+
+> By sprawdzić czy nasz użytkownik jest w grupie `docker` jako użytkownik należy wykonać polecenie `groups`.
 
 Wylogowujemy się i logujemy ponownie.
 
@@ -248,13 +241,17 @@ Powinna się nam wyświetlić lista uruchomionych kontenerów (pusta):
 CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 ```
 
+Można także uruchomić testową aplikację:
+
+```sh
+docker run hello-world
+```
+
 #### Zobacz także: https://docs.docker.com/engine/install/linux-postinstall/
 
 ---
 
-## 4. Założenie kont na serwisach: Github, Docker Hub, Snyk
-
---- 
+## 2. Założenie kont na serwisach: Github, Docker Hub, Snyk
 
 * Konto GitHub będzie nam potrzebne w celu stworzenia pipelinu (CI) wykorzystując narzędzie GitHub Actions. Pipeline służy do automatyzacji pewnych procesów. W tym wypadku tymi procesami będą: testy jednostkowe, lintowanie kodu, budowanie kontenera aplikacji i wysyłanie go na repozytorium, statyczna analiza kodu. (https://github.com/)
 * Konto na repozytorium Dockerowym (Docker Hub) będzie wykorzystane w celu przechowania na nim naszego zbudowanego kontenera aplikacji. (https://hub.docker.com/)
@@ -262,27 +259,38 @@ CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 
 ---
 
-## 5. Stworzenie katalogu roboczego i sklonowanie repozytorium
-
----
+## 3. Stworzenie katalogu roboczego i sklonowanie repozytorium
 
 Forkujemy repozytorium poprzez otworzenie oficjalnego repozytorium ```https://github.com/Jeremiaszmacura/devops-workshops-for-students``` i kliknięcie ikony z napisem fork (prawy góry róg). 
-Po udanym forku klonujemy nowo utworzone repozytorium do wybranego katalogu roboczego na naszym systemie przy pomocy polecenia ```git clone https://github.com/Jeremiaszmacura/devops-workshops-for-students``` wykonanego z poziomu cmd/powershell/git bash/bash/sh/...
+Po udanym forku klonujemy nowo utworzone repozytorium do wybranego katalogu roboczego na naszym systemie przy pomocy polecenia ```git clone https://github.com/Jeremiaszmacura/devops-workshops-for-students``` wykonanego z poziomu `cmd/powershell/git` lub `bash/bash/sh`.
 
 ---
 
-## 6. Przygotowanie wirtualnego środowiska Python
+## 4. Przygotowanie wirtualnego środowiska Python
 
----
-
-* Tworzymy wirtualne środowisko przy pomocy modułu `venv` i następnie aktywujemy je. 
-Dzięki temu stworzymy odseparowane środowisko do pracy nad aplikacją, a wszystkie zainstalowane biblioteki pozostaną jedynie w tym środowisku i nie będą miały wpływu na pozostałe projekty Pythonowe znajdujące się w naszym systemie.
+Tworzymy wirtualne środowisko przy pomocy modułu `venv`: 
 
 ```sh
 python3 -m venv .venv
-source .venv/bin/activate (Linux)
-.venv\Scripts\activate (Windows)
 ```
+
+A następnie aktywujemy je:
+
+### Linux/MacOS
+
+```sh
+source .venv/bin/activate
+```
+
+### Windows
+
+```sh
+.venv\Scripts\activate
+```
+
+---
+
+Dzięki temu stworzymy odseparowane środowisko do pracy nad aplikacją, a wszystkie zainstalowane biblioteki/zależności pozostaną jedynie w tym środowisku i nie będą miały wpływu na pozostałe projekty Pythonowe znajdujące się w naszym systemie.
 
 > W przypadku problemów z aktywowaniem środowiska wirtualnego w systemie Windows można skorzystać z komendy Powershell:
 > 
@@ -292,41 +300,15 @@ source .venv/bin/activate (Linux)
 
 ---
 
-## 7. Uruchomienie aplikacji, bazy danych i testów jednostkowych
+## 5. Uruchomienie aplikacji, bazy danych i testów jednostkowych
 
----
+### 5.1. Konfiguracja środowiska i instalacja zależności
 
-### Konfiguracja środowiska i instalacja zależności
-
-Eksportujemy dwie zmienne, które informują aplikację gdzie znajduje się plik wejściowy oraz, że będziemy pracować w trybie developerskim z opcją debugowania.
-
-#### Linux
+Instalujemy naszą aplikację jako wykorzystując setuptools. 
+Poniższe polecenie wykonujemy w katalogu głównym projektu:
 
 ```sh
-export FLASK_APP=flaskr/app.py
-export FLASK_DEBUG=true
-```
-
-#### Windows (cmd)
-
-```sh
-set FLASK_APP=flaskr/app.py
-set FLASK_DEBUG=true
-```
-
-#### Windows (powershell)
-
-```sh
-$env:FLASK_APP = "flaskr/app.py"
-$env:FLASK_DEBUG = "true"
-```
-
----
-
-Teraz instalujemy naszą aplikację jako bibliotekę wykorzystując bibliotekę setuptools. Poniższe polecenie wykonujemy w katalogu głównym projektu:
-
-```sh
-python -m pip install -e .[dev]
+python -m pip install -e ".[dev]"
 ```
 
 Budujemy paczkę (przy zmianach w projekcie każdorazowo przed wybudowaniem obrazu dokerowego).
@@ -340,7 +322,7 @@ Wystarczy, że skorzystamy z Dockera i wykonamy poniższe polecenie, które zaci
 
 ---
 
-### Uruchomienie kontenera bazy danych i aplikacji
+### 5.2. Uruchomienie kontenera bazy danych i aplikacji
 
 1. Uruchomienie bazy danych
 
@@ -348,17 +330,19 @@ Wystarczy, że skorzystamy z Dockera i wykonamy poniższe polecenie, które zaci
 docker run --name postgres_workshops -e POSTGRES_DB=dev_database -e POSTGRES_USER=dev_user -e POSTGRES_PASSWORD=dev_user -p 5432:5432 -d postgres:14
 ```
 
-2. Uruchomienie aplikacji.
+2. Uruchomienie aplikacji w trybie developerskim:
 
 ```sh
-flask run
+flask --app flaskr.app run
 ```
 
 Aplikacja powinna być dostępna pod adresem http://localhost:5000 
 
 ---
 
-### Uruchomienie testów jednostkowych
+### 5.3. Uruchomienie testów jednostkowych
+
+Sprawdzamy czy testy jednostkowe przechodzą:
 
 ```sh
 python setup.py test
@@ -366,13 +350,14 @@ python setup.py test
 
 ---
 
-## 8. Konteneryzacja aplikacji
-
----
+## 6. Konteneryzacja aplikacji
 
 ### Dockerfile
 
-```text
+Przygotowany plik `Dockerfile` pozwoli nam na zbudowanie obrazu Dockera, zawierającego naszą aplikację i wszystkie niezbędne do jej uruchomienia zależności.
+Na podstawie wybudowanego obrazu będzie możliwe uruchomienie kontenera.
+
+```dockerfile
 FROM python:3.10
 WORKDIR /app
 COPY ./dist/flaskr-0.1.0-py3-none-any.whl .
@@ -491,9 +476,7 @@ Ten plik działa podobnie jak plik .gitignore w przypadku git'a. Pozwala określ
 
 ---
 
-## 9. Orkiestryzacja aplikacji z użyciem narzędzia docker-compose
-
----
+## 7. Orkiestryzacja aplikacji z użyciem narzędzia docker-compose
 
 Cały stos aplikacji może być uruchomiony za pomocą polecenia *docker-compose* Dockera. 
 Compose jest narzędziem do definiowania i uruchamiania aplikacji Dockera składających się z wielu kontenerów/aplikacji.
@@ -502,7 +485,7 @@ W tym celu przygotowany został plik `docker-compose.yaml`, w którym zdefiniowa
 
 > **Uwaga:** Polecenie powinno być wykonane w folderze, w którym znajduje się odpowiedni plik `docker-compose.yaml`. W przeciwnym razie należy go wskazać za pomocą opcji `-f`.
 
-### Nim skorzystamy z narzędzia jakim jest docker-compose musimy zakończyć działanie i żywot naszych obecnie działających kontenerów przy pomocy poleceń
+**Zanim skorzystamy z narzędzia jakim jest docker-compose musimy zakończyć działanie i żywot naszych obecnie działających kontenerów przy pomocy poleceń:**
 
 ```sh
 docker stop flask_app postgres_workshops
@@ -513,7 +496,10 @@ docker rm flask_app postgres_workshops
 
 ### docker-compose.yaml
 
-```text
+Poniższy plik docker-compose.yaml definiuje zarówno kontenery z ich specyfikacją, które mają zostać zbudowane jak i specyfikację sieci, w której mają pracować. Pierwsza z aplikacji określona w tym pliku to nasza aplikacja, napisana w frameworku *Flask*:
+
+
+```yaml
 version: '3.8'
 
 services:
@@ -542,7 +528,6 @@ services:
     restart: always
 ```
 
-Powyższy plik docker-compose.yaml definiuje zarówno kontenery z ich specyfikacją, które mają zostać zbudowane jak i specyfikację sieci, w której mają pracować. Pierwsza z aplikacji określona w tym pliku to nasza aplikacja napisana w frameworku flask. 
 * ```image``` określa nazwę obrazu, który ma zostać użyty do zbudowania kontenera.
 * ```build``` zawiera dodatkowe parametry wykorzystane w procesie budowania kontenera na bazie wybranego obrazu. ```context``` określa kontekst, a ```dockerfile``` zawiera ścieżkę do pliku Dockerfile, na podstawie, którego zostanie zbudowany obraz.
 * ```ports``` mapuje porty pomiędzy maszyną hostującą, a kontenerem ```HOST:CONTAINER```.
@@ -550,6 +535,8 @@ Powyższy plik docker-compose.yaml definiuje zarówno kontenery z ich specyfikac
 * ```restart``` określa zachowanie kontenera w monemcie, gdyż jego praca zostanie zakończona. W tym wypadku, w momencie, kiedy kontener przestanie działać z powodu błędy, zostanie automatycznie ponownie powołany do życia.
 * ```depends_on``` określa kolejność (zależność), w której kontenery mają zostać uruchomione. Należy zwrócić uwagę, że nie oznacza to, że kontener, który później został utworzony nie będzie pierwszy gotowy do działania (aplikacja może polegać na kontenerze z bazą danych stąd najpierw uruchomimy kontener z tą bazą, natomiast może stać się tak, że naszą aplikacja szybciej skonfiguruje swój kontener niż baza danych i wystąpi problem z połączeniem bazodanowym).
 * ```env_file``` dodaje zmienne środowiskowe do kontenera na podstawie zewnętrznego pliku.
+
+Zmienne środowiskowe znajdują się w pliku `.env`, można je także podawać jako parametry do polecenia `docker-compose`.
 
 ---
 
@@ -577,9 +564,7 @@ docker-compose down --rmi all
 
 ---
 
-## 10. Ciągła integracja i wydanie
-
----
+## 8. Ciągła integracja i wydanie
 
 W celu stworzenia pipelinu CI/CD użyjemy narzędzia GitHub Workflows. Jest to proste w użyciu narzędzie, które pozwala na dużo więcej niż proste pipeliny CI/CD, a do tego pozwala nam trzymać je w postaci kodu na jednym repozytorium wraz z kodem samego projektu. GitHub udostępnia na swoje maszyny budujące, stąd nie musimy się przejmować o infrastrukturę. Kod pipelinu musi znajdować się w plikach z roszerzeniem ```.yml/.yaml``` w katalogu ```.github/workflows/```.
 
@@ -591,20 +576,22 @@ W celu stworzenia pipelinu CI/CD użyjemy narzędzia GitHub Workflows. Jest to p
 
 Aktywujemy tą funkcjonalność poprzez przejście na zakładkę ```Actions``` na naszym sforkowanym repozytorium i kliknięcie przycisku aktywacji.
 
-<hr />
+---
 
 ### Dodanie GitHub Secrets do repozytorium
 
-W celu poprawnego korzystania z narzędzia Snyk i serwisu Docker Hub musimy ustawić zmienne przechowujące dane wymagane do uwierzytelniania w tych serwisach jako sekrety na platformie GitHub. GitHub Actions będą w trakcie komunikacji z tymi serwisami korzystać z tych sekretów i będą one niewidoczne dla osób postronnych. Na platformie GitHub przechodzimy do zakładki ustawień będąc na naszym własnym zforkowanym repozytorium. W ustawieniach przechodzimy do zakładki sekretów dla akcji. Dodajemy trzy poniższe sekrety:
-* Nazwa sekretu: ```SNYK_TOKEN```. Jego zawartością będzie token, który możemy pozyskać z naszego konta w serwisie Snyk ```https://snyk.io/account/```. 
-* Nazwa sekretu: ```DOCKERHUB_USERNAME```. Wartość ustawiamy na naszą nazwę użytkownika w serwisie Docker Hub ```https://hub.docker.com/```. Po zalogowaniu do serwisu Docker Hub nasza nazwa użytkownika widnieje w prawym górnym roku.
-* Nazwa sekretu: ```DOCKERHUB_TOKEN```. Wartość tego sekretu ustawiamy na token, którym możemy pozyskać z naszego konta w serwisie Docker Hub ```https://hub.docker.com/```. Po zalogowaniu do serwisu Docker Hub przechodzimy do zakładki ```Account Settings```, a następnie ```Security``` i tworzymy nasz nowy token, którego wartość kopiujemy do sekretu GitHub.
+W celu poprawnego korzystania z narzędzia Snyk i serwisu Docker Hub musimy ustawić zmienne przechowujące dane wymagane do uwierzytelniania w tych serwisach jako secrety na platformie GitHub. GitHub Actions będą w trakcie komunikacji z tymi serwisami korzystać z tych secretów i będą one niewidoczne dla osób postronnych. Na platformie GitHub przechodzimy do zakładki ustawień będąc na naszym własnym zforkowanym repozytorium. W ustawieniach przechodzimy do zakładki secretów dla akcji. 
 
-<hr />
+Dodajemy trzy poniższe secrety:
+* Nazwa secretu: ```SNYK_TOKEN```. Jego zawartością będzie token, który możemy pozyskać z naszego konta w serwisie Snyk ```https://snyk.io/account/```. 
+* Nazwa secretu: ```DOCKERHUB_USERNAME```. Wartość ustawiamy na naszą nazwę użytkownika w serwisie Docker Hub ```https://hub.docker.com/```. Po zalogowaniu do serwisu Docker Hub nasza nazwa użytkownika widnieje w prawym górnym roku.
+* Nazwa secretu: ```DOCKERHUB_TOKEN```. Wartość tego sekretu ustawiamy na token, którym możemy pozyskać z naszego konta w serwisie Docker Hub ```https://hub.docker.com/```. Po zalogowaniu do serwisu Docker Hub przechodzimy do zakładki ```Account Settings```, a następnie ```Security``` i tworzymy nasz nowy token, którego wartość kopiujemy do sekretu GitHub.
+
+---
 
 ### Automatyzacja testów jednostkowych
 
-```text
+```yaml
 name: Unit Tests
 
 on:
@@ -642,11 +629,11 @@ jobs:
 * ```uses:``` pozwala na skorzystanie z gotowej akcji zdefiniowanej na zewnętrznym repozytorium.
 * ```with:``` umożliwia przekazanie wybranych parametrów do danej akcji.
 
-<hr />
+---
 
 ### Automatyczne testowanie przy pomocy narzędzi typu linter (np. pytlint, black)
 
-```text
+```yaml
 name: Lint code
 
 on:
@@ -675,11 +662,11 @@ jobs:
           python -m black --check .
 ```
 
-<hr />
+---
 
 ### Automatyzacja statycznej analizy kodu
 
-```text
+```yaml
 name: Static code analysis
 
 on:
@@ -705,11 +692,11 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 ```
 
-<hr />
+---
 
 ### Automatyczne budowanie i wdrażanie kontenerów
 
-```text
+```yaml
 name: Docker build and push
 
 on:
@@ -753,25 +740,26 @@ jobs:
 
 ---
 
-## 11. Wdrożenie aplikacji na platformie Kubernetes
+## 9. Wdrożenie aplikacji na platformie Kubernetes
 
-<hr />
+W tej części przygotowany obraz z aplikacją zostanie wdrożony na platformie Kubernetes (k8s).
 
-### 11.1 Instalacja Kubernetesa
+---
 
-### Windows
+### 9.1. Instalacja Kubernetesa
+
+#### Windows
 
 Po zainstalowaniu Docker Desktop wchodzimy w jego ustawienia (prawym klawiszem myszy na jego ikonie w pasku zadań, następnie wybieramy *settings*) i klikamy na **Enable Kubernetes**. 
 
-
 O poprawnym uruchomieniu informuje zielony pasek w lewym-dolnym rogu Docker Desktop (powinny być widoczne dwa zielone paski: *Engine Running* świadczący o działaniu silnika Dockera oraz *Kubernetes Running* świadczący o działaniu Kubernetesa).
 
-### Linux
+#### Linux
 
 Wykonujemy poniższe polecenia, które zainstalują **minikube**:
 
 ```sh
-curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 &&\
 sudo install minikube-linux-amd64 /usr/local/bin/minikube
 ```
 
@@ -794,9 +782,11 @@ sudo install minikube-darwin-amd64 /usr/local/bin/minikube
 
 > **Więcej informacji:**  https://minikube.sigs.k8s.io/docs/start/
 
-### 11.2 Instalacja polecenia kubectl
+---
 
-### Windows
+### 9.2. Instalacja polecenia kubectl
+
+#### Windows
 
 Polecenie kubectl można zainstalować poprzez manager pakietów **Chocolatey**, który można pobrać z https://chocolatey.org/.
 Po jego zainstalowaniu należy wykonać polecenie:
@@ -805,19 +795,21 @@ Po jego zainstalowaniu należy wykonać polecenie:
 choco install kubernetes-cli
 ```
 
-### Linux
+#### Linux
 
 Wykonujemy polecenia:
 
-    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-    sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-
+```sh
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" &&\
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+```
+    
 > **Więcej informacji:**  https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
 
 
-### MacOS
+#### MacOS
 
-#### 1. Pobranie pliku w postaci binarnej.
+1. Pobranie pliku w postaci binarnej.
 
 Wykonujemy polecenia:
 
@@ -833,13 +825,13 @@ Wykonujemy polecenia:
     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/darwin/arm64/kubectl"
     ```
 
-#### 2. Instalacja
+2. Instalacja
 
 Wykonujemy polecenia:
 
 ```sh
 chmod +x ./kubectl &&\
-sudo mv ./kubectl /usr/local/bin/kubectl && \
+sudo mv ./kubectl /usr/local/bin/kubectl &&\
 sudo chown root: /usr/local/bin/kubectl
 ```
 
@@ -847,7 +839,7 @@ sudo chown root: /usr/local/bin/kubectl
 
 ---
 
-### Weryfikacja instalacji
+### 9.3. Weryfikacja instalacji
 
 Po instalacji, by zweryfikować poprawność i wersję klienta należy wykonać:
 
@@ -867,7 +859,9 @@ Aby wyświetlić stan całego klastra należy wykonać:
 kubectl cluster-info
 ```
 
-### 11.3 Wdrożenie aplikacji
+---
+
+### 9.4. Wdrożenie aplikacji
 
 Wdrożenie aplikacji na platformie Kubernetes odbywa się poprzez odpowiednio przygotowane pliki (*deployment files*), w których zdefiniowane są obiekty składowe aplikacji.
 
@@ -893,11 +887,13 @@ Aby zweryfikować wdrożenie należy wykonać polecenie:
 kubectl get pods
 ```
 
- Polecenie to powinno wyświetlić tabelę działających podów:
+Polecenie to powinno wyświetlić tabelę działających podów (poprawny status to *Running*):
 
-    NAME                      READY   STATUS    RESTARTS   AGE
-    flaskr-6c45555bcf-bh8c2   0/1     Running   0          6s
-    postgres-0                1/1     Running   0          6s
+```text
+NAME                      READY   STATUS    RESTARTS   AGE
+flaskr-6c45555bcf-bh8c2   0/1     Running   0          6s
+postgres-0                1/1     Running   0          6s
+```
 
 Aby uzyskać szczegółowe informacje o wybranym pod (w tym przypadku o aplikacji) należy wykonać polecenie:
 
@@ -915,10 +911,13 @@ kubectl delete -f k8s.yaml
 
 > **Więcej informacji:**  https://kubernetes.io/docs/reference/kubectl/cheatsheet/
 
+---
 
-## 12. Ćwiczenia
+## 10. Ćwiczenia
 
-### 12.1 Dodaj nową akcję Github
+---
+
+### 10.1. Dodaj nową akcję Github
 
 Dodaj akcję do stworzenia wydania.
 Akcja powinna być uruchomiona gdy zostanie stworzony i wypchnięty tag zaczynający się od `v` (np. `v0.1.0`).
@@ -938,11 +937,41 @@ Paczka (plik z rozszerzeniem `.whl`) znajdzie się w folderze `dist`.
 Następnie spróbuj dodać i wypchnąć tag komendami Git z linii poleceń:
 
 ```sh
-git tag v0.1.0
+git tag v0.1.0 &&\
 git push origin develop --tags
 ```
 
-### 12.2 Dodaj kolejny serwis do Docker Compose
+---
+
+### 10.2. Dodaj healthcheck do usługi w Docker Compose
+
+W tej chwili usługa bazy danych zostanie uruchomiona po usłudze aplikacji. 
+Nie gwarantuje to jednak, że baza danych będzie dostępna, gdy aplikacja będzie chciała otworzyć do niej połączenie, inicjalizacja może trwać pewien czas.
+Można to rozwiązać przez tzw. *healthcheck*.
+
+Dodaj następujący wpis do `docker-compose.yaml` w serwisie `database`:
+
+```yaml
+healthcheck:
+  test: ["CMD-SHELL", "pg_isready"]
+  interval: 5s
+  timeout: 10s
+  retries: 3
+```
+
+oraz zmień wpis `depends_on` przy serwisie `flask-app`:
+
+```yaml
+depends_on:
+  database:
+    condition: service_healthy
+```
+
+Następne uruchom całość poleceniem `docker-compose up`.
+
+---
+
+### 10.3. Dodaj kolejny serwis do Docker Compose
 
 Dodaj nowy serwis (w pliku `docker-compose.yaml`) o nazwie `pgadmin` z obrazem `dpage/pgadmin4`. 
 Umożliwi on edycję/przeglądanie bazy danych.
@@ -958,7 +987,9 @@ Należy także pamiętać o sekcji `ports`: serwis działa domyślnie na porcie 
 Uruchom zaktualizowany stos aplikacji poleceniem `docker-compose up`. 
 Używając przeglądarki zaloguj się do panelu administracyjnego, dziajającego na wybranym porcie. 
 
-### 12.3 Zabezpiecz URI do bazy danych we wdrożeniu Kubernetesa
+---
+
+### 10.4. Zabezpiecz URI do bazy danych we wdrożeniu Kubernetesa
 
 Obecnie URI do bazy danych jest podany w pliku `k8s.yaml` w postaci czystego tekstu. 
 

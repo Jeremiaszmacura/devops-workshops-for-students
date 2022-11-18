@@ -15,8 +15,6 @@ services:
     restart: on-failure
     depends_on:
       - database
-    deploy:
-      replicas: 1
 
   database:
     image: postgres:14
