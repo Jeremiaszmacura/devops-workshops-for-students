@@ -317,12 +317,17 @@ Budujemy paczkę (przy zmianach w projekcie każdorazowo przed wybudowaniem obra
 python setup.py bdist_wheel
 ```
 
-Przed uruchomieniem aplikacji musimy zadbać o bazę danych, z którą aplikacja będzie się próbowała połączyć. 
-Wystarczy, że skorzystamy z Dockera i wykonamy poniższe polecenie, które zaciągnie obraz bazy danych PostgreSQL w wersji 14 z oficjalnego repozytorium, a następnie na podstawie tego obrazu zostanie uruchomiony kontener z określonymi zmiennymi środowiskowymi, widocznymi wewnątrz niego.
+> Dla weryfikacji można wykonać poniższe polecenie, które sprawdzi wersję zainstalowanego frameworka *flask*. Wersja jest niższa niż 2.0 może wynikać z niższej niż 3.9 wersji Pythona:
+> ```sh
+> flask --version
+> ```
 
 ---
 
 ### 5.2. Uruchomienie kontenera bazy danych i aplikacji
+
+Przed uruchomieniem aplikacji musimy zadbać o bazę danych, z którą aplikacja będzie się próbowała połączyć. 
+Wystarczy, że skorzystamy z Dockera i wykonamy poniższe polecenie, które zaciągnie obraz bazy danych PostgreSQL w wersji 14 z oficjalnego repozytorium, a następnie na podstawie tego obrazu zostanie uruchomiony kontener z określonymi zmiennymi środowiskowymi, widocznymi wewnątrz niego.
 
 1. Uruchomienie bazy danych
 
