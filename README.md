@@ -317,7 +317,8 @@ Budujemy paczkę (przy zmianach w projekcie każdorazowo przed wybudowaniem obra
 python setup.py bdist_wheel
 ```
 
-> Dla weryfikacji można wykonać poniższe polecenie, które sprawdzi wersję zainstalowanego frameworka *flask*. Wersja jest niższa niż 2.0 może wynikać z niższej niż 3.8 wersji Pythona:
+> Dla weryfikacji można wykonać poniższe polecenie, które sprawdzi wersję zainstalowanego frameworka *flask*. 
+> Jeśli wypisana wersja jest niższa niż 2.0 może to wynikać z niższej niż 3.8 używanej wersji Pythona:
 > ```sh
 > flask --version
 > ```
