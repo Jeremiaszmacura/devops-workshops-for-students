@@ -500,7 +500,7 @@ Poniższy plik docker-compose.yaml definiuje zarówno kontenery z ich specyfikac
 
 
 ```yaml
-version: '3.8'
+version: '3.3'
 
 services:
 
@@ -871,7 +871,16 @@ Za wdrożenie bazy danych odpowiada obiekt typu *StatefulSet*.
 
 Za wdrożenie aplikacji odpowiada obiekt typu *Deployment*, w którym znajduje się definicja obrazu dokerowego aplikacji: `image: devops-workshops:develop`.
 
-> *Można także uzupełnić nazwę obrazu (`devops-workshops:develop`) o nazwę własnego użytkownika serwisu **Dockerhub**, np. dla użytkownika `marcin` obraz powinien mieć nazwę `image: marcin/devops-workshops:develop`. W ten sposób nie użyty zostanie obraz wybudowany lokalnie, lecz ten wybudowany za pomocą Github actions.*
+Przed wdrożeniem wybudujmy aplikację:
+
+> Uwaga: używając **minikube** przed wybudowaniem aplikacji należy wykonać polecenie:
+> ```sh
+> eval $(minikube docker-env)
+> ```
+
+```sh
+docker build -t flask-app:develop .
+```
 
 Ostatecznie, by wdrożyć aplikację należy wykonać polecenie:
 
