@@ -317,12 +317,18 @@ Budujemy paczkę (przy zmianach w projekcie każdorazowo przed wybudowaniem obra
 python setup.py bdist_wheel
 ```
 
-Przed uruchomieniem aplikacji musimy zadbać o bazę danych, z którą aplikacja będzie się próbowała połączyć. 
-Wystarczy, że skorzystamy z Dockera i wykonamy poniższe polecenie, które zaciągnie obraz bazy danych PostgreSQL w wersji 14 z oficjalnego repozytorium, a następnie na podstawie tego obrazu zostanie uruchomiony kontener z określonymi zmiennymi środowiskowymi, widocznymi wewnątrz niego.
+> Dla weryfikacji można wykonać poniższe polecenie, które sprawdzi wersję zainstalowanego frameworka *flask*. 
+> Jeśli wypisana wersja jest niższa niż 2.0 może to wynikać z niższej niż 3.8 używanej wersji Pythona:
+> ```sh
+> flask --version
+> ```
 
 ---
 
 ### 5.2. Uruchomienie kontenera bazy danych i aplikacji
+
+Przed uruchomieniem aplikacji musimy zadbać o bazę danych, z którą aplikacja będzie się próbowała połączyć. 
+Wystarczy, że skorzystamy z Dockera i wykonamy poniższe polecenie, które zaciągnie obraz bazy danych PostgreSQL w wersji 14 z oficjalnego repozytorium, a następnie na podstawie tego obrazu zostanie uruchomiony kontener z określonymi zmiennymi środowiskowymi, widocznymi wewnątrz niego.
 
 1. Uruchomienie bazy danych
 
@@ -500,7 +506,7 @@ Poniższy plik docker-compose.yaml definiuje zarówno kontenery z ich specyfikac
 
 
 ```yaml
-version: '3.8'
+version: '3.3'
 
 services:
 
@@ -871,7 +877,16 @@ Za wdrożenie bazy danych odpowiada obiekt typu *StatefulSet*.
 
 Za wdrożenie aplikacji odpowiada obiekt typu *Deployment*, w którym znajduje się definicja obrazu dokerowego aplikacji: `image: devops-workshops:develop`.
 
-> *Można także uzupełnić nazwę obrazu (`devops-workshops:develop`) o nazwę własnego użytkownika serwisu **Dockerhub**, np. dla użytkownika `marcin` obraz powinien mieć nazwę `image: marcin/devops-workshops:develop`. W ten sposób nie użyty zostanie obraz wybudowany lokalnie, lecz ten wybudowany za pomocą Github actions.*
+Przed wdrożeniem wybudujmy aplikację:
+
+> Uwaga: używając **minikube** przed wybudowaniem aplikacji należy wykonać polecenie:
+> ```sh
+> eval $(minikube docker-env)
+> ```
+
+```sh
+docker build -t flask-app:develop .
+```
 
 Ostatecznie, by wdrożyć aplikację należy wykonać polecenie:
 
